@@ -4,10 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RollOne · D&D 5e Companion</title>
-<!-- Pagina web installabile (PWA): copia separata da rollone.html, vedi nota architetturale nel repo -->
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0e0c09">
-<link rel="apple-touch-icon" href="icon-192.png">
 <link rel="icon" type="image/png" href="data:image/png;base64,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">
 <script>
 // Marca <html> come "piattaforma desktop" il prima possibile (prima ancora del CSS sottostante,
@@ -19,6 +15,15 @@ try{ if(window.electronAPI) document.documentElement.classList.add("platform-des
 </script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&display=swap');
+/* 2026-09-04: bug segnalato da Carmine, "quando si ingrandiscono i caratteri la schermata non
+   si adatta al dispositivo" — su Android il WebView applica di default la "dimensione carattere"
+   di sistema (Impostazioni > Accessibilità) ingrandendo il testo senza far ricalcolare il layout
+   a contenitori/toolbar/card a larghezza fissa, causando testo tagliato o traboccante. L'app ha
+   già un proprio controllo di scala testo (STATE.theme.textScale, vedi narrFont()), quindi qui
+   blocchiamo lo scaling automatico del WebView: il testo resta leggibile allo zoom che l'utente
+   sceglie dentro l'app, il layout non si rompe più per lo zoom di sistema. Lato Android va
+   affiancata da WebSettings.setTextZoom(100) in MainActivity.java (richiede nuova build APK).*/
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 /* =======================================================================
    GRIMORIO DEL MAESTRO, Tema chiaro "Pergamena luminosa" (BG3 light)
    ======================================================================= */
@@ -1903,6 +1908,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     <div class="nav-chapter">Avventura</div>
     <button class="nav-item" data-view="explore"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15 9l-2 6-6 2 2-6 6-2z"/></svg></span><span class="label">Esplora Dungeon</span></button>
     <button class="nav-item" data-view="tavolo"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="9" r="2"/><path d="M8.5 15c.7-1.6 2-2.4 3.5-2.4s2.8.8 3.5 2.4"/></svg></span><span class="label">Tavolo</span></button>
+    <button class="nav-item" data-view="community"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="9" r="2.6"/><circle cx="17" cy="10.5" r="2.2"/><path d="M3.5 19c.6-3 2.4-4.6 4.5-4.6s3.9 1.6 4.5 4.6"/><path d="M13.8 19c.4-2.2 1.7-3.4 3.2-3.4s2.8 1.2 3.2 3.4"/></svg></span><span class="label">Community</span></button>
     <button class="nav-item" data-view="dmscreen"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6l4-1v13l-4 1V6z"/><path d="M8 5l4 1v12l-4-1"/><path d="M12 6l4-1v13l-4 1"/><path d="M16 5l4 1v12l-4-1"/></svg></span><span class="label">Schermo DM</span></button>
     <div class="nav-divider"></div>
     <div class="nav-chapter">Archivi</div>
@@ -4603,9 +4609,25 @@ const OPENROUTER_DIRECT_URL="https://openrouter.ai/api/v1/chat/completions";
    per primo per ridurre la latenza percepita; nvidia/nemotron-3-nano-30b-a3b:free è il secondo più
    veloce ma a volte "pensa ad alta voce" prima della risposta (mitigato da extractJsonText); openai/
    gpt-oss-20b:free è il più lento nei test (8-11s) ma il più affidabile su richieste JSON complesse,
-   tenuto come terzo tentativo di riserva; openrouter/free resta l'ultimo fallback universale (sceglie
-   da solo un modello gratuito disponibile quando anche gli altri tre sono momentaneamente sovraccarichi). */
-const AI_FREE_FALLBACK_MODELS=["google/gemma-4-26b-a4b-it:free","nvidia/nemotron-3-nano-30b-a3b:free","openai/gpt-oss-20b:free","openrouter/free"];
+   tenuto come terzo tentativo di riserva.
+   AGGIORNAMENTO 2026-09-04 (fix urgente, priorità di rilascio — richiesto dall'utente: generazione
+   lentissima ed errori tipo "utente:safe safe" su campagna/dungeon/import PDF): il quarto elemento
+   era "openrouter/free", il router automatico "qualunque modello gratuito" di OpenRouter. Verificato
+   con ricerca diretta sul catalogo OpenRouter di oggi: 1) la documentazione stessa del router lo
+   segnala esplicitamente come "higher latency" — è la causa più probabile della lentezza percepita,
+   specie quando i primi tre modelli sono sovraccarichi e si arriva fino a lì; 2) più grave, il router
+   sceglie a caso tra TUTTI i modelli gratuiti filtrando solo per capacità tecniche (vision/tool
+   calling/JSON), non per "è un modello di chat" — e nel catalogo gratuito attuale c'è anche
+   nvidia/nemotron-3.5-content-safety:free, un classificatore di moderazione (non un modello
+   conversazionale) che per ogni richiesta risponde solo con un'etichetta "safe"/"unsafe" per il
+   prompt e per la risposta: è quasi certamente la spiegazione esatta del testo "utente:safe safe" e
+   del blocco di contenuti horror legittimi (sangue, violenza) che l'app usa apposta. Sostituito con
+   z-ai/glm-5.2:free, un modello di chat generalista vero (1M contesto, verificato esistente ed
+   elencato tra i modelli gratuiti generalisti oggi), come quarto tentativo reale invece del router
+   casuale. Aggiunta anche una verifica difensiva sulla risposta (vedi looksLikeSafetyClassifierReply
+   in geminiCallOnce) per il caso in cui un futuro modello "non di chat" rientri comunque nel catalogo
+   gratuito con uno di questi quattro slug. */
+const AI_FREE_FALLBACK_MODELS=["google/gemma-4-26b-a4b-it:free","nvidia/nemotron-3-nano-30b-a3b:free","openai/gpt-oss-20b:free","z-ai/glm-5.2:free"];
 // Riconosce, nei salvataggi vecchi, una delle due chiavi che in passato erano incorporate nel
 // codice (quella "esaurita" di prima, e quella sostituita oggi passando dietro ad ai-proxy — vedi
 // commento su DEFAULT_AI_BASE_URL), per migrare automaticamente chi le aveva alla nuova
@@ -5089,6 +5111,10 @@ async function mpSignOut(){
   mpUnsubscribeCampaign();
   mpUnsubscribeAccountState();
   mpUnsubscribeAccountDevices();
+  communityUnsubscribeGlobalChat();
+  communityUnsubscribeFriendChat();
+  COMMUNITY_ACTIVE_FRIEND=null; COMMUNITY_FRIENDS_CACHE.loaded=false; COMMUNITY_FRIENDS_CACHE.list=[];
+  GLOBAL_CHAT_CACHE.loaded=false; GLOBAL_CHAT_CACHE.msgs=[];
   clearTimeout(ACCOUNT_SYNC_PUSH_TIMER);
   if(ACCOUNT_HEARTBEAT_TIMER){ clearInterval(ACCOUNT_HEARTBEAT_TIMER); ACCOUNT_HEARTBEAT_TIMER=null; }
   MP_DEVICE_EJECTED=false; ACCOUNT_SYNC_LAST_PUSHED_JSON=null;
@@ -5230,6 +5256,8 @@ function mpSubscribeCampaign(c){
   mpSubscribeCharacters(c);
   mpSubscribeDice(c);
   mpSubscribeMap(c);
+  mpSubscribeChat(c);
+  mpSubscribeCombat(c);
   if(c.mpRole==="dm"){ mpEnsureDmSecrets(c); mpSubscribeDmSecrets(c); }
 }
 function mpUnsubscribeCampaign(){
@@ -5238,6 +5266,8 @@ function mpUnsubscribeCampaign(){
   mpUnsubscribeMap();
   mpUnsubscribeCharacters();
   mpUnsubscribeDmSecrets();
+  mpUnsubscribeChat();
+  mpUnsubscribeCombat();
 }
 function mpStopSharing(c){
   if(!c) return;
@@ -5487,7 +5517,19 @@ function accountSyncConflictModal(cloudRow){
    "characters", che è isolata dalle altre per costruzione (RLS: owner_id).
    ========================================================================= */
 
-/* ---- Presenza online: canale Realtime condiviso, nessuna scrittura su DB ---- */
+/* ---- Presenza online: canale Realtime condiviso, nessuna scrittura su DB ----
+   PRESENCE GRANULARE (2026-09-04): oltre al semplice online/offline di prima, ogni giocatore
+   trasmette anche un piccolo "stato" scelto da sé (pronto/assente/non disturbare) — resta un dato
+   di presenza Realtime (mai scritto su una tabella, nessuna migration necessaria), quindi sparisce
+   da solo alla disconnessione esattamente come il vecchio pallino online/offline: nessun dato
+   "sporco" da ripulire se un dispositivo si chiude di colpo. Il valore scelto è comunque ricordato
+   in STATE.mp.presenceStatus (localStorage) così al login successivo riparte dall'ultimo scelto
+   invece che sempre da "pronto". */
+const MP_PRESENCE_STATUSES={
+  online:{label:"Pronto",dot:"#3fa34d"},
+  away:{label:"Assente",dot:"#e0a83c"},
+  busy:{label:"Non disturbare",dot:"#c0392b"}
+};
 let MP_PRESENCE_CHANNEL=null;
 function mpTrackPresence(){
   const sb=mpClient(); if(!sb || !MP_USER_ID || MP_PRESENCE_CHANNEL) return;
@@ -5496,7 +5538,7 @@ function mpTrackPresence(){
     if(STATE.view==="settings"||STATE.view==="tavolo"||(STATE.mode==="dm"&&DM_TAB==="Campagna AI")) render();
   });
   MP_PRESENCE_CHANNEL.subscribe(async(status)=>{
-    if(status==="SUBSCRIBED") try{ await MP_PRESENCE_CHANNEL.track({user_id:MP_USER_ID,name:STATE.mp.playerName||"",at:Date.now()}); }catch(e){}
+    if(status==="SUBSCRIBED") try{ await MP_PRESENCE_CHANNEL.track({user_id:MP_USER_ID,name:STATE.mp.playerName||"",at:Date.now(),status:STATE.mp.presenceStatus||"online"}); }catch(e){}
   });
 }
 function mpUntrackPresence(){
@@ -5505,6 +5547,31 @@ function mpUntrackPresence(){
 function mpIsOnline(playerId){
   if(!MP_PRESENCE_CHANNEL) return false;
   try{ const st=MP_PRESENCE_CHANNEL.presenceState(); return !!(st && st[playerId] && st[playerId].length); }catch(e){ return false; }
+}
+/* Stato dettagliato (online/away/busy) di un giocatore, o null se offline — la UI ricade sempre
+   sul semplice pallino verde/grigio se questa funzione restituisce null, così resta corretta anche
+   con presenze più vecchie che non trasmettono ancora "status" (retrocompatibile). */
+function mpPresenceStatus(playerId){
+  if(!MP_PRESENCE_CHANNEL) return null;
+  try{
+    const st=MP_PRESENCE_CHANNEL.presenceState();
+    const entries=st&&st[playerId];
+    if(!entries||!entries.length) return null;
+    return entries[0].status||"online";
+  }catch(e){ return null; }
+}
+async function mpSetPresenceStatus(status){
+  if(!MP_PRESENCE_STATUSES[status]) return;
+  STATE.mp.presenceStatus=status; save();
+  if(MP_PRESENCE_CHANNEL){ try{ await MP_PRESENCE_CHANNEL.track({user_id:MP_USER_ID,name:STATE.mp.playerName||"",at:Date.now(),status}); }catch(e){} }
+}
+/* Pallino colorato + etichetta per un roster/elenco amici, a partire da (online, status). Un
+   "status" mancante ma online=true ricade su "Pronto" (verde) per compatibilità con presenze più
+   vecchie che non trasmettono ancora lo stato dettagliato. */
+function mpPresenceDot(online,status){
+  if(!online) return {color:"#888",label:"Offline"};
+  const def=MP_PRESENCE_STATUSES[status]||MP_PRESENCE_STATUSES.online;
+  return {color:def.dot,label:def.label};
 }
 
 /* ---- Amici: chiunque abbia già condiviso una campagna con te, così puoi invitarlo
@@ -5590,7 +5657,8 @@ function mpInviteModal(c){
     if(!friends.length){ list.append(el("div",{class:"muted",style:"font-size:12px"},"Non hai ancora amici: si aggiungono da soli non appena giochi in una campagna condivisa con qualcuno.")); return; }
     friends.forEach(f=>{
       const already=memberIds.has(f.id);
-      const dot=el("span",{style:"display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;background:"+(mpIsOnline(f.id)?"#3fa34d":"#888")});
+      const pd=mpPresenceDot(mpIsOnline(f.id),mpPresenceStatus(f.id));
+      const dot=el("span",{title:pd.label,style:"display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;background:"+pd.color});
       list.append(el("div",{class:"list-line"},
         el("span",{},dot,f.display_name||"?"),
         already? el("span",{class:"muted",style:"font-size:12px"},"già nel gruppo")
@@ -5599,6 +5667,45 @@ function mpInviteModal(c){
   })();
 }
 
+/* Pannello "Amici" autonomo (richiesto esplicitamente, 2026-09-04): prima la lista amici viveva
+   solo dentro il modale "Invita" di una singola campagna, quindi era impossibile vederla se non si
+   aveva già una campagna condivisa aperta. Non è un sistema nuovo: riusa al 100% mpListFriends/
+   mpIsOnline/mpPresenceStatus/mpInviteFriend già esistenti (zero nuove tabelle, zero migration) —
+   qui si dà loro solo un punto d'accesso proprio da Impostazioni, con lo stato di presenza
+   dettagliato (pronto/assente/non disturbare) e, se hai una campagna condivisa aperta di cui sei
+   DM, un invito diretto ad essa in un tocco. */
+function amiciModal(){
+  const body=el("div",{});
+  body.append(el("p",{class:"muted",style:"font-size:13px;line-height:1.6"},
+    "Amici = chiunque abbia già giocato con te in almeno una campagna condivisa: si aggiungono da soli, non serve una richiesta d'amicizia a parte. Per invitare qualcuno con cui non hai mai giocato, usa «🤝 Invita amici» dentro una campagna (codice o email)."));
+  const activeCampaign=STATE.campaigns.find(c=>c.id===STATE.activeCampaign);
+  const canInviteHere=activeCampaign&&activeCampaign.cloudId&&activeCampaign.mpRole==="dm";
+  if(canInviteHere) body.append(el("p",{class:"muted",style:"font-size:12px"},"Campagna attiva: «"+activeCampaign.name+"» — puoi invitare direttamente da qui."));
+  const list=el("div",{style:"display:flex;flex-direction:column;gap:6px;margin-top:10px"});
+  body.append(list);
+  modal("🤝 Amici",body,el("button",{class:"btn",onclick:closeModal},"Chiudi"));
+  (async()=>{
+    list.innerHTML="Carico…";
+    const [friends,members]=await Promise.all([
+      mpListFriends(),
+      canInviteHere?mpClient().from("campaign_members").select("player_id").eq("campaign_id",activeCampaign.cloudId).then(r=>r.data||[]):Promise.resolve([])
+    ]);
+    const memberIds=new Set(members.map(m=>m.player_id));
+    list.innerHTML="";
+    if(!friends.length){ list.append(el("div",{class:"muted",style:"font-size:12px"},"Non hai ancora amici: si aggiungono da soli non appena giochi in una campagna condivisa con qualcuno.")); return; }
+    friends.forEach(f=>{
+      const pd=mpPresenceDot(mpIsOnline(f.id),mpPresenceStatus(f.id));
+      const dot=el("span",{title:pd.label,style:"display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;background:"+pd.color});
+      const row=el("div",{class:"list-line"},el("span",{},dot,f.display_name||"?",el("span",{class:"muted",style:"font-size:11px;margin-left:6px"},"· "+pd.label)));
+      if(canInviteHere){
+        const already=memberIds.has(f.id);
+        row.append(already?el("span",{class:"muted",style:"font-size:12px"},"già nel gruppo")
+          :el("button",{class:"btn ghost sm",onclick:async(e)=>{ e.target.disabled=true; e.target.textContent="…"; const ok=await mpInviteFriend(activeCampaign,f.id); if(ok){e.target.textContent="✓ Invitato";} else {e.target.disabled=false;e.target.textContent="Invita";} }},"Invita alla campagna attiva"));
+      }
+      list.append(row);
+    });
+  })();
+}
 /* ---- Controlla inviti: chi ti ha invitato ad una campagna la trova qui, senza codice. ---- */
 async function mpCheckInvites(silent){
   const sb=mpClient(); if(!sb||!MP_USER_ID||!mpOnline()) return;
@@ -5709,7 +5816,7 @@ async function mpFetchRoster(c){
     return (members||[]).map(m=>{
       const ch=(chars||[]).find(x=>x.owner_id===m.player_id);
       return { playerId:m.player_id, displayName:(pMap[m.player_id]&&pMap[m.player_id].display_name)||"?",
-        canAct:m.can_act!==false, online:mpIsOnline(m.player_id), character:ch?ch.data:null };
+        canAct:m.can_act!==false, online:mpIsOnline(m.player_id), status:mpPresenceStatus(m.player_id), character:ch?ch.data:null };
     });
   }catch(e){ return []; }
 }
@@ -5817,6 +5924,529 @@ function mpDiceLogPanel(c){
 }
 
 /* =========================================================================
+   CHAT LIBERA DEL TAVOLO — canale unico "party", distinto dalla Narrazione
+   (che resta guidata dall'IA/DM in campaigns.log, invariata). A differenza
+   del log dadi (solo broadcast, si perde alla ricarica) questa è persistita
+   nella tabella "campaign_chat_messages": chi si riconnette o entra più
+   tardi al tavolo vede comunque la cronologia recente. Stessa RLS di tutte
+   le altre tabelle multiplayer (is_campaign_owner/is_campaign_member).
+   ========================================================================= */
+const MP_CHAT_CACHE={}; // cloudId -> array messaggi (dal più vecchio al più nuovo)
+let MP_CHAT_CHANNEL=null, MP_CHAT_CHANNEL_CAMPAIGN_ID=null;
+async function mpFetchChatHistory(c){
+  const sb=mpClient(); if(!sb||!c.cloudId) return [];
+  try{
+    const {data,error}=await sb.from("campaign_chat_messages").select("*").eq("campaign_id",c.cloudId).order("created_at",{ascending:false}).limit(50);
+    if(error) throw error;
+    const msgs=(data||[]).slice().reverse();
+    MP_CHAT_CACHE[c.cloudId]=msgs;
+    return msgs;
+  }catch(e){ return MP_CHAT_CACHE[c.cloudId]||[]; }
+}
+function mpSubscribeChat(c){
+  if(!c||!c.cloudId) return;
+  const sb=mpClient(); if(!sb) return;
+  if(MP_CHAT_CHANNEL_CAMPAIGN_ID===c.cloudId) return;
+  mpUnsubscribeChat();
+  MP_CHAT_CHANNEL=sb.channel("campaign-chat:"+c.cloudId)
+    .on("postgres_changes",{event:"INSERT",schema:"public",table:"campaign_chat_messages",filter:"campaign_id=eq."+c.cloudId},payload=>{
+      const log=MP_CHAT_CACHE[c.cloudId]=(MP_CHAT_CACHE[c.cloudId]||[]);
+      // Evita il doppio in chi ha appena inviato (già aggiunto in locale in mpSendChatMessage).
+      if(!log.find(m=>m.id===payload.new.id)){ log.push(payload.new); if(log.length>200) log.shift(); }
+      if(STATE.view==="tavolo"||(STATE.mode==="dm"&&DM_TAB==="Campagna AI")) render();
+    })
+    .subscribe();
+  MP_CHAT_CHANNEL_CAMPAIGN_ID=c.cloudId;
+}
+function mpUnsubscribeChat(){
+  if(MP_CHAT_CHANNEL){ try{ MP_CHAT_CHANNEL.unsubscribe(); }catch(e){} MP_CHAT_CHANNEL=null; MP_CHAT_CHANNEL_CAMPAIGN_ID=null; }
+}
+async function mpSendChatMessage(c,text){
+  const sb=mpClient(); if(!sb||!c.cloudId) return;
+  const clean=(text||"").trim(); if(!clean) return;
+  const row={campaign_id:c.cloudId, sender_id:MP_USER_ID, sender_name:STATE.mp.playerName||"?", text:clean.slice(0,2000)};
+  try{
+    const {data,error}=await sb.from("campaign_chat_messages").insert(row).select().single();
+    if(error) throw error;
+    const log=MP_CHAT_CACHE[c.cloudId]=(MP_CHAT_CACHE[c.cloudId]||[]);
+    log.push(data); if(log.length>200) log.shift();
+    render();
+  }catch(e){ toast("Messaggio non inviato: "+(e.message||e)); }
+}
+function mpChatPanel(c){
+  const wrap=el("div",{});
+  const scroll=el("div",{class:"vtt-chat-log"});
+  const log=MP_CHAT_CACHE[c.cloudId];
+  if(log===undefined){
+    scroll.append(el("div",{class:"muted",style:"font-size:12px;padding:6px"},"Carico la chat…"));
+    mpFetchChatHistory(c).then(()=>{ mpSubscribeChat(c); render(); });
+  } else {
+    mpSubscribeChat(c);
+    if(!log.length) scroll.append(el("div",{class:"muted",style:"font-size:12px;padding:6px"},"Nessun messaggio ancora: scrivi il primo."));
+    log.forEach(m=>{
+      const mine=m.sender_id===MP_USER_ID;
+      scroll.append(el("div",{class:"vtt-msg "+(mine?"me":"them")},
+        mine?null:el("div",{class:"who"},m.sender_name||"?"),
+        m.text));
+    });
+  }
+  wrap.append(scroll);
+  const input=el("textarea",{rows:"1",placeholder:"Scrivi al tavolo…",style:"width:100%;resize:none"});
+  const sendIt=()=>{ const v=input.value; if(!v.trim()) return; input.value=""; mpSendChatMessage(c,v); };
+  input.addEventListener("keydown",e=>{ if(e.key==="Enter"&&!e.shiftKey){ e.preventDefault(); sendIt(); } });
+  const sendBtn=el("button",{class:"vtt-btn primary",onclick:sendIt},"Invia");
+  wrap.append(el("div",{style:"display:flex;gap:6px;align-items:flex-end;margin-top:6px"},input,sendBtn));
+  setTimeout(()=>{ scroll.scrollTop=scroll.scrollHeight; },30);
+  return wrap;
+}
+
+/* =========================================================================
+   COMMUNITY — lobby pubblica + amici con richieste esplicite (4/9/2026,
+   richiesta esplicita di Carmine: "due canali distinti con la possibilità
+   di essere invitati, con richieste di amicizia, lista amici", in una
+   scheda dedicata di navigazione). Distinta dagli "amici" auto-derivati
+   dalle campagne condivise (mpListFriends/amiciModal/mpInviteModal, che
+   restano invariati e continuano a servire l'invito rapido a una
+   campagna): qui l'amicizia richiede un consenso esplicito, una richiesta
+   inviata per email e accettata dal destinatario, con una chat privata
+   dedicata. Tabelle: global_chat_messages, friend_requests,
+   friend_chat_messages (vedi migration 008_community_social.sql).
+   Richiede login (MP_USER_ID): senza account non c'è nulla da mostrare.
+   ========================================================================= */
+
+/* ---- Cache nomi giocatori: stesso pattern di mpFetchRoster, per non fare
+   una query players per ogni singolo messaggio/riga mostrata. ---- */
+const COMMUNITY_NAME_CACHE={}; // playerId -> display_name
+async function communityResolveNames(ids){
+  const sb=mpClient(); if(!sb) return;
+  const missing=[...new Set(ids)].filter(id=>id&&!(id in COMMUNITY_NAME_CACHE));
+  if(!missing.length) return;
+  try{
+    const {data,error}=await sb.from("players").select("id,display_name").in("id",missing);
+    if(error) throw error;
+    (data||[]).forEach(p=>{ COMMUNITY_NAME_CACHE[p.id]=p.display_name||"?"; });
+  }catch(e){}
+}
+function communityName(id){ return COMMUNITY_NAME_CACHE[id]||(id===MP_USER_ID?(STATE.mp.playerName||"Tu"):"…"); }
+
+/* ---- Canale 1: Lobby pubblica, visibile/scrivibile da chiunque abbia un
+   account RollOne (parametro esplicito: "chat globale dei giocatori che
+   sono loggati"). Rate-limitata lato server (trigger global_chat_rate_limit,
+   1 messaggio ogni 2s per mittente) contro lo spam, essendo il canale più
+   esposto (nessun filtro di appartenenza a una campagna). ---- */
+const GLOBAL_CHAT_CACHE={loaded:false,msgs:[]};
+let GLOBAL_CHAT_CHANNEL=null;
+async function communityFetchGlobalChat(){
+  const sb=mpClient(); if(!sb) return [];
+  try{
+    const {data,error}=await sb.from("global_chat_messages").select("*").order("created_at",{ascending:false}).limit(50);
+    if(error) throw error;
+    const msgs=(data||[]).slice().reverse();
+    GLOBAL_CHAT_CACHE.msgs=msgs; GLOBAL_CHAT_CACHE.loaded=true;
+    await communityResolveNames(msgs.map(m=>m.sender_id));
+    return msgs;
+  }catch(e){ GLOBAL_CHAT_CACHE.loaded=true; return GLOBAL_CHAT_CACHE.msgs; }
+}
+function communitySubscribeGlobalChat(){
+  const sb=mpClient(); if(!sb||GLOBAL_CHAT_CHANNEL) return;
+  GLOBAL_CHAT_CHANNEL=sb.channel("global-chat")
+    .on("postgres_changes",{event:"INSERT",schema:"public",table:"global_chat_messages"},payload=>{
+      const log=GLOBAL_CHAT_CACHE.msgs;
+      if(!log.find(m=>m.id===payload.new.id)){
+        log.push(payload.new); if(log.length>200) log.shift();
+        communityResolveNames([payload.new.sender_id]).then(()=>{ if(STATE.view==="community") render(); });
+      }
+    })
+    .subscribe();
+}
+function communityUnsubscribeGlobalChat(){
+  if(GLOBAL_CHAT_CHANNEL){ try{ GLOBAL_CHAT_CHANNEL.unsubscribe(); }catch(e){} GLOBAL_CHAT_CHANNEL=null; }
+}
+async function communitySendGlobalChat(text){
+  const sb=mpClient(); if(!sb||!MP_USER_ID){ toast("Accedi per scrivere nella lobby."); return; }
+  const clean=(text||"").trim(); if(!clean) return;
+  const row={sender_id:MP_USER_ID, text:clean.slice(0,500)};
+  try{
+    const {data,error}=await sb.from("global_chat_messages").insert(row).select().single();
+    if(error) throw error;
+    const log=GLOBAL_CHAT_CACHE.msgs; log.push(data); if(log.length>200) log.shift();
+    render();
+  }catch(e){
+    const msg=(e.message||"").includes("troppo_veloce")
+      ? "Aspetta un momento prima di scrivere di nuovo: un messaggio ogni 2 secondi."
+      : "Messaggio non inviato: "+(e.message||e);
+    toast(msg);
+  }
+}
+function communityLobbyPanel(){
+  const wrap=el("div",{class:"card"});
+  wrap.append(el("div",{class:"section-title",style:"font-size:13px"},"💬 Lobby pubblica",el("span",{class:"ln"})));
+  wrap.append(el("p",{class:"muted",style:"font-size:12px"},"Visibile a chiunque abbia un account RollOne e sia collegato: usala per trovare compagni di gioco, non per la campagna (quella ha la sua chat dedicata al Tavolo)."));
+  const scroll=el("div",{class:"vtt-chat-log"});
+  if(!GLOBAL_CHAT_CACHE.loaded){
+    scroll.append(el("div",{class:"muted",style:"font-size:12px;padding:6px"},"Carico la lobby…"));
+    communityFetchGlobalChat().then(()=>{ communitySubscribeGlobalChat(); render(); });
+  } else {
+    communitySubscribeGlobalChat();
+    if(!GLOBAL_CHAT_CACHE.msgs.length) scroll.append(el("div",{class:"muted",style:"font-size:12px;padding:6px"},"Nessun messaggio ancora: scrivi il primo."));
+    GLOBAL_CHAT_CACHE.msgs.forEach(m=>{
+      const mine=m.sender_id===MP_USER_ID;
+      scroll.append(el("div",{class:"vtt-msg "+(mine?"me":"them")},
+        mine?null:el("div",{class:"who"},communityName(m.sender_id)),
+        m.text));
+    });
+  }
+  wrap.append(scroll);
+  if(!MP_USER_ID){
+    wrap.append(el("p",{class:"muted",style:"font-size:12px;margin-top:6px"},"Accedi (Impostazioni) per partecipare alla lobby."));
+  } else {
+    const input=el("textarea",{rows:"1",placeholder:"Scrivi nella lobby…",style:"width:100%;resize:none"});
+    const sendIt=()=>{ const v=input.value; if(!v.trim()) return; input.value=""; communitySendGlobalChat(v); };
+    input.addEventListener("keydown",e=>{ if(e.key==="Enter"&&!e.shiftKey){ e.preventDefault(); sendIt(); } });
+    const sendBtn=el("button",{class:"vtt-btn primary",onclick:sendIt},"Invia");
+    wrap.append(el("div",{style:"display:flex;gap:6px;align-items:flex-end;margin-top:6px"},input,sendBtn));
+  }
+  setTimeout(()=>{ scroll.scrollTop=scroll.scrollHeight; },30);
+  return wrap;
+}
+
+/* ---- Canale 2: Amici con richiesta/accettazione esplicita + chat privata
+   1:1. Le RPC (send_friend_request_by_email, respond_friend_request,
+   list_friends) sono SECURITY DEFINER lato server: stesso schema di
+   sicurezza già usato per invite_player_to_campaign_by_email, dato che
+   "players" non ha una colonna email (vive solo in auth.users). ---- */
+async function communityListFriends(){
+  const sb=mpClient(); if(!sb||!MP_USER_ID) return [];
+  try{
+    const {data,error}=await sb.rpc("list_friends");
+    if(error) throw error;
+    return data||[];
+  }catch(e){ toast("Errore amici: "+(e.message||e)); return []; }
+}
+async function communitySendFriendRequest(email){
+  const sb=mpClient(); if(!sb||!MP_USER_ID) return false;
+  email=(email||"").trim(); if(!email){ toast("Scrivi l'email di chi vuoi aggiungere."); return false; }
+  try{
+    const {data,error}=await sb.rpc("send_friend_request_by_email",{p_email:email});
+    if(error) throw error;
+    const name=(data&&data[0]&&data[0].receiver_display_name)||"Giocatore";
+    toast("Richiesta inviata a "+name+".");
+    return true;
+  }catch(e){
+    const msg=(e.message||"");
+    const testo = msg.includes("unknown_email") ? "Nessun account RollOne registrato con questa email."
+      : msg.includes("cannot_invite_self") ? "Non puoi inviare una richiesta a te stesso."
+      : msg.includes("request_already_sent") ? "Hai già una richiesta in sospeso verso questa persona."
+      : msg.includes("already_friends") ? "Siete già amici."
+      : "Errore richiesta amicizia: "+(msg||e);
+    toast(testo);
+    return false;
+  }
+}
+async function communityRespondFriendRequest(requestId,accept){
+  const sb=mpClient(); if(!sb) return false;
+  try{
+    const {error}=await sb.rpc("respond_friend_request",{p_request_id:requestId,p_accept:accept});
+    if(error) throw error;
+    toast(accept?"Richiesta accettata.":"Richiesta rifiutata.");
+    return true;
+  }catch(e){ toast("Errore: "+(e.message||e)); return false; }
+}
+
+const FRIEND_CHAT_CACHE={}; // friendPlayerId -> messaggi (dal più vecchio al più nuovo)
+let FRIEND_CHAT_CHANNEL=null, FRIEND_CHAT_CHANNEL_WITH=null;
+let COMMUNITY_ACTIVE_FRIEND=null; // playerId della chat privata aperta, o null (mostra solo la lista)
+async function communityFetchFriendChat(friendId){
+  const sb=mpClient(); if(!sb||!MP_USER_ID) return [];
+  try{
+    const {data,error}=await sb.from("friend_chat_messages").select("*")
+      .or(`and(sender_id.eq.${MP_USER_ID},receiver_id.eq.${friendId}),and(sender_id.eq.${friendId},receiver_id.eq.${MP_USER_ID})`)
+      .order("created_at",{ascending:false}).limit(50);
+    if(error) throw error;
+    const msgs=(data||[]).slice().reverse();
+    FRIEND_CHAT_CACHE[friendId]=msgs;
+    return msgs;
+  }catch(e){ return FRIEND_CHAT_CACHE[friendId]||[]; }
+}
+function communitySubscribeFriendChat(friendId){
+  const sb=mpClient(); if(!sb||!MP_USER_ID) return;
+  if(FRIEND_CHAT_CHANNEL_WITH===friendId) return;
+  communityUnsubscribeFriendChat();
+  FRIEND_CHAT_CHANNEL=sb.channel("friend-chat:"+[MP_USER_ID,friendId].sort().join(":"))
+    .on("postgres_changes",{event:"INSERT",schema:"public",table:"friend_chat_messages",filter:"sender_id=eq."+friendId},payload=>{
+      if(payload.new.receiver_id!==MP_USER_ID) return;
+      const log=FRIEND_CHAT_CACHE[friendId]=(FRIEND_CHAT_CACHE[friendId]||[]);
+      if(!log.find(m=>m.id===payload.new.id)){ log.push(payload.new); if(log.length>200) log.shift(); }
+      if(STATE.view==="community"&&COMMUNITY_ACTIVE_FRIEND===friendId) render();
+    })
+    .subscribe();
+  FRIEND_CHAT_CHANNEL_WITH=friendId;
+}
+function communityUnsubscribeFriendChat(){
+  if(FRIEND_CHAT_CHANNEL){ try{ FRIEND_CHAT_CHANNEL.unsubscribe(); }catch(e){} FRIEND_CHAT_CHANNEL=null; FRIEND_CHAT_CHANNEL_WITH=null; }
+}
+async function communitySendFriendChat(friendId,text){
+  const sb=mpClient(); if(!sb||!MP_USER_ID) return;
+  const clean=(text||"").trim(); if(!clean) return;
+  const row={sender_id:MP_USER_ID, receiver_id:friendId, text:clean.slice(0,2000)};
+  try{
+    const {data,error}=await sb.from("friend_chat_messages").insert(row).select().single();
+    if(error) throw error;
+    const log=FRIEND_CHAT_CACHE[friendId]=(FRIEND_CHAT_CACHE[friendId]||[]);
+    log.push(data); if(log.length>200) log.shift();
+    render();
+  }catch(e){ toast("Messaggio non inviato: "+(e.message||e)); }
+}
+function communityFriendChatPanel(friendId,friendName){
+  const wrap=el("div",{});
+  wrap.append(el("div",{style:"display:flex;align-items:center;gap:8px;margin-bottom:6px"},
+    el("button",{class:"btn ghost sm",onclick:()=>{ COMMUNITY_ACTIVE_FRIEND=null; communityUnsubscribeFriendChat(); render(); }},"← Amici"),
+    el("b",{},friendName)));
+  const scroll=el("div",{class:"vtt-chat-log"});
+  const log=FRIEND_CHAT_CACHE[friendId];
+  if(log===undefined){
+    scroll.append(el("div",{class:"muted",style:"font-size:12px;padding:6px"},"Carico la chat…"));
+    communityFetchFriendChat(friendId).then(()=>{ communitySubscribeFriendChat(friendId); render(); });
+  } else {
+    communitySubscribeFriendChat(friendId);
+    if(!log.length) scroll.append(el("div",{class:"muted",style:"font-size:12px;padding:6px"},"Nessun messaggio ancora: scrivi il primo."));
+    log.forEach(m=>{
+      const mine=m.sender_id===MP_USER_ID;
+      scroll.append(el("div",{class:"vtt-msg "+(mine?"me":"them")},
+        mine?null:el("div",{class:"who"},friendName),
+        m.text));
+    });
+  }
+  wrap.append(scroll);
+  const input=el("textarea",{rows:"1",placeholder:"Scrivi a "+friendName+"…",style:"width:100%;resize:none"});
+  const sendIt=()=>{ const v=input.value; if(!v.trim()) return; input.value=""; communitySendFriendChat(friendId,v); };
+  input.addEventListener("keydown",e=>{ if(e.key==="Enter"&&!e.shiftKey){ e.preventDefault(); sendIt(); } });
+  const sendBtn=el("button",{class:"vtt-btn primary",onclick:sendIt},"Invia");
+  wrap.append(el("div",{style:"display:flex;gap:6px;align-items:flex-end;margin-top:6px"},input,sendBtn));
+  setTimeout(()=>{ scroll.scrollTop=scroll.scrollHeight; },30);
+  return wrap;
+}
+const COMMUNITY_FRIENDS_CACHE={loaded:false,list:[]};
+async function communityLoadFriendsIfNeeded(){
+  if(COMMUNITY_FRIENDS_CACHE.loaded) return COMMUNITY_FRIENDS_CACHE.list;
+  const list=await communityListFriends();
+  COMMUNITY_FRIENDS_CACHE.list=list; COMMUNITY_FRIENDS_CACHE.loaded=true;
+  return list;
+}
+function communityFriendsPanel(){
+  const wrap=el("div",{class:"card"});
+  wrap.append(el("div",{class:"section-title",style:"font-size:13px"},"🤝 Amici",el("span",{class:"ln"})));
+  wrap.append(el("p",{class:"muted",style:"font-size:12px"},"Richiedi l'amicizia per email: una volta accettata, avete una chat privata dedicata, distinta da quella del tavolo."));
+  const emailIn=el("input",{type:"email",placeholder:"email@esempio.it",style:"min-width:200px"});
+  const emailBtn=el("button",{class:"btn ghost sm",onclick:async(e)=>{
+    const btn=e.target; btn.disabled=true; const prev=btn.textContent; btn.textContent="…";
+    const ok=await communitySendFriendRequest(emailIn.value);
+    if(ok){ emailIn.value=""; COMMUNITY_FRIENDS_CACHE.loaded=false; render(); }
+    btn.disabled=false; btn.textContent=prev;
+  }},"Invia richiesta");
+  wrap.append(el("div",{style:"display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px"},emailIn,emailBtn));
+
+  const list=el("div",{style:"display:flex;flex-direction:column;gap:6px"});
+  wrap.append(list);
+  if(!COMMUNITY_FRIENDS_CACHE.loaded){
+    list.append(el("div",{class:"muted",style:"font-size:12px"},"Carico…"));
+    communityLoadFriendsIfNeeded().then(async(rows)=>{ await communityResolveNames(rows.map(r=>r.player_id)); render(); });
+  } else {
+    const rows=COMMUNITY_FRIENDS_CACHE.list;
+    const incoming=rows.filter(r=>r.relation==="incoming_request");
+    const outgoing=rows.filter(r=>r.relation==="outgoing_request");
+    const friends=rows.filter(r=>r.relation==="friend");
+    if(incoming.length){
+      list.append(el("div",{class:"muted",style:"font-size:11px;text-transform:uppercase;letter-spacing:.05em;margin-top:2px"},"Richieste ricevute"));
+      incoming.forEach(r=>{
+        list.append(el("div",{class:"list-line"},
+          el("span",{},r.display_name||"?"),
+          el("div",{style:"display:flex;gap:6px"},
+            el("button",{class:"btn ghost sm",onclick:async()=>{ const ok=await communityRespondFriendRequest(r.request_id,true); if(ok){ COMMUNITY_FRIENDS_CACHE.loaded=false; render(); } }},"✓ Accetta"),
+            el("button",{class:"btn ghost sm",onclick:async()=>{ const ok=await communityRespondFriendRequest(r.request_id,false); if(ok){ COMMUNITY_FRIENDS_CACHE.loaded=false; render(); } }},"✕ Rifiuta"))));
+      });
+    }
+    if(outgoing.length){
+      list.append(el("div",{class:"muted",style:"font-size:11px;text-transform:uppercase;letter-spacing:.05em;margin-top:8px"},"Richieste inviate"));
+      outgoing.forEach(r=>{
+        list.append(el("div",{class:"list-line"},el("span",{},r.display_name||"?"),el("span",{class:"muted",style:"font-size:12px"},"in attesa…")));
+      });
+    }
+    list.append(el("div",{class:"muted",style:"font-size:11px;text-transform:uppercase;letter-spacing:.05em;margin-top:8px"},"I tuoi amici"));
+    if(!friends.length){ list.append(el("div",{class:"muted",style:"font-size:12px"},"Nessun amico ancora: invia una richiesta per email qui sopra.")); }
+    friends.forEach(f=>{
+      const pd=mpPresenceDot(mpIsOnline(f.player_id),mpPresenceStatus(f.player_id));
+      const dot=el("span",{title:pd.label,style:"display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;background:"+pd.color});
+      list.append(el("div",{class:"list-line"},
+        el("span",{},dot,f.display_name||"?"),
+        el("button",{class:"btn ghost sm",onclick:()=>{ COMMUNITY_ACTIVE_FRIEND=f.player_id; render(); }},"💬 Scrivi")));
+    });
+  }
+  return wrap;
+}
+function viewCommunity(){
+  const wrap=el("div",{class:"view"});
+  wrap.append(el("h2",{},"🌐 Community"));
+  if(!MP_USER_ID){
+    wrap.append(el("div",{class:"card"},el("p",{class:"muted"},"Accedi da Impostazioni per usare la lobby pubblica e il pannello amici.")));
+    return wrap;
+  }
+  wrap.append(communityLobbyPanel());
+  if(COMMUNITY_ACTIVE_FRIEND){
+    const friendRow=(COMMUNITY_FRIENDS_CACHE.list||[]).find(r=>r.player_id===COMMUNITY_ACTIVE_FRIEND);
+    const friendCard=el("div",{class:"card",style:"margin-top:14px"});
+    friendCard.append(communityFriendChatPanel(COMMUNITY_ACTIVE_FRIEND, (friendRow&&friendRow.display_name)||communityName(COMMUNITY_ACTIVE_FRIEND)));
+    wrap.append(friendCard);
+  } else {
+    const friendsCard=communityFriendsPanel();
+    friendsCard.style.marginTop="14px";
+    wrap.append(friendsCard);
+  }
+  return wrap;
+}
+
+/* =========================================================================
+   INIZIATIVA / TURN TRACKER — combattimento in tempo reale per campagna.
+   Stessa filosofia di "battle_maps": un'unica riga di stato per campagna
+   (campaign_combat), così un solo evento realtime aggiorna tutti i presenti.
+   v1: scrive solo il DM (avvia il combattimento, aggiunge/rimuove
+   combattenti, avanza i turni) — i giocatori leggono in tempo reale. È una
+   scelta per evitare conflitti di scrittura concorrente sull'ordine di
+   iniziativa, non un limite tecnico: si potrà aprire in futuro.
+   NOTA DI SICUREZZA (documentata anche nella migration): a differenza di
+   battle_tokens, qui "hidden" è filtrato lato client, non da RLS — l'intera
+   riga è condivisa e non si può nascondere un singolo combattente via
+   policy. Il DM che vuole tenere davvero segreto un nemico deve evitare di
+   aggiungerlo qui con un nome rivelatore, o del tutto.
+   ========================================================================= */
+const MP_COMBAT_CACHE={}; // cloudId -> riga campaign_combat (o null se mai creata)
+let MP_COMBAT_CHANNEL=null, MP_COMBAT_CHANNEL_CAMPAIGN_ID=null;
+async function mpFetchCombat(c){
+  const sb=mpClient(); if(!sb||!c.cloudId) return null;
+  try{
+    const {data,error}=await sb.from("campaign_combat").select("*").eq("campaign_id",c.cloudId).maybeSingle();
+    if(error) throw error;
+    MP_COMBAT_CACHE[c.cloudId]=data||null;
+    return data||null;
+  }catch(e){ return MP_COMBAT_CACHE[c.cloudId]||null; }
+}
+function mpSubscribeCombat(c){
+  if(!c||!c.cloudId) return;
+  const sb=mpClient(); if(!sb) return;
+  if(MP_COMBAT_CHANNEL_CAMPAIGN_ID===c.cloudId) return;
+  mpUnsubscribeCombat();
+  MP_COMBAT_CHANNEL=sb.channel("campaign-combat:"+c.cloudId)
+    .on("postgres_changes",{event:"*",schema:"public",table:"campaign_combat",filter:"campaign_id=eq."+c.cloudId},payload=>{
+      MP_COMBAT_CACHE[c.cloudId]=payload.eventType==="DELETE"?null:payload.new;
+      render();
+    })
+    .subscribe();
+  MP_COMBAT_CHANNEL_CAMPAIGN_ID=c.cloudId;
+}
+function mpUnsubscribeCombat(){
+  if(MP_COMBAT_CHANNEL){ try{ MP_COMBAT_CHANNEL.unsubscribe(); }catch(e){} MP_COMBAT_CHANNEL=null; MP_COMBAT_CHANNEL_CAMPAIGN_ID=null; }
+}
+function combatSort(combatants){
+  return (combatants||[]).slice().sort((a,b)=>(b.initiative||0)-(a.initiative||0));
+}
+async function mpSaveCombat(c,patch){
+  const sb=mpClient(); if(!sb||!c.cloudId) return;
+  const prev=MP_COMBAT_CACHE[c.cloudId]||{campaign_id:c.cloudId,active:false,round:1,turn_index:0,combatants:[]};
+  const next=Object.assign({},prev,patch,{campaign_id:c.cloudId,updated_at:new Date().toISOString(),updated_by:MP_USER_ID});
+  try{
+    const {data,error}=await sb.from("campaign_combat").upsert(next,{onConflict:"campaign_id"}).select().single();
+    if(error) throw error;
+    MP_COMBAT_CACHE[c.cloudId]=data; render();
+  }catch(e){ toast("Errore iniziativa: "+(e.message||e)); }
+}
+async function mpStartCombat(c,combatants){
+  await mpSaveCombat(c,{active:true,round:1,turn_index:0,combatants:combatSort(combatants||[])});
+}
+async function mpEndCombat(c){ await mpSaveCombat(c,{active:false}); }
+async function mpUpdateCombatants(c,combatants){ await mpSaveCombat(c,{combatants:combatSort(combatants)}); }
+async function mpCombatTurn(c,dir){
+  const cur=MP_COMBAT_CACHE[c.cloudId]; if(!cur||!cur.active) return;
+  const n=(cur.combatants||[]).length; if(!n) return;
+  let idx=cur.turn_index+dir, round=cur.round;
+  if(idx>=n){ idx=0; round++; } else if(idx<0){ idx=n-1; round=Math.max(1,round-1); }
+  await mpSaveCombat(c,{turn_index:idx,round});
+}
+function mpCombatPanel(c){
+  const isDm=c.mpRole==="dm";
+  const wrap=el("div",{});
+  const body=el("div",{},el("div",{class:"muted",style:"font-size:12px"},"Carico l'iniziativa…"));
+  wrap.append(body);
+  (async()=>{
+    await mpFetchCombat(c); mpSubscribeCombat(c);
+    const cur=MP_COMBAT_CACHE[c.cloudId];
+    body.innerHTML="";
+    const visibleCombatants=(list)=> isDm?list:(list||[]).filter(x=>!x.hidden);
+    if(!cur||!cur.active){
+      if(!isDm){ body.append(el("div",{class:"muted",style:"font-size:12px"},"Nessun combattimento in corso.")); return; }
+      // DM: form per avviare un combattimento, con aggiunta rapida dalle pedine sulla mappa attiva.
+      const draft=(cur&&cur.combatants&&cur.combatants.length)?cur.combatants.slice():[];
+      const list=el("div",{});
+      const renderDraft=()=>{
+        list.innerHTML="";
+        if(!draft.length) list.append(el("div",{class:"muted",style:"font-size:12px"},"Nessun combattente ancora. Aggiungine uno sotto."));
+        draft.forEach((cb,i)=>{
+          list.append(el("div",{class:"vtt-roster-row",style:"display:flex;justify-content:space-between;align-items:center;gap:6px"},
+            el("span",{},cb.name+" — iniz. "+cb.initiative+(cb.hidden?" 🙈":"")),
+            el("button",{class:"vtt-btn sm",onclick:()=>{ draft.splice(i,1); renderDraft(); }},"✕")));
+        });
+      };
+      renderDraft();
+      body.append(list);
+      const nameIn=el("input",{placeholder:"Nome",style:"width:40%"});
+      const initIn=el("input",{type:"number",placeholder:"Iniz.",style:"width:20%"});
+      const hiddenCk=el("label",{style:"font-size:11px;display:flex;align-items:center;gap:4px"},el("input",{type:"checkbox"}),"segreto");
+      const addBtn=el("button",{class:"vtt-btn sm",onclick:()=>{
+        const name=nameIn.value.trim(); const init=parseInt(initIn.value,10);
+        if(!name||isNaN(init)){ toast("Nome e iniziativa richiesti"); return; }
+        draft.push({id:uid(),name,initiative:init,is_pc:false,hidden:!!hiddenCk.querySelector("input").checked,conditions:[]});
+        nameIn.value=""; initIn.value=""; hiddenCk.querySelector("input").checked=false;
+        renderDraft();
+      }},"+ Aggiungi");
+      body.append(el("div",{style:"display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:6px"},nameIn,initIn,hiddenCk,addBtn));
+      const map=MP_MAP_CACHE[c.cloudId]&&MP_MAP_CACHE[c.cloudId].map;
+      const tokens=(map&&MP_MAP_CACHE[c.cloudId].tokens)||[];
+      if(tokens.length){
+        body.append(el("div",{class:"muted",style:"font-size:11px;margin-top:8px"},"Dalla mappa:"));
+        const quick=el("div",{style:"display:flex;gap:5px;flex-wrap:wrap;margin-top:4px"});
+        tokens.forEach(t=>{
+          quick.append(el("button",{class:"vtt-btn sm",onclick:()=>{
+            draft.push({id:uid(),name:t.label,token_id:t.id,initiative:10,is_pc:!!t.controlled_by,hidden:!!t.hidden,conditions:t.conditions||[]});
+            renderDraft();
+          }},"+ "+t.label));
+        });
+        body.append(quick);
+      }
+      body.append(el("div",{style:"margin-top:10px"},
+        el("button",{class:"vtt-btn primary",disabled:draft.length?null:"disabled",onclick:()=>mpStartCombat(c,draft)},"▶ Avvia combattimento")));
+      return;
+    }
+    // Combattimento attivo.
+    const ordered=combatSort(cur.combatants);
+    const visible=visibleCombatants(ordered);
+    const activeId=ordered[cur.turn_index]&&ordered[cur.turn_index].id;
+    body.append(el("div",{style:"display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"},
+      el("b",{style:"font-size:13px"},"⚔ Round "+cur.round),
+      isDm?el("button",{class:"vtt-btn sm",onclick:()=>mpEndCombat(c)},"Termina"):null));
+    visible.forEach(cb=>{
+      const isTurn=cb.id===activeId;
+      const row=el("div",{class:"vtt-roster-row",style:"display:flex;justify-content:space-between;align-items:center;gap:6px"+(isTurn?";border-color:var(--accent, #e0a83c);box-shadow:0 0 0 1px var(--accent, #e0a83c) inset":"")});
+      row.append(el("span",{},(isTurn?"▶ ":"")+cb.name+" ("+cb.initiative+")"+(cb.hidden&&isDm?" 🙈":"")));
+      if(isDm) row.append(el("button",{class:"vtt-btn sm",onclick:()=>{ mpUpdateCombatants(c,ordered.filter(x=>x.id!==cb.id)); }},"✕"));
+      body.append(row);
+    });
+    if(isDm) body.append(el("div",{style:"display:flex;gap:6px;margin-top:8px"},
+      el("button",{class:"vtt-btn sm",onclick:()=>mpCombatTurn(c,-1)},"◀ Indietro"),
+      el("button",{class:"vtt-btn primary sm",onclick:()=>mpCombatTurn(c,1)},"Avanti ▶")));
+  })();
+  return wrap;
+}
+
+/* =========================================================================
    MAPPA TATTICA CONDIVISA (stile Roll20): un'unica "scena" attiva per
    campagna, con sfondo opzionale (immagine caricata dal DM o layout generato
    in-app) e pedine spostabili in tempo reale. Ogni pedina è la sua riga in
@@ -5828,20 +6458,102 @@ function mpDiceLogPanel(c){
    ========================================================================= */
 const MP_MAP_CACHE={}; // cloudId -> {map, tokens}
 let MP_MAP_CHANNEL=null, MP_MAP_CHANNEL_CAMPAIGN_ID=null;
+/* Vista giocatore (DM only, non persistita: si resetta ad ogni ricarica): permette al DM di
+   vedere la mappa esattamente come la vede il tavolo, nebbia compresa, senza dover cambiare
+   account. Tenuta fuori da STATE apposta, è solo un interruttore locale dell'interfaccia. */
+const VTT_PLAYER_VIEW_SIM={}; // cloudId -> bool
 
 async function mpEnsureMap(c){
   const sb=mpClient(); if(!sb||!c.cloudId) return null;
   const cached=MP_MAP_CACHE[c.cloudId]; if(cached&&cached.map) return cached.map;
   try{
-    const {data,error}=await sb.from("battle_maps").select("*").eq("campaign_id",c.cloudId).order("created_at").limit(1).maybeSingle();
+    const {data,error}=await sb.from("battle_maps").select("*").eq("campaign_id",c.cloudId).eq("active",true).limit(1).maybeSingle();
     if(error) throw error;
     if(data){ MP_MAP_CACHE[c.cloudId]=Object.assign({tokens:[]},MP_MAP_CACHE[c.cloudId],{map:data}); return data; }
+    // Nessuna scena attiva trovata: o è la primissima volta, oppure un cambio scena è
+    // stato interrotto a metà (vedi mpActivateScene). Prima di crearne una nuova a caso,
+    // recupera l'ultima scena esistente e riattivala — non perdere mai lavoro del DM.
+    const {data:any,error:e0}=await sb.from("battle_maps").select("*").eq("campaign_id",c.cloudId).order("updated_at",{ascending:false}).limit(1).maybeSingle();
+    if(e0) throw e0;
+    if(any){
+      if(c.mpRole==="dm"){
+        const {error:e1}=await sb.from("battle_maps").update({active:true}).eq("id",any.id);
+        if(!e1) any.active=true;
+      }
+      MP_MAP_CACHE[c.cloudId]=Object.assign({tokens:[]},MP_MAP_CACHE[c.cloudId],{map:any});
+      return any;
+    }
     if(c.mpRole!=="dm") return null; // solo il DM può creare la scena
-    const {data:created,error:e2}=await sb.from("battle_maps").insert({campaign_id:c.cloudId,name:"Scena",updated_by:MP_USER_ID}).select().single();
+    const {data:created,error:e2}=await sb.from("battle_maps").insert({campaign_id:c.cloudId,name:"Scena 1",updated_by:MP_USER_ID,active:true}).select().single();
     if(e2) throw e2;
     MP_MAP_CACHE[c.cloudId]=Object.assign({tokens:[]},MP_MAP_CACHE[c.cloudId],{map:created});
     return created;
   }catch(e){ toast("Errore mappa: "+(e.message||e)); return null; }
+}
+/* ---- Scene multiple per campagna: elenco, creazione, cambio, ridenominazione, eliminazione.
+   Tutte DM-only lato applicazione (le RLS di battle_maps già limitano la scrittura al DM). ---- */
+async function mpListScenes(c){
+  const sb=mpClient(); if(!sb||!c.cloudId) return [];
+  try{
+    const {data,error}=await sb.from("battle_maps").select("id,name,active,created_at,updated_at").eq("campaign_id",c.cloudId).order("created_at");
+    if(error) throw error;
+    return data||[];
+  }catch(e){ toast("Errore elenco scene: "+(e.message||e)); return []; }
+}
+async function mpCreateScene(c,name){
+  const sb=mpClient(); if(!sb||!c.cloudId) return null;
+  try{
+    const {data,error}=await sb.from("battle_maps").insert({campaign_id:c.cloudId,name:(name||"Nuova scena"),updated_by:MP_USER_ID,active:false}).select().single();
+    if(error) throw error;
+    return data;
+  }catch(e){ toast("Errore creazione scena: "+(e.message||e)); return null; }
+}
+async function mpActivateScene(c,mapId){
+  const sb=mpClient(); if(!sb||!c.cloudId) return false;
+  try{
+    // Prima disattiva la scena corrente, poi attiva quella nuova: mai il contrario,
+    // altrimenti l'indice unico parziale su battle_maps rifiuterebbe la scrittura.
+    const {error:e1}=await sb.from("battle_maps").update({active:false}).eq("campaign_id",c.cloudId).eq("active",true);
+    if(e1) throw e1;
+    const {error:e2}=await sb.from("battle_maps").update({active:true}).eq("id",mapId);
+    if(e2) throw e2;
+    delete MP_MAP_CACHE[c.cloudId];
+    await mpEnsureMap(c);
+    const map=(MP_MAP_CACHE[c.cloudId]||{}).map;
+    if(map) await mpFetchTokens(c,map.id);
+    render();
+    return true;
+  }catch(e){ toast("Errore cambio scena: "+(e.message||e)); return false; }
+}
+async function mpRenameScene(mapId,name){
+  const sb=mpClient(); if(!sb||!name||!name.trim()) return false;
+  try{
+    const {error}=await sb.from("battle_maps").update({name:name.trim()}).eq("id",mapId);
+    if(error) throw error;
+    return true;
+  }catch(e){ toast("Errore rinomina scena: "+(e.message||e)); return false; }
+}
+async function mpDeleteScene(c,mapId,scenes){
+  const sb=mpClient(); if(!sb||!c.cloudId) return false;
+  const list=scenes||await mpListScenes(c);
+  if(list.length<=1){ toast("Non puoi eliminare l'unica scena della campagna."); return false; }
+  try{
+    const target=list.find(s=>s.id===mapId);
+    if(target&&target.active){
+      const other=list.find(s=>s.id!==mapId);
+      if(other){
+        const {error:e1}=await sb.from("battle_maps").update({active:true}).eq("id",other.id);
+        if(e1) throw e1;
+      }
+    }
+    await sb.from("battle_tokens").delete().eq("map_id",mapId);
+    const {error:e2}=await sb.from("battle_maps").delete().eq("id",mapId);
+    if(e2) throw e2;
+    delete MP_MAP_CACHE[c.cloudId];
+    await mpEnsureMap(c);
+    render();
+    return true;
+  }catch(e){ toast("Errore eliminazione scena: "+(e.message||e)); return false; }
 }
 async function mpFetchTokens(c,mapId){
   const sb=mpClient(); if(!sb) return [];
@@ -5936,6 +6648,145 @@ async function mpSetTokenConditions(tokenId,conditions){
 async function mpSetTokenHidden(tokenId,hidden){
   const sb=mpClient(); if(!sb) return;
   try{ await sb.from("battle_tokens").update({hidden:!!hidden}).eq("id",tokenId); }catch(e){ toast("Errore livello DM pedina: "+(e.message||e)); }
+}
+
+/* =========================================================================
+   NEBBIA DI GUERRA (battle_maps.fog) — {enabled, revealed:bool[rows][cols]}.
+   Colonna aggiunta in modo retrocompatibile: le mappe esistenti hanno
+   fog=null, che il canvas interpreta come "nebbia disattivata" (comportamento
+   identico a prima di questa funzione). Solo il DM può scriverla (stessa RLS
+   già esistente su battle_maps: "battle_maps_owner_write"), quindi non serve
+   nessuna nuova policy — i giocatori la ricevono già in sola lettura insieme
+   al resto della riga mappa.
+   ========================================================================= */
+function fogDefaultGrid(rows,cols,revealed){
+  const grid=[];
+  for(let r=0;r<rows;r++){ const row=[]; for(let cIdx=0;cIdx<cols;cIdx++) row.push(!!revealed); grid.push(row); }
+  return grid;
+}
+/* Se la griglia della mappa cambia dimensione dopo che la nebbia era già attiva, non c'è modo
+   sicuro di sapere quali celle vecchie corrispondono a quali nuove: si riparte da nebbia totale
+   sulla nuova griglia invece di rischiare di "rivelare" per errore un'area mai esplorata. Limite
+   noto, documentato qui invece che nascosto. */
+function fogNormalize(fog,rows,cols){
+  if(!fog) return null;
+  if(fog.revealed && fog.revealed.length===rows && fog.revealed[0] && fog.revealed[0].length===cols) return fog;
+  return {enabled:!!fog.enabled, revealed:fogDefaultGrid(rows,cols,false)};
+}
+async function mpUpdateFog(map,fog){
+  const sb=mpClient(); if(!sb) return;
+  try{ await sb.from("battle_maps").update({fog,updated_at:new Date().toISOString(),updated_by:MP_USER_ID}).eq("id",map.id); }
+  catch(e){ toast("Errore nebbia di guerra: "+(e.message||e)); }
+}
+async function mpToggleFogEnabled(map,enabled){
+  const fog=fogNormalize(map.fog,map.rows,map.cols)||{enabled:false,revealed:fogDefaultGrid(map.rows,map.cols,false)};
+  fog.enabled=!!enabled;
+  map.fog=fog; await mpUpdateFog(map,fog); render();
+}
+async function mpFogRevealAll(map,revealed){
+  const fog=fogNormalize(map.fog,map.rows,map.cols)||{enabled:true,revealed:fogDefaultGrid(map.rows,map.cols,false)};
+  fog.revealed=fogDefaultGrid(map.rows,map.cols,!!revealed);
+  map.fog=fog; await mpUpdateFog(map,fog); render();
+}
+
+/* =========================================================================
+   DISEGNO LIBERO (battle_maps.drawings) — array di tratti a mano libera
+   [{id,color,width,points:[{x,y},...]}], in coordinate pixel del canvas.
+   Stessa filosofia della nebbia di guerra: colonna nullable, retrocompatibile
+   al 100% (drawings=null/[] = comportamento identico a prima), nessuna nuova
+   policy RLS (eredita battle_maps_owner_write/battle_maps_select_member).
+   v1: solo il DM disegna (stesso limite consapevole già scelto per la
+   nebbia — un solo scrittore evita tratti che si sovrascrivono a vicenda
+   quando più persone disegnano insieme sulla stessa riga). Le coordinate
+   sono legate alla dimensione della griglia al momento del disegno: un
+   ridimensionamento (cambio colonne/righe) azzera i disegni esistenti,
+   stessa scelta già fatta per fogNormalize qui sopra — vedi mapPanel.
+   ========================================================================= */
+function drawingsNormalize(drawings){ return Array.isArray(drawings)?drawings:[]; }
+async function mpUpdateDrawings(map,drawings){
+  const sb=mpClient(); if(!sb) return;
+  try{ await sb.from("battle_maps").update({drawings,updated_at:new Date().toISOString(),updated_by:MP_USER_ID}).eq("id",map.id); }
+  catch(e){ toast("Errore disegno: "+(e.message||e)); }
+}
+async function mpAddStroke(map,stroke){
+  const drawings=drawingsNormalize(map.drawings).concat([stroke]);
+  map.drawings=drawings; await mpUpdateDrawings(map,drawings);
+}
+async function mpUndoLastStroke(map){
+  const drawings=drawingsNormalize(map.drawings).slice(0,-1);
+  map.drawings=drawings; await mpUpdateDrawings(map,drawings); render();
+}
+async function mpClearDrawings(map){
+  map.drawings=[]; await mpUpdateDrawings(map,[]); render();
+}
+
+/* =========================================================================
+   ILLUMINAZIONE DINAMICA (battle_maps.lighting) — visibilità limitata intorno
+   a ogni pedina controllata da un giocatore, con blocco della vista dietro i
+   muri di map.layout quando disponibile (raycasting a griglia). Semplificazione
+   v1 documentata: mutuamente esclusiva con la nebbia di guerra (vedi migration
+   006) e, sulle mappe con immagine caricata (senza map.layout), ricade su un
+   cerchio di raggio fisso senza blocco muri.
+   ========================================================================= */
+function lightingNormalize(lighting){
+  if(lighting&&typeof lighting==="object") return {enabled:!!lighting.enabled, radius:Math.max(1,Math.min(20,parseInt(lighting.radius,10)||4))};
+  return {enabled:false, radius:4};
+}
+async function mpUpdateLighting(map,lighting){
+  const sb=mpClient(); if(!sb) return;
+  try{ await sb.from("battle_maps").update({lighting,updated_at:new Date().toISOString(),updated_by:MP_USER_ID}).eq("id",map.id); }
+  catch(e){ toast("Errore illuminazione dinamica: "+(e.message||e)); }
+}
+async function mpToggleLighting(map,enabled){
+  if(enabled&&map.fog&&map.fog.enabled){ toast("Disattiva prima la nebbia di guerra: i due sistemi non possono essere attivi insieme."); render(); return; }
+  const lighting=lightingNormalize(map.lighting); lighting.enabled=!!enabled;
+  map.lighting=lighting; await mpUpdateLighting(map,lighting); render();
+}
+async function mpSetLightingRadius(map,radius){
+  const lighting=lightingNormalize(map.lighting); lighting.radius=Math.max(1,Math.min(20,parseInt(radius,10)||4));
+  map.lighting=lighting; await mpUpdateLighting(map,lighting); render();
+}
+// Traccia una linea di celle da (r0,c0) a (r1,c1) (Bresenham) e ritorna true se tutte le celle
+// attraversate, muro escluso il punto di partenza, sono pavimento (layout[r][c]===0). Se non c'è
+// un layout a griglia (mappa con immagine caricata), la vista non viene mai bloccata dai muri —
+// ricade sul solo raggio, come documentato nella migration.
+function lightingHasLineOfSight(map,r0,c0,r1,c1){
+  if(!map.layout) return true;
+  let x0=c0,y0=r0,x1=c1,y1=r1;
+  const dx=Math.abs(x1-x0), dy=-Math.abs(y1-y0);
+  const sx=x0<x1?1:-1, sy=y0<y1?1:-1;
+  let err=dx+dy;
+  while(true){
+    if(!(x0===c0&&y0===r0)){
+      const row=map.layout[y0];
+      if(!row||row[x0]===undefined) return false; // fuori griglia: tratta come muro
+      if(row[x0]!==0) return false; // muro: blocca la vista
+    }
+    if(x0===x1&&y0===y1) break;
+    const e2=2*err;
+    if(e2>=dy){ err+=dy; x0+=sx; }
+    if(e2<=dx){ err+=dx; y0+=sy; }
+  }
+  return true;
+}
+// Calcola l'insieme delle celle visibili al tavolo: unione della vista di ogni pedina controllata
+// da un giocatore (t.controlled_by valorizzato), entro lighting.radius celle e con linea di vista
+// libera. Se nessuna pedina è controllata da un giocatore (es. solo mostri sulla mappa), nessuna
+// cella risulta visibile — è un caso limite corretto: senza un "occhio" sul campo non c'è nulla da
+// illuminare, il DM lo nota subito dal tavolo tutto scuro e sa che deve assegnare le pedine.
+function lightingVisibleCells(map,tokens,radius){
+  const visible=new Set();
+  const sources=tokens.filter(t=>t.controlled_by);
+  sources.forEach(t=>{
+    const r0=t.row,c0=t.col;
+    for(let r=Math.max(0,r0-radius);r<=Math.min(map.rows-1,r0+radius);r++){
+      for(let cIdx=Math.max(0,c0-radius);cIdx<=Math.min(map.cols-1,c0+radius);cIdx++){
+        if(Math.hypot(r-r0,cIdx-c0)>radius) continue;
+        if(lightingHasLineOfSight(map,r0,c0,r,cIdx)) visible.add(r+"_"+cIdx);
+      }
+    }
+  });
+  return visible;
 }
 
 /* =========================================================================
@@ -6045,7 +6896,20 @@ function mpSubscribeMap(c){
   mpUnsubscribeMap();
   MP_MAP_CHANNEL=sb.channel("campaign-map:"+c.cloudId)
     .on("postgres_changes",{event:"*",schema:"public",table:"battle_maps",filter:"campaign_id=eq."+c.cloudId},payload=>{
-      if(payload.new){ MP_MAP_CACHE[c.cloudId]=Object.assign({tokens:[]},MP_MAP_CACHE[c.cloudId],{map:payload.new}); }
+      const cached=MP_MAP_CACHE[c.cloudId];
+      const shownId=cached&&cached.map&&cached.map.id;
+      if(payload.new&&payload.new.active&&payload.new.id!==shownId){
+        // Il DM (su un altro dispositivo, o questo stesso) ha attivato una scena diversa
+        // da quella mostrata qui: sostituisci scena e pedine invece di limitarti a
+        // aggiornare i campi, altrimenti resterebbero le pedine della scena precedente.
+        delete MP_MAP_CACHE[c.cloudId];
+        mpEnsureMap(c).then(()=>{
+          const m=(MP_MAP_CACHE[c.cloudId]||{}).map;
+          return m?mpFetchTokens(c,m.id):null;
+        }).then(()=>{ if(STATE.view==="tavolo"||(STATE.mode==="dm"&&DM_TAB==="Campagna AI")) render(); });
+        return;
+      }
+      if(payload.new&&payload.new.id===shownId){ MP_MAP_CACHE[c.cloudId]=Object.assign({tokens:[]},cached,{map:payload.new}); }
       if(STATE.view==="tavolo"||(STATE.mode==="dm"&&DM_TAB==="Campagna AI")) render();
     })
     .on("postgres_changes",{event:"*",schema:"public",table:"battle_tokens",filter:"campaign_id=eq."+c.cloudId},()=>{
@@ -6122,6 +6986,51 @@ function mapCanvasWidget(c,map,tokens,opts){
       }
       ctx.restore();
     });
+    // Disegno libero del DM: sopra pedine e mappa, ma SOTTO la nebbia (disegnato prima del blocco
+    // fog qui sotto) — un tratto su un'area non ancora rivelata resta nascosto ai giocatori come
+    // il resto di quell'area, non "buca" la nebbia. Include anche il tratto in corso (non ancora
+    // salvato) per un feedback immediato di chi sta disegnando.
+    const strokesToDraw=drawingsNormalize(map.drawings).concat(currentStroke&&currentStroke.points.length>1?[currentStroke]:[]);
+    strokesToDraw.forEach(s=>{
+      if(!s.points||s.points.length<2) return;
+      ctx.save();
+      ctx.strokeStyle=s.color||"#e0a83c"; ctx.lineWidth=s.width||4;
+      ctx.lineCap="round"; ctx.lineJoin="round";
+      ctx.beginPath(); ctx.moveTo(s.points[0].x,s.points[0].y);
+      for(let i=1;i<s.points.length;i++) ctx.lineTo(s.points[i].x,s.points[i].y);
+      ctx.stroke();
+      ctx.restore();
+    });
+    // Nebbia di guerra: disegnata SOPRA mappa e pedine, così un'area non ancora rivelata copre
+    // anche eventuali mostri/pedine lì sopra. Il DM vede sempre tutto, a meno che non stia usando
+    // "Vista giocatore" per controllare cosa vede davvero il tavolo (opts.simulatePlayerView).
+    const fogShown = map.fog && map.fog.enabled && map.fog.revealed && (!isDm || opts.simulatePlayerView);
+    if(fogShown){
+      const fog=map.fog;
+      ctx.fillStyle="#0a0805";
+      for(let r=0;r<map.rows;r++) for(let cIdx=0;cIdx<map.cols;cIdx++){
+        if(!(fog.revealed[r]&&fog.revealed[r][cIdx])) ctx.fillRect(cIdx*cell,r*cell,cell,cell);
+      }
+    } else if(isDm && map.fog && map.fog.enabled && map.fog.revealed && !opts.simulatePlayerView){
+      // Il DM vede la mappa scoperta, ma con un leggero velo giallo sulle celle non ancora
+      // rivelate ai giocatori: gli serve per sapere dove sta "dipingendo" senza restare al buio.
+      const fog=map.fog;
+      ctx.fillStyle="rgba(224,200,140,.16)";
+      for(let r=0;r<map.rows;r++) for(let cIdx=0;cIdx<map.cols;cIdx++){
+        if(!(fog.revealed[r]&&fog.revealed[r][cIdx])) ctx.fillRect(cIdx*cell,r*cell,cell,cell);
+      }
+    }
+    // Illuminazione dinamica: mutuamente esclusiva con la nebbia (vedi mpToggleLighting), stessa
+    // logica di "il DM vede sempre tutto, salvo Vista giocatore" già usata per la nebbia sopra.
+    const lighting=lightingNormalize(map.lighting);
+    if(lighting.enabled&&!(map.fog&&map.fog.enabled)){
+      const visibleSet=lightingVisibleCells(map,tokens,lighting.radius);
+      const dark=!isDm||opts.simulatePlayerView;
+      ctx.fillStyle=dark?"#0a0805":"rgba(224,200,140,.16)";
+      for(let r=0;r<map.rows;r++) for(let cIdx=0;cIdx<map.cols;cIdx++){
+        if(!visibleSet.has(r+"_"+cIdx)) ctx.fillRect(cIdx*cell,r*cell,cell,cell);
+      }
+    }
   }
   const dragState={id:null,col:0,row:0};
   function localPoint(e){
@@ -6137,13 +7046,36 @@ function mapCanvasWidget(c,map,tokens,opts){
     return null;
   }
   function canControl(t){ return isDm || (t.controlled_by&&t.controlled_by===MP_USER_ID); }
+  // Pennello nebbia: solo il DM, solo con lo strumento "fog" attivo, solo se la nebbia è già
+  // stata attivata per questa mappa (altrimenti non c'è una griglia "revealed" su cui dipingere).
+  function fogPaintable(){ return isDm && VTT_TOOL==="fog" && map.fog && map.fog.enabled && map.fog.revealed && !opts.readOnly; }
+  // Pennello disegno libero: solo il DM, solo con lo strumento "draw" attivo. currentStroke tiene
+  // i punti del tratto in corso (dichiarata con "let", non "const": draw() più sopra la legge per
+  // mostrare il tratto mentre viene disegnato, prima ancora che sia salvato).
+  function drawPaintable(){ return isDm && VTT_TOOL==="draw" && !opts.readOnly; }
+  let currentStroke=null;
+  let painting=false;
+  function paintFogAt(e){
+    const pt=localPoint(e);
+    const colIdx=Math.max(0,Math.min(map.cols-1,Math.floor(pt.x/cell)));
+    const rowIdx=Math.max(0,Math.min(map.rows-1,Math.floor(pt.y/cell)));
+    if(map.fog.revealed[rowIdx]) map.fog.revealed[rowIdx][colIdx]=(VTT_FOG_MODE!=="hide");
+    draw();
+  }
   if(!opts.readOnly){
     cv.addEventListener("pointerdown",e=>{
+      if(fogPaintable()){ painting=true; cv.setPointerCapture(e.pointerId); paintFogAt(e); return; }
+      if(drawPaintable()){
+        currentStroke={id:uid(),color:VTT_DRAW_COLOR,width:VTT_DRAW_WIDTH,points:[localPoint(e)]};
+        cv.setPointerCapture(e.pointerId); draw(); return;
+      }
       const pt=localPoint(e); const t=hitToken(pt); if(!t||!canControl(t)) return;
       dragState.id=t.id; dragState.col=t.col; dragState.row=t.row;
       cv.setPointerCapture(e.pointerId); draw();
     });
     cv.addEventListener("pointermove",e=>{
+      if(painting){ paintFogAt(e); return; }
+      if(currentStroke){ currentStroke.points.push(localPoint(e)); draw(); return; }
       if(dragState.id==null) return;
       const pt=localPoint(e);
       dragState.col=Math.max(0,Math.min(map.cols-1,Math.floor(pt.x/cell)));
@@ -6151,6 +7083,12 @@ function mapCanvasWidget(c,map,tokens,opts){
       draw();
     });
     const endDrag=()=>{
+      if(painting){ painting=false; mpUpdateFog(map,map.fog); return; }
+      if(currentStroke){
+        const s=currentStroke; currentStroke=null;
+        if(s.points.length>1) mpAddStroke(map,s).then(draw); else draw();
+        return;
+      }
       if(dragState.id==null) return;
       const t=tokens.find(x=>x.id===dragState.id);
       if(t){ t.col=dragState.col; t.row=dragState.row; mpMoveToken(t.id,dragState.col,dragState.row); }
@@ -6173,9 +7111,33 @@ function mapPanel(c,opts){
     const map=await mpEnsureMap(c);
     body.innerHTML="";
     if(!map){ body.append(el("div",{class:"muted",style:"font-size:12px"},isDm?"Errore nel creare la scena.":"Il DM non ha ancora aperto una mappa per questa campagna.")); return; }
+    if(isDm&&!opts.readOnly){
+      const scenes=await mpListScenes(c);
+      if(scenes.length){
+        const sceneSel=styleSelect(el("select",{},...scenes.map(s=>el("option",{value:s.id,selected:s.id===map.id?"selected":null},s.name+(s.active?" ★":"")))));
+        sceneSel.onchange=()=>{ if(sceneSel.value!==map.id) mpActivateScene(c,sceneSel.value); };
+        const sceneRow=el("div",{style:"display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px"},
+          el("span",{class:"muted",style:"font-size:11px"},"🎬 Scena:"),
+          sceneSel,
+          el("button",{class:"btn ghost sm",onclick:()=>textPromptModal("Nuova scena","Scena "+(scenes.length+1),(name)=>{
+            mpCreateScene(c,name).then(created=>{ if(created) mpActivateScene(c,created.id); });
+          })},"➕ Nuova"),
+          el("button",{class:"btn ghost sm",onclick:()=>textPromptModal("Rinomina scena",map.name||"",(name)=>{
+            mpRenameScene(map.id,name).then(ok=>{ if(ok){ map.name=name.trim(); render(); } });
+          })},"✏ Rinomina"),
+          el("button",{class:"btn ghost sm",onclick:()=>confirmModal("Eliminare questa scena?","La scena «"+(map.name||"")+"» e le sue pedine verranno eliminate. Irreversibile.",()=>mpDeleteScene(c,map.id,scenes))},"🗑 Elimina"));
+        body.append(sceneRow);
+      }
+    }
     const tokens=await mpFetchTokens(c,map.id);
     mpSubscribeMap(c);
-    body.append(mapCanvasWidget(c,map,tokens,{readOnly:opts.readOnly}));
+    // Ricalibra la nebbia sulla griglia attuale prima di disegnare (vedi fogNormalize): no-op se
+    // la nebbia non è mai stata attivata su questa mappa (map.fog resta null, comportamento invariato).
+    map.fog=fogNormalize(map.fog,map.rows,map.cols);
+    map.drawings=drawingsNormalize(map.drawings);
+    map.lighting=lightingNormalize(map.lighting);
+    const simView=!!VTT_PLAYER_VIEW_SIM[c.cloudId];
+    body.append(mapCanvasWidget(c,map,tokens,{readOnly:opts.readOnly,simulatePlayerView:simView}));
     if(isDm&&!opts.readOnly){
       const fileIn=el("input",{type:"file",accept:"image/png,image/jpeg,image/webp,image/gif"});
       const colsIn=el("input",{type:"number",value:String(map.cols),min:"5",max:"60",style:"width:64px"});
@@ -6187,10 +7149,66 @@ function mapPanel(c,opts){
         el("span",{class:"muted",style:"font-size:11px"},"Griglia:"),colsIn,el("span",{},"×"),rowsIn,
         el("button",{class:"btn ghost sm",onclick:async()=>{
           const sb=mpClient(); const cols=Math.max(5,Math.min(60,parseInt(colsIn.value)||map.cols)), rows=Math.max(5,Math.min(60,parseInt(rowsIn.value)||map.rows));
-          await sb.from("battle_maps").update({cols,rows,updated_at:new Date().toISOString(),updated_by:MP_USER_ID}).eq("id",map.id);
-          map.cols=cols; map.rows=rows; render();
+          const fog=fogNormalize(map.fog,rows,cols);
+          // Il ridimensionamento della griglia cambia anche le dimensioni del canvas in pixel: i
+          // disegni esistenti (coordinate pixel legate alla vecchia griglia) andrebbero fuori posto
+          // o fuori tela. Stessa scelta già fatta per la nebbia: si azzerano invece di rimapparli
+          // in modo incerto (limite noto, documentato anche nella migration).
+          const drawingsChanged=(cols!==map.cols||rows!==map.rows);
+          const drawings=drawingsChanged?[]:drawingsNormalize(map.drawings);
+          await sb.from("battle_maps").update({cols,rows,fog,drawings,updated_at:new Date().toISOString(),updated_by:MP_USER_ID}).eq("id",map.id);
+          if(drawingsChanged&&drawingsNormalize(map.drawings).length) toast("Griglia cambiata: i disegni sulla mappa sono stati azzerati.");
+          map.cols=cols; map.rows=rows; map.fog=fog; map.drawings=drawings; render();
         }},"Applica"));
       body.append(tools);
+      const fogOn=!!(map.fog&&map.fog.enabled);
+      const fogToggle=el("input",{type:"checkbox",checked:fogOn});
+      fogToggle.onchange=async()=>{
+        if(fogToggle.checked&&map.lighting&&map.lighting.enabled){ toast("Disattiva prima l'illuminazione dinamica: i due sistemi non possono essere attivi insieme."); fogToggle.checked=false; return; }
+        fogToggle.disabled=true; await mpToggleFogEnabled(map,fogToggle.checked);
+      };
+      const fogControls=el("div",{style:"display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;padding:8px;border-radius:8px;background:rgba(0,0,0,.12)"},
+        el("label",{style:"display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer"},fogToggle,"🌫 Nebbia di guerra"));
+      if(fogOn){
+        const modeReveal=el("button",{class:"btn ghost sm"+(VTT_FOG_MODE!=="hide"?" active":""),onclick:()=>{VTT_FOG_MODE="reveal";render();}},"🖌 Rivela");
+        const modeHide=el("button",{class:"btn ghost sm"+(VTT_FOG_MODE==="hide"?" active":""),onclick:()=>{VTT_FOG_MODE="hide";render();}},"🖌 Nascondi");
+        fogControls.append(
+          el("span",{class:"muted",style:"font-size:11px"},"Strumento "+(VTT_TOOL==="fog"?"attivo":"non attivo (seleziona 🌫 nella barra)")+" · pennello:"),
+          modeReveal,modeHide,
+          el("button",{class:"btn ghost sm",onclick:()=>mpFogRevealAll(map,true)},"Rivela tutta la mappa"),
+          el("button",{class:"btn ghost sm",onclick:()=>mpFogRevealAll(map,false)},"Nascondi tutta la mappa"),
+          el("label",{style:"display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer;margin-left:auto"},
+            el("input",{type:"checkbox",checked:simView,onchange:(e)=>{ VTT_PLAYER_VIEW_SIM[c.cloudId]=e.target.checked; render(); }}),"👁 Vista giocatore"));
+      }
+      body.append(fogControls);
+      const drawColorIn=el("input",{type:"color",value:VTT_DRAW_COLOR});
+      drawColorIn.onchange=()=>{ VTT_DRAW_COLOR=drawColorIn.value; };
+      const drawWidthIn=el("input",{type:"range",min:"2",max:"12",value:String(VTT_DRAW_WIDTH),style:"width:80px"});
+      drawWidthIn.oninput=()=>{ VTT_DRAW_WIDTH=parseInt(drawWidthIn.value,10)||4; };
+      const drawings=drawingsNormalize(map.drawings);
+      const drawControls=el("div",{style:"display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;padding:8px;border-radius:8px;background:rgba(0,0,0,.12)"},
+        el("span",{style:"font-size:12px"},"✏ Disegno libero"+(VTT_TOOL==="draw"?" (attivo — disegna sulla mappa)":" (seleziona ✏ nella barra per disegnare)")),
+        el("label",{style:"display:flex;align-items:center;gap:5px;font-size:11px"},"colore",drawColorIn),
+        el("label",{style:"display:flex;align-items:center;gap:5px;font-size:11px"},"spessore",drawWidthIn),
+        el("button",{class:"btn ghost sm",disabled:drawings.length?null:"disabled",onclick:()=>mpUndoLastStroke(map)},"↺ Annulla ultimo tratto"),
+        el("button",{class:"btn ghost sm",disabled:drawings.length?null:"disabled",onclick:()=>confirmModal("Cancellare tutti i disegni?","Tutti i tratti disegnati su questa mappa verranno rimossi. Irreversibile.",()=>mpClearDrawings(map))},"🗑 Cancella tutto"));
+      body.append(drawControls);
+      const lightOn=!!map.lighting&&!!map.lighting.enabled;
+      const lightToggle=el("input",{type:"checkbox",checked:lightOn,disabled:(!lightOn&&fogOn)?"disabled":null});
+      lightToggle.onchange=async()=>{ lightToggle.disabled=true; await mpToggleLighting(map,lightToggle.checked); };
+      const lightControls=el("div",{style:"display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;padding:8px;border-radius:8px;background:rgba(0,0,0,.12)"},
+        el("label",{style:"display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer"},lightToggle,"💡 Illuminazione dinamica"));
+      if(fogOn) lightControls.append(el("span",{class:"muted",style:"font-size:11px"},"(disattiva prima la nebbia di guerra)"));
+      if(lightOn){
+        const radiusIn=el("input",{type:"range",min:"1",max:"20",value:String(map.lighting.radius||4),style:"width:100px"});
+        radiusIn.oninput=()=>{ radiusLabel.textContent=radiusIn.value+" celle"; };
+        radiusIn.onchange=()=>mpSetLightingRadius(map,parseInt(radiusIn.value,10));
+        const radiusLabel=el("span",{class:"muted",style:"font-size:11px"},(map.lighting.radius||4)+" celle");
+        lightControls.append(
+          el("span",{class:"muted",style:"font-size:11px"},"Raggio pedine giocatore:"),radiusIn,radiusLabel,
+          el("span",{class:"muted",style:"font-size:11px"},map.layout?"":"⚠ mappa con immagine: nessun blocco muri, solo raggio"));
+      }
+      body.append(lightControls);
       const addLabel=el("input",{placeholder:"Nome pedina (es. Goblin, Aldric)",style:"max-width:220px"});
       const addColor=el("input",{type:"color",value:"#c0392b"});
       const ctrlSel=styleSelect(el("select",{},el("option",{value:""},"— solo il DM la muove —")));
@@ -6406,6 +7424,373 @@ function contentTemplate(){
     customSubclasses:[{name:"Nome sottoclasse",cls:"Guerriero",feats:[{lvl:3,name:"Privilegio",txt:"Effetto…"}]}]};
   dlFile("grimorio-modello-contenuti.json",JSON.stringify(tpl,null,2),"application/json");
 }
+/* =========================================================================
+   LETTORE MUSICALE — lettore mp3 personale, locale al dispositivo (non
+   sincronizzato via Supabase: sono file dell'utente, non dati di gioco, e
+   spesso troppo pesanti/soggetti a copyright per passare dal cloud). I brani
+   caricati (Blob) e le playlist vivono in un IndexedDB dedicato
+   ("rollone-music-v1", separato dal DB usato per il self-update dei
+   contenuti), così restano disponibili offline e sopravvivono a una
+   ricarica della pagina. Solo un piccolo stato (playlist/brano correnti,
+   volume, shuffle, repeat) va anche in localStorage: leggero, utile per
+   ripartire da dove si era rimasti.
+   L'oggetto Audio() è creato una sola volta come variabile globale, non
+   agganciato al DOM: la riproduzione continua mentre si naviga nell'app
+   perché render() ricostruisce solo #app, mai le variabili JS — non serve
+   nessun trucco di "player persistente in un iframe". I widget minimal
+   (in RPG Companion e Schermo del DM) si auto-aggiornano ascoltando
+   direttamente gli eventi nativi dell'elemento Audio, con un
+   AbortController per staccare gli ascoltatori della versione precedente
+   del widget ad ogni ricostruzione della vista (evita fughe di memoria).
+
+   NOTE ANDROID (verificate con ricerca web, 2026-09-04):
+   1) Durabilità: la WebView di Capacitor su Android può svuotare IndexedDB
+      sotto forte pressione di spazio se l'origine non è marcata come
+      "storage persistente" — richiesta esplicitamente all'avvio con
+      navigator.storage.persist() (vedi musicRequestPersistentStorage più
+      sotto), un'API web standard che non richiede alcun plugin nativo.
+   2) I file caricati sono convertiti in Blob "puro" prima del salvataggio
+      (non File) per evitare bug di clonazione strutturata di File in
+      IndexedDB su WebView Android più datate.
+   3) Limite noto e onesto: "in sottofondo muovendosi nell'app" qui
+      significa navigare TRA LE SCHERMATE di RollOne (dungeon, bestiario,
+      scheda…), che continua a funzionare perché resta tutto nella stessa
+      pagina JS. Non copre invece lo sfondo di sistema (schermo spento, o
+      passaggio a un'altra app): lì la WebView sospende il JavaScript e
+      l'audio si ferma, comportamento di default di Chromium/Android che
+      richiederebbe un plugin nativo dedicato (es. capacitor-native-audio)
+      per essere superato — fuori dallo scopo di questo modulo a meno che
+      non lo chieda esplicitamente.
+   ========================================================================= */
+const MUSIC_DB_NAME="rollone-music-v1", MUSIC_DB_VERSION=1;
+const MUSIC_AUDIO=new Audio(); MUSIC_AUDIO.preload="metadata";
+let MUSIC_TRACKS=null, MUSIC_PLAYLISTS=null, MUSIC_OBJECT_URL=null;
+let MUSIC_STATE={playlistId:null,trackId:null,playing:false,shuffle:false,repeat:"all"};
+const MUSIC_WIDGET_ABORT={};
+/* Durabilità su Android: la WebView (Chromium) può svuotare IndexedDB delle app sotto pressione
+   di spazio se l'origine non è "persistente" — capacitorjs.com stesso lo segnala esplicitamente
+   per Android (a differenza di iOS, qui esiste una vera API per proteggersi). navigator.storage.
+   persist() è un'API web standard, disponibile anche dentro la WebView di Capacitor senza
+   installare alcun plugin nativo: la concede automaticamente (nessun popup, a differenza di
+   Firefox) in base a euristiche di "importanza" del sito — un'app nativa installata come questa
+   ci rientra quasi sempre. Richiesta una sola volta all'avvio, con fallback silenzioso se l'API
+   non esiste (browser vecchi): in quel caso i brani restano comunque salvati, solo con una
+   protezione in meno dall'eviction sotto forte pressione di spazio sul dispositivo. */
+let MUSIC_STORAGE_PERSIST_REQUESTED=false;
+function musicRequestPersistentStorage(){
+  if(MUSIC_STORAGE_PERSIST_REQUESTED) return;
+  MUSIC_STORAGE_PERSIST_REQUESTED=true;
+  try{
+    if(navigator.storage && navigator.storage.persist){
+      navigator.storage.persist().catch(()=>{});
+    }
+  }catch(e){}
+}
+function musicDbOpen(){
+  musicRequestPersistentStorage();
+  return new Promise((resolve,reject)=>{
+    const req=indexedDB.open(MUSIC_DB_NAME,MUSIC_DB_VERSION);
+    req.onupgradeneeded=()=>{
+      const db=req.result;
+      if(!db.objectStoreNames.contains("tracks")) db.createObjectStore("tracks",{keyPath:"id"});
+      if(!db.objectStoreNames.contains("playlists")) db.createObjectStore("playlists",{keyPath:"id"});
+    };
+    req.onsuccess=()=>resolve(req.result);
+    req.onerror=()=>reject(req.error);
+  });
+}
+function musicIdbAll(store){
+  return musicDbOpen().then(db=>new Promise((resolve,reject)=>{
+    const req=db.transaction(store,"readonly").objectStore(store).getAll();
+    req.onsuccess=()=>resolve(req.result||[]); req.onerror=()=>reject(req.error);
+  }));
+}
+function musicIdbPut(store,val){
+  return musicDbOpen().then(db=>new Promise((resolve,reject)=>{
+    const tx=db.transaction(store,"readwrite"); tx.objectStore(store).put(val);
+    tx.oncomplete=()=>resolve(); tx.onerror=()=>reject(tx.error);
+  }));
+}
+function musicIdbDelete(store,id){
+  return musicDbOpen().then(db=>new Promise((resolve,reject)=>{
+    const tx=db.transaction(store,"readwrite"); tx.objectStore(store).delete(id);
+    tx.oncomplete=()=>resolve(); tx.onerror=()=>reject(tx.error);
+  }));
+}
+function musicSaveState(){
+  try{ localStorage.setItem("rollone_music_state",JSON.stringify({
+    playlistId:MUSIC_STATE.playlistId,trackId:MUSIC_STATE.trackId,
+    volume:MUSIC_AUDIO.volume,shuffle:MUSIC_STATE.shuffle,repeat:MUSIC_STATE.repeat})); }catch(e){}
+}
+function musicLoadState(){
+  try{
+    const raw=localStorage.getItem("rollone_music_state");
+    if(raw){ const s=JSON.parse(raw); Object.assign(MUSIC_STATE,{playlistId:s.playlistId||null,trackId:null,playing:false,shuffle:!!s.shuffle,repeat:s.repeat||"all"}); MUSIC_AUDIO.volume=(typeof s.volume==="number")?s.volume:0.8; }
+    else MUSIC_AUDIO.volume=0.8;
+  }catch(e){ MUSIC_AUDIO.volume=0.8; }
+  // Nota: il brano non riparte da solo al boot (il Blob va ripescato da IndexedDB, e molti
+  // browser bloccano comunque l'autoplay senza un gesto dell'utente): si ricorda solo QUALE
+  // playlist era attiva, pronta per un "Riproduci" con un tocco.
+}
+async function musicEnsureLoaded(){
+  if(MUSIC_TRACKS&&MUSIC_PLAYLISTS) return;
+  try{ MUSIC_TRACKS=await musicIdbAll("tracks"); MUSIC_PLAYLISTS=await musicIdbAll("playlists"); }
+  catch(e){ MUSIC_TRACKS=MUSIC_TRACKS||[]; MUSIC_PLAYLISTS=MUSIC_PLAYLISTS||[]; }
+  if(!MUSIC_PLAYLISTS.length){
+    const def={id:uid(),name:"La mia playlist",trackIds:[],createdAt:Date.now()};
+    MUSIC_PLAYLISTS.push(def); try{ await musicIdbPut("playlists",def); }catch(e){}
+  }
+}
+function musicTrackById(id){ return (MUSIC_TRACKS||[]).find(t=>t.id===id); }
+function musicPlaylistById(id){ return (MUSIC_PLAYLISTS||[]).find(p=>p.id===id); }
+async function musicUploadFiles(fileList){
+  await musicEnsureLoaded();
+  const files=Array.from(fileList||[]);
+  let ok=0;
+  for(const f of files){
+    if(!/audio\//.test(f.type) && !/\.(mp3|m4a|wav|ogg|flac)$/i.test(f.name)){ toast("Ignorato «"+f.name+"»: non sembra un file audio."); continue; }
+    if(f.size>30*1024*1024){ toast("«"+f.name+"» troppo grande (max 30 MB)."); continue; }
+    // Converto esplicitamente il File in un Blob "puro" (stessi byte, senza i metadati extra di
+    // File come nome/lastModified) prima di salvarlo: alcune WebView Android più datate hanno
+    // avuto bug nella clonazione strutturata proprio dell'oggetto File dentro IndexedDB, mentre il
+    // supporto ai Blob è più maturo e uniforme. Costa un solo giro di copia in memoria, fatto una
+    // volta al caricamento, non ad ogni riproduzione.
+    const blob=new Blob([f],{type:f.type||"audio/mpeg"});
+    const track={id:uid(),name:f.name.replace(/\.[a-z0-9]+$/i,""),mime:f.type||"audio/mpeg",size:f.size,blob,addedAt:Date.now()};
+    try{ await musicIdbPut("tracks",track); MUSIC_TRACKS.push(track); ok++; }
+    catch(e){
+      const quota=e&&(e.name==="QuotaExceededError"||/quota/i.test(e.message||""));
+      toast(quota?("Spazio esaurito su questo dispositivo: «"+f.name+"» non è stato salvato. Elimina qualche brano e riprova."):("Errore salvataggio «"+f.name+"»: "+(e.message||e)));
+    }
+  }
+  if(ok) toast(ok+" brano"+(ok===1?"":"i")+" caricat"+(ok===1?"o":"i")+".");
+}
+async function musicCreatePlaylist(name){
+  await musicEnsureLoaded();
+  const p={id:uid(),name:(name||"Nuova playlist").trim()||"Nuova playlist",trackIds:[],createdAt:Date.now()};
+  MUSIC_PLAYLISTS.push(p); try{ await musicIdbPut("playlists",p); }catch(e){} return p;
+}
+async function musicRenamePlaylist(id,name){
+  const p=musicPlaylistById(id); if(!p||!name||!name.trim()) return;
+  p.name=name.trim(); try{ await musicIdbPut("playlists",p); }catch(e){}
+}
+async function musicDeletePlaylist(id){
+  MUSIC_PLAYLISTS=(MUSIC_PLAYLISTS||[]).filter(x=>x.id!==id);
+  try{ await musicIdbDelete("playlists",id); }catch(e){}
+  if(MUSIC_STATE.playlistId===id){ musicStop(); MUSIC_STATE.playlistId=null; MUSIC_STATE.trackId=null; musicSaveState(); }
+}
+async function musicAddTrackToPlaylist(playlistId,trackId){
+  const p=musicPlaylistById(playlistId); if(!p) return;
+  if(!p.trackIds.includes(trackId)){ p.trackIds.push(trackId); try{ await musicIdbPut("playlists",p); }catch(e){} }
+}
+async function musicRemoveTrackFromPlaylist(playlistId,trackId){
+  const p=musicPlaylistById(playlistId); if(!p) return;
+  p.trackIds=p.trackIds.filter(id=>id!==trackId); try{ await musicIdbPut("playlists",p); }catch(e){}
+}
+async function musicReorderTrack(playlistId,trackId,dir){
+  const p=musicPlaylistById(playlistId); if(!p) return;
+  const i=p.trackIds.indexOf(trackId); if(i<0) return;
+  const j=i+dir; if(j<0||j>=p.trackIds.length) return;
+  const arr=p.trackIds; [arr[i],arr[j]]=[arr[j],arr[i]];
+  try{ await musicIdbPut("playlists",p); }catch(e){}
+}
+async function musicDeleteTrack(trackId){
+  MUSIC_TRACKS=(MUSIC_TRACKS||[]).filter(t=>t.id!==trackId);
+  try{ await musicIdbDelete("tracks",trackId); }catch(e){}
+  for(const p of (MUSIC_PLAYLISTS||[])){
+    if(p.trackIds.includes(trackId)){ p.trackIds=p.trackIds.filter(id=>id!==trackId); try{ await musicIdbPut("playlists",p); }catch(e){} }
+  }
+  if(MUSIC_STATE.trackId===trackId) musicStop();
+}
+function musicCurrentOrder(){ const p=musicPlaylistById(MUSIC_STATE.playlistId); return p?p.trackIds.slice():[]; }
+async function musicPlayTrack(playlistId,trackId){
+  await musicEnsureLoaded();
+  const track=musicTrackById(trackId); if(!track){ toast("Brano non trovato (forse eliminato)."); return; }
+  if(MUSIC_OBJECT_URL){ try{ URL.revokeObjectURL(MUSIC_OBJECT_URL); }catch(e){} MUSIC_OBJECT_URL=null; }
+  MUSIC_OBJECT_URL=URL.createObjectURL(track.blob);
+  MUSIC_AUDIO.src=MUSIC_OBJECT_URL;
+  MUSIC_STATE.playlistId=playlistId; MUSIC_STATE.trackId=trackId; MUSIC_STATE.playing=true;
+  musicSaveState();
+  MUSIC_AUDIO.dispatchEvent(new Event("rollone-trackchange"));
+  try{ await MUSIC_AUDIO.play(); }catch(e){ /* alcuni browser richiedono un gesto utente: qui è già presente, chi chiama parte sempre da un click */ }
+}
+function musicPause(){ MUSIC_AUDIO.pause(); MUSIC_STATE.playing=false; musicSaveState(); }
+async function musicResume(){
+  if(!MUSIC_AUDIO.src){ const order=musicCurrentOrder(); if(order.length) await musicPlayTrack(MUSIC_STATE.playlistId,order[0]); return; }
+  try{ await MUSIC_AUDIO.play(); MUSIC_STATE.playing=true; musicSaveState(); }catch(e){}
+}
+function musicToggle(){ if(MUSIC_STATE.playing) musicPause(); else musicResume(); }
+function musicStop(){
+  MUSIC_AUDIO.pause(); try{ MUSIC_AUDIO.removeAttribute("src"); MUSIC_AUDIO.load(); }catch(e){}
+  if(MUSIC_OBJECT_URL){ try{ URL.revokeObjectURL(MUSIC_OBJECT_URL); }catch(e){} MUSIC_OBJECT_URL=null; }
+  MUSIC_STATE.playing=false; MUSIC_AUDIO.dispatchEvent(new Event("rollone-trackchange"));
+}
+async function musicNext(){
+  const order=musicCurrentOrder(); if(!order.length) return;
+  let idx;
+  if(MUSIC_STATE.shuffle) idx=Math.floor(Math.random()*order.length);
+  else{
+    idx=order.indexOf(MUSIC_STATE.trackId)+1;
+    if(idx>=order.length){ if(MUSIC_STATE.repeat==="all") idx=0; else { musicStop(); return; } }
+  }
+  await musicPlayTrack(MUSIC_STATE.playlistId,order[idx]);
+}
+async function musicPrev(){
+  const order=musicCurrentOrder(); if(!order.length) return;
+  let idx=order.indexOf(MUSIC_STATE.trackId)-1; if(idx<0) idx=order.length-1;
+  await musicPlayTrack(MUSIC_STATE.playlistId,order[idx]);
+}
+MUSIC_AUDIO.addEventListener("ended",()=>{
+  if(MUSIC_STATE.repeat==="one"){ MUSIC_AUDIO.currentTime=0; MUSIC_AUDIO.play().catch(()=>{}); return; }
+  musicNext();
+});
+MUSIC_AUDIO.addEventListener("volumechange",musicSaveState);
+/* Widget minimal (RPG Companion / Schermo del DM): mostra brano corrente, play/pausa,
+   avanti/indietro e un accesso rapido al lettore completo. slot distingue le due vedute così
+   ognuna stacca solo i propri ascoltatori quando viene ricostruita, senza toccare l'altra. */
+function musicPlayerWidget(slot){
+  if(MUSIC_WIDGET_ABORT[slot]){ try{ MUSIC_WIDGET_ABORT[slot].abort(); }catch(e){} }
+  const ac=new AbortController(); MUSIC_WIDGET_ABORT[slot]=ac;
+  const wrap=el("div",{class:"card",style:"padding:10px 12px;margin-bottom:12px"});
+  wrap.append(el("div",{style:"font-size:12px;font-weight:700;opacity:.8;margin-bottom:4px"},"🎵 Musica"));
+  const trackName=el("div",{style:"font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"},"Nessun brano in riproduzione");
+  const progressFill=el("div",{style:"height:100%;width:0%;background:var(--gold2,#e0a83c)"});
+  const progress=el("div",{style:"height:3px;background:rgba(127,127,127,.25);border-radius:2px;margin:6px 0;overflow:hidden"},progressFill);
+  const playBtn=el("button",{class:"iconbtn",onclick:()=>musicToggle()},"▶");
+  const controls=el("div",{style:"display:flex;gap:6px;align-items:center;margin-top:2px"},
+    el("button",{class:"iconbtn",onclick:()=>musicPrev()},"⏮"), playBtn,
+    el("button",{class:"iconbtn",onclick:()=>musicNext()},"⏭"),
+    el("div",{style:"flex:1"}),
+    el("button",{class:"btn ghost sm",onclick:()=>musicPlayerModal()},"Apri lettore"));
+  wrap.append(trackName,progress,controls);
+  function refresh(){
+    const t=musicTrackById(MUSIC_STATE.trackId);
+    trackName.textContent=t?t.name:"Nessun brano in riproduzione";
+    playBtn.textContent=MUSIC_STATE.playing?"⏸":"▶";
+    const pct=(MUSIC_AUDIO.duration&&isFinite(MUSIC_AUDIO.duration))?(MUSIC_AUDIO.currentTime/MUSIC_AUDIO.duration*100):0;
+    progressFill.style.width=pct+"%";
+  }
+  ["play","pause","timeupdate","loadedmetadata","ended","rollone-trackchange"].forEach(evt=>{
+    MUSIC_AUDIO.addEventListener(evt,refresh,{signal:ac.signal});
+  });
+  refresh();
+  musicEnsureLoaded().then(refresh);
+  return wrap;
+}
+/* Piccola finestra di testo riusabile per nome/rinomina catalogo. Non uso window.prompt(): il
+   resto dell'app evita deliberatamente i dialog nativi del browser (vedi customSelect/styleSelect
+   qui sopra, introdotti apposta perché i popup di sistema rompono lo stile su Android), e
+   window.prompt() in particolare non è garantito nella WebView Android di Capacitor. Riapre il
+   modale del lettore dopo conferma/annulla, così la sequenza "rinomina→torna alla lista" resta
+   fluida come con le altre azioni del lettore. */
+function textPromptModal(title,defaultValue,onSubmit,onCancel){
+  const input=el("input",{type:"text",value:defaultValue||"",style:"width:100%"});
+  const submit=()=>{ const v=input.value; closeModal(); onSubmit(v); };
+  input.addEventListener("keydown",e=>{ if(e.key==="Enter"){ e.preventDefault(); submit(); } });
+  const body=el("div",{},
+    el("div",{style:"margin-bottom:12px"},input),
+    el("div",{style:"display:flex;gap:10px;justify-content:flex-end"},
+      el("button",{class:"btn ghost",onclick:()=>{ closeModal(); if(onCancel) onCancel(); }},"Annulla"),
+      el("button",{class:"btn",onclick:submit},"Salva")));
+  modal(title,body);
+  setTimeout(()=>{ input.focus(); input.select(); },30);
+}
+// Retrocompatibilità: il lettore musicale usava questa funzione col nome originale, prima che
+// diventasse generica per essere riusabile anche fuori dal contesto del player (es. nomi scena).
+function musicPromptModal(title,defaultValue,onSubmit){
+  textPromptModal(title,defaultValue,onSubmit,()=>musicRenderPlayerModal());
+}
+/* Lettore completo (modale): caricamento file, libreria, playlist multiple riordinabili — aperto
+   dal pulsante in Impostazioni o da "Apri lettore" nei widget minimal. */
+function musicPlayerModal(){
+  musicEnsureLoaded().then(()=>musicRenderPlayerModal());
+  musicRenderPlayerModal(); // prima resa immediata (eventualmente vuota) così il modale si apre subito
+}
+function musicRenderPlayerModal(){
+  const tracks=MUSIC_TRACKS||[], playlists=MUSIC_PLAYLISTS||[];
+  if(!MUSIC_STATE.playlistId && playlists.length) MUSIC_STATE.playlistId=playlists[0].id;
+  const activePlaylist=musicPlaylistById(MUSIC_STATE.playlistId)||playlists[0]||null;
+
+  const wrap=el("div",{});
+  // --- Caricamento ---
+  const fileIn=el("input",{type:"file",accept:"audio/*,.mp3,.m4a,.wav,.ogg,.flac",multiple:"multiple",style:"display:none"});
+  fileIn.onchange=async()=>{ if(!fileIn.files||!fileIn.files.length) return; await musicUploadFiles(fileIn.files); fileIn.value=""; musicRenderPlayerModal(); };
+  wrap.append(el("div",{style:"display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:14px"},
+    el("label",{class:"btn sm",style:"cursor:pointer"},"⬆ Carica musica",fileIn),
+    el("span",{class:"muted",style:"font-size:12px"},"MP3 e altri formati audio, max 30 MB a file. Salvati solo su questo dispositivo.")));
+
+  // --- Selettore playlist / catalogo ---
+  const plRow=el("div",{style:"display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px"});
+  const plSel=el("select",{});
+  playlists.forEach(p=>plSel.append(el("option",{value:p.id,selected:activePlaylist&&p.id===activePlaylist.id?"selected":null},p.name+" ("+p.trackIds.length+")")));
+  plSel.onchange=()=>{ MUSIC_STATE.playlistId=plSel.value; musicSaveState(); musicRenderPlayerModal(); };
+  plRow.append(el("label",{style:"font-size:12px;color:var(--muted)"},"Catalogo/playlist:"),styleSelect(plSel),
+    el("button",{class:"btn ghost sm",onclick:()=>{
+      musicPromptModal("Nuovo catalogo","",async(name)=>{
+        const p=await musicCreatePlaylist(name); MUSIC_STATE.playlistId=p.id; musicSaveState(); musicRenderPlayerModal();
+      });
+    }},"+ Nuovo catalogo"));
+  if(activePlaylist){
+    plRow.append(el("button",{class:"btn ghost sm",onclick:()=>{
+      musicPromptModal("Rinomina catalogo",activePlaylist.name,(name)=>{
+        musicRenamePlaylist(activePlaylist.id,name).then(musicRenderPlayerModal);
+      });
+    }},"✎ Rinomina"));
+    plRow.append(el("button",{class:"btn ghost sm",onclick:()=>confirmModal("Eliminare il catalogo?","«"+activePlaylist.name+"» verrà eliminato (i brani restano nella libreria). Irreversibile.",()=>{
+      musicDeletePlaylist(activePlaylist.id).then(musicRenderPlayerModal);
+    })},"🗑 Elimina catalogo"));
+  }
+  wrap.append(plRow);
+
+  if(activePlaylist){
+    wrap.append(el("div",{style:"display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:6px"},
+      el("button",{class:"btn sm",disabled:activePlaylist.trackIds.length?null:"disabled",onclick:()=>{
+        musicPlayTrack(activePlaylist.id,activePlaylist.trackIds[0]);
+      }},"▶ Riproduci catalogo"),
+      el("label",{style:"display:flex;align-items:center;gap:5px;font-size:12px"},
+        (()=>{const cb=el("input",{type:"checkbox"}); cb.checked=MUSIC_STATE.shuffle; cb.onchange=()=>{MUSIC_STATE.shuffle=cb.checked;musicSaveState();}; return cb;})(),"mescola"),
+      (()=>{
+        const sel=el("select",{style:"font-size:12px"});
+        [["off","niente ripetizione"],["all","ripeti catalogo"],["one","ripeti brano"]].forEach(([v,l])=>sel.append(el("option",{value:v,selected:MUSIC_STATE.repeat===v?"selected":null},l)));
+        sel.onchange=()=>{MUSIC_STATE.repeat=sel.value;musicSaveState();};
+        return styleSelect(sel);
+      })()));
+    // --- Elenco brani del catalogo, riordinabile ---
+    const plList=el("div",{style:"margin-bottom:16px"});
+    if(!activePlaylist.trackIds.length) plList.append(el("p",{class:"muted",style:"font-size:12px"},"Catalogo vuoto: aggiungi brani dalla libreria qui sotto."));
+    activePlaylist.trackIds.forEach((tid,i)=>{
+      const t=musicTrackById(tid);
+      const row=el("div",{style:"display:flex;align-items:center;gap:6px;padding:6px 8px;border-radius:6px;background:rgba(127,127,127,.08);margin-bottom:4px"});
+      row.append(el("span",{style:"flex:1;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"+(MUSIC_STATE.trackId===tid?";font-weight:700":"")},
+        (MUSIC_STATE.trackId===tid?"▶ ":"")+(t?t.name:"(brano eliminato)")));
+      row.append(el("button",{class:"iconbtn",disabled:i===0?"disabled":null,onclick:()=>musicReorderTrack(activePlaylist.id,tid,-1).then(musicRenderPlayerModal)},"↑"));
+      row.append(el("button",{class:"iconbtn",disabled:i===activePlaylist.trackIds.length-1?"disabled":null,onclick:()=>musicReorderTrack(activePlaylist.id,tid,1).then(musicRenderPlayerModal)},"↓"));
+      if(t) row.append(el("button",{class:"iconbtn",onclick:()=>musicPlayTrack(activePlaylist.id,tid)},"▶"));
+      row.append(el("button",{class:"iconbtn",onclick:()=>musicRemoveTrackFromPlaylist(activePlaylist.id,tid).then(musicRenderPlayerModal)},"✕"));
+      plList.append(row);
+    });
+    wrap.append(el("h4",{style:"font-size:13px;margin:0 0 6px"},"Brani nel catalogo"),plList);
+  }
+
+  // --- Libreria completa ---
+  wrap.append(el("h4",{style:"font-size:13px;margin:0 0 6px"},"📚 Libreria ("+tracks.length+")"));
+  const libList=el("div",{});
+  if(!tracks.length) libList.append(el("p",{class:"muted",style:"font-size:12px"},"Nessun brano caricato ancora."));
+  tracks.slice().sort((a,b)=>a.name.localeCompare(b.name)).forEach(t=>{
+    const row=el("div",{style:"display:flex;align-items:center;gap:6px;padding:6px 8px;border-radius:6px;background:rgba(127,127,127,.05);margin-bottom:4px"});
+    row.append(el("span",{style:"flex:1;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"},t.name+" · "+Math.round(t.size/1024/1024*10)/10+" MB"));
+    if(activePlaylist) row.append(el("button",{class:"btn ghost sm",disabled:activePlaylist.trackIds.includes(t.id)?"disabled":null,onclick:()=>musicAddTrackToPlaylist(activePlaylist.id,t.id).then(musicRenderPlayerModal)},"+ al catalogo"));
+    row.append(el("button",{class:"iconbtn",onclick:()=>musicPlayTrack(activePlaylist?activePlaylist.id:null,t.id)},"▶"));
+    row.append(el("button",{class:"btn red sm",onclick:()=>confirmModal("Eliminare il brano?","«"+t.name+"» verrà rimosso dalla libreria e da ogni catalogo. Irreversibile.",()=>{
+      musicDeleteTrack(t.id).then(musicRenderPlayerModal);
+    })},"🗑"));
+    libList.append(row);
+  });
+  wrap.append(libList);
+
+  modal("🎵 Lettore musicale",wrap);
+}
+
 function viewSettings(){
   const wrap=el("div",{class:"grid"});
   wrap.append(el("h2",{style:"color:var(--gold2)"},"⚙ Impostazioni"));
@@ -6543,6 +7928,7 @@ function viewSettings(){
       }},"Salva nome");
       mpBody.append(el("div",{style:row+";margin-top:8px;align-items:center"},nameIn,saveBtn));
       mpBody.append(el("div",{style:"display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"},
+        el("button",{class:"btn ghost sm",onclick:()=>amiciModal()},"🤝 Amici"),
         el("button",{class:"btn ghost sm",onclick:async()=>{ await mpCheckInvites(false); }},"🔔 Controlla inviti"),
         el("button",{class:"btn ghost sm",onclick:async()=>{ await mpSignOut(); drawMpSettings(); }},"Esci")));
 
@@ -6743,6 +8129,13 @@ function viewSettings(){
     el("button",{class:"btn ghost",onclick:importDataFile},"⬆ Importa dati")));
   c1.append(el("p",{class:"muted",style:"font-size:12px;margin-top:6px"},"Formato: JSON."));
   wrap.append(c1);
+
+  const cMusic=el("div",{class:"card"});
+  cMusic.append(el("h3",{style:"color:var(--gold2)"},"🎵 Lettore musicale"));
+  cMusic.append(el("p",{class:"muted",style:"font-size:13px"},"Carica i tuoi mp3 e crea playlist personalizzate (anche più cataloghi separati, es. «Preferiti», «Battaglia», «Taverna»). I brani restano solo su questo dispositivo. Un lettore minimal è disponibile in RPG Companion e Schermo del DM, e la musica continua in sottofondo anche muovendoti nell'app."));
+  cMusic.append(el("div",{style:row+";margin-top:8px"},
+    el("button",{class:"btn ghost sm",onclick:()=>musicPlayerModal()},"🎵 Apri il lettore")));
+  wrap.append(cMusic);
 
   const c3=el("div",{class:"card"});
   c3.append(el("h3",{style:"color:var(--red2)"},"Manutenzione"));
@@ -8284,7 +9677,7 @@ function render(){
   // ne ha più bisogno.
   document.querySelectorAll(".csel-list.csel-portal").forEach(l=>l.remove());
   const app=$("#app"); app.innerHTML="";
-  const VIEW_NAMES={home:"Personaggi",sheet:"Scheda Personaggio",companion:"RPG Companion",wizard:"Crea Personaggio",howto:"Come si gioca",classes:"Classi & Sottoclassi",bestiary:"Bestiario",forge:"La Forgia",explore:"Esplora Dungeon",dmscreen:"Schermo del Dungeon Master",tavolo:"Tavolo",compendium:"Compendio",treasure:"Tesori (Treasure Untold)",epic:"Livelli Epici (21-30)",settings:"Impostazioni"};
+  const VIEW_NAMES={home:"Personaggi",sheet:"Scheda Personaggio",companion:"RPG Companion",wizard:"Crea Personaggio",howto:"Come si gioca",classes:"Classi & Sottoclassi",bestiary:"Bestiario",forge:"La Forgia",explore:"Esplora Dungeon",dmscreen:"Schermo del Dungeon Master",tavolo:"Tavolo",community:"Community",compendium:"Compendio",treasure:"Tesori (Treasure Untold)",epic:"Livelli Epici (21-30)",settings:"Impostazioni"};
   const _cr=document.getElementById("crumb"); if(_cr)_cr.textContent=VIEW_NAMES[STATE.view]||"";
   // Anche qui: se il personaggio attivo ha dati che mandano in errore derived() (es. una classe
   // forgiata/homebrew salvata in modo incompleto), non deve poter bloccare TUTTO render() prima
@@ -8315,6 +9708,7 @@ function render(){
       case "explore": node=viewExplore(); break;
       case "dmscreen": node=viewDMScreen(); break;
       case "tavolo": node=aiFeatureGate("tavoloEnabled","Tavolo",viewTavolo); break;
+      case "community": node=viewCommunity(); break;
       case "compendium": node=viewCompendium(); break;
       case "classes": node=viewClasses(); break;
       case "settings": node=viewSettings(); break;
@@ -9374,6 +10768,7 @@ function companionDashboard(c){
   wrap.append(el("div",{style:"display:flex;justify-content:space-between;align-items:center"},
     el("h2",{style:"margin:0;color:var(--gold2)"},"RPG Companion"),
     el("button",{class:"btn ghost sm",onclick:()=>go("sheet",{current:c.id})},"← Scheda completa")));
+  wrap.append(musicPlayerWidget("companion"));
   // FIX (2026-09-02): la "Cronologia tiri" completa stava in fondo alla pagina, dopo la riga
   // dei moduli — l'utente doveva scorrere tutta la dashboard per vederla, mentre il senso naturale
   // è vederla subito sotto al lanciatore. Ora vive nella stessa colonna del pannello di tiro,
@@ -9951,7 +11346,16 @@ async function saveBytesChoosingLocation(bytes, fileName, mimeType, label){
     if (window.Capacitor && RollonePrint && RollonePrint.saveFile) {
       let binary=""; for (let i=0;i<bytes.length;i++) binary+=String.fromCharCode(bytes[i]);
       const b64 = btoa(binary);
-      await withTimeout(RollonePrint.saveFile({ data: b64, fileName, mimeType }), 8000, "Salvataggio");
+      // BUG FIX (2026-09-04, segnalato di nuovo da Carmine dopo la 1.9.10 — "lo stesso non va,
+      // vedi la versione 1.8.9"): la 1.8.9 (l'ultima versione confermata funzionante da Carmine)
+      // usava qui un tetto di 20000ms, non 8000ms. Il tetto era stato abbassato a 8000ms nella
+      // v1.9.3 sulla base di un'ipotesi("se il sistema operativo non risponde in pochi secondi non
+      // risponderà nemmeno aspettando di più") che il ripetersi dello stesso identico problema
+      // dimostra sbagliata: sul dispositivo di Carmine il selettore "Salva con nome" nativo (foglio
+      // di sistema Android, Storage Access Framework) a volte impiega più di 8 secondi a comparire/
+      // rispondere ma alla fine RIESCE — tagliarlo a 8s lo trasforma in un fallimento garantito anche
+      // quando avrebbe funzionato. Ripristinato 20000ms come nella 1.8.9.
+      await withTimeout(RollonePrint.saveFile({ data: b64, fileName, mimeType }), 20000, "Salvataggio");
       toast(label+" salvato.");
       return;
     }
@@ -9985,9 +11389,14 @@ async function saveBytesChoosingLocation(bytes, fileName, mimeType, label){
       // mai, Promise che resta sospesa), qui non c'era alcun limite di tempo: l'attesa poteva
       // essere indefinita, riproducendo esattamente il blocco già visto. Ora anche questi due
       // passaggi hanno un tetto massimo, così l'attesa totale resta comunque limitata.
+      // FIX (2026-09-04, stesso motivo del tetto di RollonePrint qui sopra): 8000ms per la
+      // condivisione (Share.share, che apre anch'essa un foglio di sistema) si è dimostrato troppo
+      // corto sullo stesso dispositivo. Filesystem.writeFile scrive solo nella cache locale
+      // dell'app (nessuna finestra di sistema coinvolta) e resta quindi un'operazione rapida: il suo
+      // tetto originale va bene com'è. Portato solo Share.share a 20000ms, come RollonePrint.
       const res = await withTimeout(Filesystem.writeFile({ path: fileName, data: b64, directory: "CACHE" }), 8000, "Salvataggio (cache)");
       if (Share && res && res.uri) {
-        await withTimeout(Share.share({ title: fileName, url: res.uri, dialogTitle: "Salva "+label.toLowerCase() }), 8000, "Condivisione");
+        await withTimeout(Share.share({ title: fileName, url: res.uri, dialogTitle: "Salva "+label.toLowerCase() }), 20000, "Condivisione");
         toast("Scegli «File» (o «Drive») e poi «Download» per salvarlo lì.");
         return;
       }
@@ -9999,8 +11408,18 @@ async function saveBytesChoosingLocation(bytes, fileName, mimeType, label){
       // bug precedenti) — risultato: nessun modo di capire perché stesse fallendo davvero. Ora
       // l'errore vero viene mostrato, così un prossimo test reale dice subito la causa esatta
       // invece di un generico "non funziona".
-      toast("Salvataggio non riuscito: "+((e&&(e.message||e.errorMessage))||String(e)||"errore sconosciuto")+". Segnala questo messaggio così posso correggerlo.");
-      return;
+      // BUG FIX (2026-09-04, segnalato da Carmine: "il sistema di esportazione fixato nella 1.8.9
+      // si è rotto di nuovo, salvataggio scaduto (timeout) e poi il file non si salva in nessun
+      // modo"): questo `return` interrompeva la funzione qui, PRIMA di arrivare al fallback
+      // "che non può fallire" scritto apposta per questo scenario (vedi FIX 2026-09-03 v3 più
+      // sotto, il modulo di testo copiabile per i backup JSON/HTML). Risultato pratico: se sia
+      // RollonePrint SIA Filesystem/Share fallivano entrambi sullo stesso dispositivo (esattamente
+      // il caso batteria/MIUI che quel fallback era pensato per coprire), l'utente vedeva solo
+      // questo messaggio di errore e non arrivava mai al testo copiabile — il fallback "garantito"
+      // era in realtà irraggiungibile da questo punto del codice. Tolto il `return`: ora l'errore
+      // resta visibile come avviso (utile per capire la causa), ma l'esecuzione prosegue verso gli
+      // altri tentativi (selettore file, condivisione testo) e infine verso il fallback garantito.
+      toast("Salvataggio non riuscito: "+((e&&(e.message||e.errorMessage))||String(e)||"errore sconosciuto")+". Provo con un metodo alternativo.");
     }
   }
   try{
@@ -13294,6 +14713,7 @@ let DM_TAB="Scontro";
 function viewDMScreen(){
   const wrap=el("div",{class:"grid"});
   wrap.append(el("h2",{style:"color:var(--gold2)"},"🛡 Schermo del DM"));
+  wrap.append(musicPlayerWidget("dmscreen"));
   const tabs=el("div",{style:"display:flex;gap:6px;flex-wrap:wrap"});
   ["Scontro","Dadi","Riferimenti","Generatori","Negozi","Vita del Villaggio","Gilda","Mondo","Cronaca","Mappe","Campagna AI","Dungeon AI","Domini Horror","Note"].forEach(t=>{
     tabs.append(el("button",{class:"tabbtn"+(DM_TAB===t?" active":""),
@@ -15675,6 +17095,7 @@ applyTextScale();
 // il proprio processo main.js, il web non ha alcun aggiornamento automatico) l'avvio resta
 // immediato, come prima.
 function bootApp(){
+  try{ musicLoadState(); }catch(e){}
   initNavHistory();
   authGate().then(render);
   // Se il dispositivo era offline al primissimo avvio (nessun login mai completato) ed è stato
@@ -15740,6 +17161,24 @@ function extractJsonText(raw){
   if(end<=start) return s;
   return s.slice(start,end+1);
 }
+// Rileva una risposta che sembra arrivare da un classificatore di moderazione invece che da un vero
+// modello di chat (es. nvidia/nemotron-3.5-content-safety, che nel catalogo gratuito di OpenRouter
+// risponde a QUALSIASI richiesta solo con etichette come "safe"/"unsafe" per il prompt e per la
+// risposta, mai con un vero testo narrativo o un JSON strutturato). Aggiunto il 2026-09-04 dopo aver
+// verificato che era la causa dell'errore "utente:safe safe" segnalato dall'utente: anche cambiando
+// la catena di modelli, resta una difesa utile per qualsiasi futuro modello "non di chat" che finisse
+// nel catalogo gratuito con lo stesso comportamento. Se scatta, si tratta come errore riprovabile:
+// si passa in silenzio al modello successivo della catena, esattamente come per un errore di rete.
+function looksLikeSafetyClassifierReply(text){
+  const t=String(text||"").trim();
+  if(!t) return false;
+  // Risposte legittime (narrazione, JSON di una campagna/personaggio) sono sempre molto più lunghe
+  // di questo; una risposta cortissima fatta solo delle etichette tipiche del classificatore NVIDIA
+  // Content Safety ("safe"/"unsafe", da sole o ripetute più volte, con o senza il prefisso di ruolo
+  // "user:"/"utente:"/"response:" che il modello a volte antepone) non è mai una risposta valida qui.
+  if(t.length>40) return false;
+  return /^(?:(?:utente|user|prompt|response|risposta)\s*[:\-]?\s*)*(?:safe|unsafe)(?:\s*[,.]?\s*(?:safe|unsafe))*\s*[.!]?$/i.test(t);
+}
 function isRetryableAiError(status, msg){
   if(status===402||status===404||status===429) return true;
   if(status>=500) return true;
@@ -15792,6 +17231,13 @@ async function geminiCallOnce(model, messages, jsonMode, maxTokens, timeoutMs){
   // come ripiego prima di considerare la risposta davvero vuota (bug reale scoperto testando dal vivo
   // la catena di modelli gratuiti: alcuni tornavano content:null con reasoning:"OK").
   const text=((choice.message&&(choice.message.content||choice.message.reasoning))||"").trim();
+  // Difesa contro un modello "non di chat" finito nel catalogo gratuito (vedi commento su
+  // looksLikeSafetyClassifierReply più sopra): se la risposta è solo un'etichetta di moderazione,
+  // non è mai una risposta valida per questa app — si tratta come errore riprovabile, si passa al
+  // modello successivo della catena senza far vedere nulla di strano all'utente.
+  if(looksLikeSafetyClassifierReply(text)){
+    const err=new Error("risposta non valida (modello di moderazione, non di chat)"); err._retryable=true; throw err;
+  }
   // finish_reason "length" = risposta tagliata perché ha raggiunto il limite di token (equivalente
   // al MAX_TOKENS di Gemini). Può presentarsi anche con testo NON vuoto (una risposta parziale,
   // tagliata a metà frase o a metà stringa JSON): la intercettiamo qui, prima che possa arrivare a
@@ -15809,8 +17255,15 @@ async function geminiCallOnce(model, messages, jsonMode, maxTokens, timeoutMs){
   // come errore visibile invece di restituire silenziosamente il nulla.
   if(!text && choice.finish_reason && choice.finish_reason!=="stop"){
     const fr=choice.finish_reason;
-    const human=fr==="content_filter"?"filtri di sicurezza (l'azione richiesta è stata considerata troppo estrema)":fr;
-    throw new Error("Il narratore non ha potuto rispondere a questa azione ("+human+"). Prova a riformularla in modo meno estremo, o proseguila diversamente.");
+    // Un content_filter è una scelta del SINGOLO modello/provider, non una regola dell'app (RollOne
+    // ha volutamente un modulo horror che richiede sangue/violenza/orrore come contenuto legittimo):
+    // provider diversi hanno soglie diverse, quindi non è corretto arrendersi al primo rifiuto. Si
+    // riprova in silenzio con il modello successivo della catena; solo se lo rifiutano TUTTI ha senso
+    // mostrare un messaggio (gestito in geminiCall, che riconosce err._contentFiltered).
+    if(fr==="content_filter"){
+      const err=new Error("bloccato dai filtri di sicurezza di questo modello"); err._retryable=true; err._contentFiltered=true; throw err;
+    }
+    throw new Error("Il narratore non ha potuto rispondere a questa azione ("+fr+"). Prova a riformularla in modo meno estremo, o proseguila diversamente.");
   }
   if(!text){ const err=new Error("risposta vuota"); err._retryable=true; throw err; }
   return text;
@@ -15838,18 +17291,26 @@ async function geminiCall(contents, systemInstruction, jsonMode, maxTokens){
   // Timeout più corto per tentativo quando c'è una catena di più modelli da provare (altrimenti nel
   // caso peggiore si sommerebbero troppi secondi di attesa); resta 45s se c'è un solo modello.
   const perAttemptTimeout = candidates.length>1 ? 20000 : 45000;
-  let lastErr=null;
+  let lastErr=null, attempts=[];
   for(let i=0;i<candidates.length;i++){
     try{
       return await geminiCallOnce(candidates[i], messages, jsonMode, maxTokens, perAttemptTimeout);
     }catch(e){
-      lastErr=e;
+      lastErr=e; attempts.push(e);
       if(!e._retryable) throw e; // errore non recuperabile (es. chiave non valida): niente da salvare riprovando un altro modello
       // altrimenti prova silenziosamente il prossimo modello della catena
     }
   }
   // Tutti i modelli della catena hanno fallito: solo ora si mostra un errore leggibile.
   const status=lastErr&&lastErr._status;
+  // Solo se DAVVERO ogni singolo modello della catena ha rifiutato per filtri di sicurezza (non un
+  // mix con rate-limit/quota/timeout) ha senso dire all'utente che è un problema di contenuto: RollOne
+  // ha un modulo horror che richiede sangue/violenza come contenuto legittimo, quindi il messaggio è
+  // pensato per chi ha davvero esaurito la catena di modelli con soglie diverse, non per un singolo
+  // rifiuto isolato (quello viene già assorbito in silenzio, si passa al modello successivo).
+  if(attempts.length && attempts.every(e=>e._contentFiltered)){
+    throw new Error("Tutti i modelli gratuiti provati hanno rifiutato di rispondere a questa azione per i propri filtri di sicurezza interni. Prova a riformularla in modo un po' meno estremo, riprova tra poco (i filtri di ogni modello variano nel tempo), oppure imposta un provider/modello diverso in Impostazioni AI.");
+  }
   if(status===402) throw new Error("Tutti i modelli gratuiti provati risultano senza credito/quota disponibile in questo momento. Riprova tra poco, o imposta un modello/provider a pagamento in Impostazioni AI.");
   if(status===429) throw new Error("Tutti i modelli gratuiti provati sono momentaneamente sovraccarichi (limite di richieste). Riprova tra qualche minuto.");
   throw new Error("Il narratore non è riuscito a rispondere con nessuno dei modelli disponibili al momento. Riprova tra poco.");
@@ -16164,7 +17625,8 @@ function qualityDirectives(){
    reactiveNpcGuidelines() (negozi/gilda/villaggio), così NESSUN narratore dell'app resta senza
    questa istruzione. */
 function unusualPlayerActionGuidelines(){
-  return "AZIONI INSOLITE, VOLGARI O AL LIMITE (obbligatorio, non ignorare mai): se il giocatore propone qualcosa di strano, sgradevole, provocatorio, creativo o inaspettato (anche qualcosa di disgustoso, comico, offensivo per un PNG, o un tentativo di derubare/aggredire/insultare qualcuno), NON bloccarti, NON restare in silenzio e NON rifiutare in modo secco: reagisci SEMPRE con una conseguenza narrativa credibile e in personaggio (il PNG può arrabbiarsi, disgustarsi, ridere, chiamare le guardie, cacciare i giocatori dal negozio, chiedere un tiro di reazione, o qualunque altra reazione umana coerente col suo carattere), esattamente come farebbe una persona vera messa di fronte a quella situazione. Non trattare mai un'azione strana come un errore tecnico da segnalare: è sempre e solo un'azione di gioco a cui reagire restando in personaggio. Rifiuta di descrivere nel dettaglio solo contenuti realmente non adatti al tavolo (violenza esplicita, contenuti sessuali, e simili), e in quel caso stronca la scena narrativamente restando comunque in personaggio (es. il PNG caccia via i giocatori, si rifiuta con sdegno, chiama le guardie) invece di uscire dal ruolo per spiegarti perché non puoi scriverlo.";
+  return "AZIONI INSOLITE, VOLGARI O AL LIMITE (obbligatorio, non ignorare mai): se il giocatore propone qualcosa di strano, sgradevole, provocatorio, creativo o inaspettato (anche qualcosa di disgustoso, comico, offensivo per un PNG, o un tentativo di derubare/aggredire/insultare qualcuno), NON bloccarti, NON restare in silenzio e NON rifiutare in modo secco: reagisci SEMPRE con una conseguenza narrativa credibile e in personaggio (il PNG può arrabbiarsi, disgustarsi, ridere, chiamare le guardie, cacciare i giocatori dal negozio, chiedere un tiro di reazione, o qualunque altra reazione umana coerente col suo carattere), esattamente come farebbe una persona vera messa di fronte a quella situazione. Non trattare mai un'azione strana come un errore tecnico da segnalare: è sempre e solo un'azione di gioco a cui reagire restando in personaggio. "+
+    "QUESTA È UN'APP DI GIOCO DI RUOLO HORROR/DARK FANTASY: sangue, ferite, mostri, morte, combattimento e violenza anche cruda e dettagliata fanno parte integrante del genere e sono contenuto narrativo LEGITTIMO — descrivili con la stessa naturalezza con cui li descriverebbe un manuale o un'avventura horror pubblicata, senza evitarli, edulcorarli o interrompere la scena per questo: è esattamente ciò che il tavolo si aspetta da una scena horror. L'unico limite resta il contenuto sessualmente esplicito: in quel caso non descriverlo nel dettaglio, ma stronca o sposta la scena narrativamente restando comunque in personaggio (es. il PNG caccia via i giocatori, la scena stacca a un momento successivo, un evento interrompe il momento) invece di uscire dal ruolo per spiegare perché non puoi scriverlo.";
 }
 /* Alcuni modelli gratuiti (in fondo alla catena di fallback) a volte restituiscono, invece di una
    battuta in personaggio, una risposta "meta" che si lamenta di placeholder tra parentesi quadre
@@ -16586,6 +18048,8 @@ function scrollChatBottom(){ const b=$("#aiChatScroll"); if(b) b.scrollTop=b.scr
    a parte, riservato al tavolo multiplayer con mappa condivisa.
    ========================================================================= */
 let VTT_TOOL="select";
+let VTT_FOG_MODE="reveal"; // "reveal" | "hide" — modalità del pennello nebbia, vedi mapCanvasWidget
+let VTT_DRAW_COLOR="#e0a83c", VTT_DRAW_WIDTH=4; // colore/spessore correnti del pennello disegno libero, vedi mapCanvasWidget
 const VTT_TOOL_ICONS={
   select:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3l6 16 2.2-6.8L20 10 5 3z"/></svg>',
   ruler:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16l5-5 12-12M8 11l2 2M11 8l2 2M14 5l2 2"/><path d="M3 16l5 5L21 8l-5-5-13 13z"/></svg>',
@@ -16601,12 +18065,14 @@ function vttToolbar(){
     {id:"draw",label:"Disegno libero"}
   ];
   defs.forEach((d,i)=>{
-    const soon=(d.id==="fog"||d.id==="draw");
+    // "fog" e "draw" sono entrambi attivi ora (rendering + pennello): nessuno strumento resta
+    // più "in arrivo" in questa barra.
+    const soon=false;
     const btn=el("button",{
       class:"vtt-tool"+(VTT_TOOL===d.id?" active":"")+(soon?" disabled":""),
       type:"button", title:d.label+(soon?" — in arrivo in un prossimo aggiornamento":""),
       onclick:()=>{
-        if(soon){ toast((d.id==="fog"?"Nebbia di guerra":"Disegno libero")+": in arrivo in un prossimo aggiornamento."); return; }
+        if(soon){ toast("In arrivo in un prossimo aggiornamento."); return; }
         VTT_TOOL=d.id; render();
       }
     });
@@ -16627,6 +18093,13 @@ function mpTablePanel(c){
   if(isDm) head.append(el("div",{style:"display:flex;gap:6px;flex-wrap:wrap"},
     el("button",{class:"btn ghost sm",onclick:()=>mpInviteModal(c)},"🤝 Invita amici")));
   box.append(head);
+  // Selettore del proprio stato di presenza (pronto/assente/non disturbare): lo vede chi ha
+  // aperto il tavolo, per segnalare agli altri se è disponibile prima ancora che qualcuno gli
+  // scriva. Puramente Realtime, nessuna scrittura su tabella (vedi mpSetPresenceStatus).
+  const myStatusSel=styleSelect(el("select",{style:"font-size:11px"},
+    ...Object.entries(MP_PRESENCE_STATUSES).map(([k,v])=>el("option",{value:k,selected:(STATE.mp.presenceStatus||"online")===k?"selected":null},v.label))));
+  myStatusSel.onchange=()=>mpSetPresenceStatus(myStatusSel.value);
+  box.append(el("div",{style:"display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);margin-top:6px"},"Il tuo stato:",myStatusSel));
   const body=el("div",{style:"margin-top:8px"},el("div",{class:"muted",style:"font-size:12px"},"Carico il tavolo…"));
   box.append(body);
   (async()=>{
@@ -16636,7 +18109,8 @@ function mpTablePanel(c){
     const pendingCount=roster.filter(r=>r.character&&r.character.action&&r.character.action.text&&r.character.action.ts>(c.mpLastResolvedTs||0)).length;
     roster.forEach(r=>{
       if(r.playerId===MP_USER_ID) return; // non serve mostrare sé stessi nell'elenco del tavolo
-      const dot=el("span",{style:"display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;background:"+(r.online?"#3fa34d":"#888")});
+      const pd=mpPresenceDot(r.online,r.status);
+      const dot=el("span",{title:pd.label,style:"display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;background:"+pd.color});
       const ch=r.character;
       const chInfo=ch? (ch.name||"?")+" · liv."+(ch.level||1)+" · "+(ch.gold||0)+" mo · PF "+(ch.hpCur||0)+"/"+(ch.hpMax||0) : "non ha ancora scelto un personaggio";
       const row=el("div",{style:"padding:8px;border-radius:8px;background:rgba(0,0,0,.12);margin-bottom:6px"});
@@ -16849,7 +18323,9 @@ function campaignChat(c){
   const sidebar=el("div",{});
   sidebar.append(el("div",{class:"vtt-sb-head"},el("h3",{},c.name)));
   sidebar.append(el("div",{class:"vtt-sb-section"},mpTablePanel(c)));
+  sidebar.append(el("div",{class:"vtt-sb-section"},el("h4",{},"⚔ Iniziativa"),mpCombatPanel(c)));
   sidebar.append(el("div",{class:"vtt-sb-section"},el("h4",{},"Narrazione"),campaignChatLogAndInput(c,{vtt:true})));
+  sidebar.append(el("div",{class:"vtt-sb-section"},el("h4",{},"💬 Chat del tavolo"),mpChatPanel(c)));
   sidebar.append(el("div",{class:"vtt-sb-section"},mpDiceLogPanel(c)));
   outer.append(vttShell(stage,sidebar));
   return outer;
@@ -16927,6 +18403,9 @@ function viewTavolo(){
   if(!(c.log||[]).length) scroll.append(el("div",{class:"muted",style:"font-size:13px;padding:10px"},"Il DM non ha ancora iniziato la narrazione."));
   logSection.append(scroll);
   sidebar.append(logSection);
+
+  sidebar.append(el("div",{class:"vtt-sb-section"},el("h4",{},"⚔ Iniziativa"),mpCombatPanel(c)));
+  sidebar.append(el("div",{class:"vtt-sb-section"},el("h4",{},"💬 Chat del tavolo"),mpChatPanel(c)));
 
   if(binding){
     const actSection=el("div",{class:"vtt-sb-section"});
@@ -18648,7 +20127,7 @@ function removeDarkGift(character, giftName) {
 // installare, nessuna richiesta di reinstallazione.
 (function(){
   if (!window.Capacitor) return;
-  var ROLLONE_CONTENT_VERSION = "1.9.8"; // versione dei contenuti integrata in questa build dell'app (non cambia da sola)
+  var ROLLONE_CONTENT_VERSION = "1.11.0"; // versione dei contenuti integrata in questa build dell'app (non cambia da sola)
   var APPLIED_VERSION_KEY = "rollone-applied-version"; // versione realmente in esecuzione in questo momento
   var MANIFEST_URL = "https://raw.githubusercontent.com/CarmineAbbagnale/rollone-desktop/main/version.json";
   var DB_NAME = "rollone-update", STORE = "html";
@@ -18939,11 +20418,53 @@ function removeDarkGift(character, giftName) {
       }
     }catch(e){ /* controllo best-effort: nessun blocco dell'app se fallisce (offline, CORS, ecc.) */ }
   }
+  // AVVISO AGGIORNAMENTO STRUTTURALE (2026-09-04, richiesto esplicitamente da Carmine dopo il
+  // fix del bug "caratteri ingranditi"): alcuni bug (quello dei caratteri, per esempio) si
+  // possono correggere solo nel codice nativo Android (qui: WebSettings.setTextZoom), NON nei
+  // contenuti che l'app scarica da sola (rollone.html). L'aggiornamento leggero via
+  // checkForUpdate() sopra non può mai portare questo genere di correzione: serve che l'utente
+  // scarichi e installi manualmente il nuovo APK. Prima di questo fix non c'era alcun modo per
+  // l'app di segnalarlo: chi non seguiva le release su un altro canale restava indefinitamente
+  // sulla versione nativa vecchia senza saperlo. Il manifest (version.json) può ora includere un
+  // campo opzionale "apk": {minVersionName, downloadUrl, notice}. Se la versione nativa
+  // installata (letta da @capacitor/app, già presente in app per il tasto Indietro) è più
+  // vecchia di quella richiesta, si mostra un banner fisso in cima allo schermo: non blocca
+  // l'uso dell'app (a differenza degli avvisi showDismissable sopra) perché il problema NON è
+  // grave quanto un fallimento di sicurezza o di salvataggio, ma resta visibile finché non lo si
+  // chiude, e ricompare al prossimo avvio finché la versione nativa non viene davvero aggiornata
+  // (chiuderlo lo nasconde solo per la sessione corrente, salvato in sessionStorage apposta).
+  async function checkApkUpdateNotice(manifest){
+    try{
+      if(!window.Capacitor || !manifest || !manifest.apk || !manifest.apk.minVersionName) return;
+      var AppPlugin = window.Capacitor.Plugins && window.Capacitor.Plugins.App;
+      if(!AppPlugin || !AppPlugin.getInfo) return;
+      var info = await AppPlugin.getInfo(); // {version: versionName, build: versionCode, ...}
+      if(!info || !info.version) return;
+      if(cmpVersions(manifest.apk.minVersionName, info.version) <= 0) return; // già aggiornata
+      var dismissed; try{ dismissed = sessionStorage.getItem("rollone-apk-notice-dismissed"); }catch(e){ dismissed=null; }
+      if(dismissed === manifest.apk.minVersionName) return;
+      if(document.getElementById("apk-update-banner")) return; // già mostrato in questo boot
+      var bar = document.createElement("div");
+      bar.id = "apk-update-banner";
+      bar.style.cssText = "position:fixed;left:0;right:0;top:0;z-index:99997;background:#7d4a0d;color:#fff3e0;font-size:12.5px;line-height:1.4;padding:9px 12px;display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;box-shadow:0 3px 10px rgba(0,0,0,.3)";
+      var msg = manifest.apk.notice || ("È disponibile una correzione che richiede il download manuale del nuovo APK (l'aggiornamento automatico non può applicarla).");
+      bar.innerHTML =
+        '<span>⚠ ' + msg + '</span>' +
+        '<a id="apk-notice-dl" href="' + (manifest.apk.downloadUrl||"#") + '" target="_blank" rel="noopener" style="background:#c99a3c;color:#1b1712;font-weight:700;padding:5px 10px;border-radius:6px;text-decoration:none;white-space:nowrap">Scarica APK</a>' +
+        '<button id="apk-notice-close" style="background:transparent;border:1px solid rgba(255,255,255,.5);color:#fff3e0;padding:5px 10px;border-radius:6px;white-space:nowrap">Più tardi</button>';
+      document.body.appendChild(bar);
+      bar.querySelector("#apk-notice-close").onclick = function(){
+        bar.remove();
+        try{ sessionStorage.setItem("rollone-apk-notice-dismissed", manifest.apk.minVersionName); }catch(e){}
+      };
+    }catch(e){ /* avviso best-effort: nessun blocco dell'app se fallisce */ }
+  }
   async function checkForUpdate(){
     try {
       var res = await fetch(MANIFEST_URL, { cache: "no-store" });
       if (!res.ok) return;
       var manifest = await res.json();
+      checkApkUpdateNotice(manifest); // indipendente dal ramo sotto: va valutato sia a versione contenuti aggiornata sia no
       if (!manifest.version || cmpVersions(manifest.version, getAppliedVersion()) <= 0){
         await selfCheckIntegrity(manifest);
         return;
@@ -19126,15 +20647,5 @@ function removeDarkGift(character, giftName) {
 })();
 </script>
 
-
-<script>
-(function(){
-  try{
-    if ('serviceWorker' in navigator && location.hostname === 'carmineabbagnale.github.io') {
-      navigator.serviceWorker.register('sw.js');
-    }
-  }catch(e){}
-})();
-</script>
 </body>
 </html>
