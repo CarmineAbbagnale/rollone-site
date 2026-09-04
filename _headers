@@ -1,0 +1,14 @@
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
+
+/app/sw.js
+  Cache-Control: no-cache
+
+/app/manifest.json
+  Cache-Control: no-cache
+
+/assets/*
+  Cache-Control: public, max-age=86400

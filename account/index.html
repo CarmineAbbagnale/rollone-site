@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Il tuo account | RollOne</title>
+<meta name="description" content="Conferma la registrazione o imposta una nuova password per il tuo account RollOne.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../assets/favicon-32x32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../assets/favicon-16x16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<meta name="theme-color" content="#14100b">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+  /* Pagina minimale: non fa parte della navigazione del sito, ci si arriva solo dal link
+     nell'email di Supabase (conferma registrazione o recupero password). RollOne è un'app
+     offline a file singolo senza indirizzo web proprio: questa pagina esiste solo per dare
+     a quel link un posto valido dove atterrare. */
+  main.account { min-height: 70vh; display: flex; align-items: center; justify-content: center; padding: 40px 24px; }
+  .account-card {
+    max-width: 440px; width: 100%; background: var(--bg-elev); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 36px 32px; text-align: center;
+  }
+  .account-card .icon { font-size: 2.4rem; margin-bottom: 8px; }
+  .account-card h1 { font-family: var(--font-display); font-size: 1.5rem; margin: 0 0 12px; color: var(--text); }
+  .account-card p { color: var(--muted); line-height: 1.55; margin: 0 0 20px; }
+  .account-card .btn { display: inline-block; }
+  .pw-form { text-align: left; margin-top: 4px; }
+  .pw-form label { display: block; font-size: 0.9rem; color: var(--muted); margin-bottom: 6px; }
+  .pw-form input {
+    width: 100%; box-sizing: border-box; padding: 10px 12px; margin-bottom: 14px;
+    background: var(--bg-elev2); border: 1px solid var(--border); border-radius: 8px;
+    color: var(--text); font-family: var(--font-body); font-size: 1rem;
+  }
+  .pw-form input:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
+  .pw-form button { width: 100%; cursor: pointer; }
+  .error-text { color: #e08a8a; font-size: 0.9rem; margin: -8px 0 14px; display: none; }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="nav-row">
+    <a class="brand" href="../">
+      <img class="d20" src="../assets/d20.svg" alt="">
+      RollOne
+    </a>
+  </div>
+</header>
+
+<main class="account" id="main-content">
+  <div class="account-card" id="card">
+    <div class="icon">⏳</div>
+    <h1>Un attimo…</h1>
+    <p>Sto verificando il link.</p>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">© 2026 RollOne · <a href="../privacy-policy/">Privacy Policy</a></div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+(function(){
+  var SUPABASE_URL = "https://kvllupuinykufjxgtgsw.supabase.co";
+  var SUPABASE_KEY = "sb_publishable_X2CpVGgtcBJeMwr74h1jzA_RUamz1hE";
+  var card = document.getElementById("card");
+
+  function render(icon, title, text, extraHtml){
+    card.innerHTML =
+      '<div class="icon">'+icon+'</div>' +
+      '<h1>'+title+'</h1>' +
+      '<p>'+text+'</p>' +
+      (extraHtml || '');
+  }
+
+  function showError(msg){
+    render("⚠️", "Qualcosa non ha funzionato",
+      msg + " Se il problema continua, richiedi di nuovo il link dall'app.");
+  }
+
+  function showConfirmed(){
+    render("✅", "Account confermato",
+      "La registrazione è andata a buon fine. Torna a RollOne e accedi con la tua email e password.");
+  }
+
+  function showPasswordForm(client){
+    render("🔑", "Imposta una nuova password",
+      "Scegli una nuova password per il tuo account RollOne.",
+      '<form class="pw-form" id="pwForm">' +
+        '<label for="pw1">Nuova password</label>' +
+        '<input type="password" id="pw1" minlength="6" autocomplete="new-password" required>' +
+        '<label for="pw2">Ripeti la password</label>' +
+        '<input type="password" id="pw2" minlength="6" autocomplete="new-password" required>' +
+        '<p class="error-text" id="pwError"></p>' +
+        '<button type="submit" class="btn btn-primary">Salva nuova password</button>' +
+      '</form>'
+    );
+    document.getElementById("pwForm").addEventListener("submit", function(ev){
+      ev.preventDefault();
+      var pw1 = document.getElementById("pw1").value;
+      var pw2 = document.getElementById("pw2").value;
+      var errEl = document.getElementById("pwError");
+      errEl.style.display = "none";
+      if (pw1.length < 6){
+        errEl.textContent = "La password deve avere almeno 6 caratteri.";
+        errEl.style.display = "block";
+        return;
+      }
+      if (pw1 !== pw2){
+        errEl.textContent = "Le due password non coincidono.";
+        errEl.style.display = "block";
+        return;
+      }
+      var btn = ev.target.querySelector("button");
+      btn.disabled = true; btn.textContent = "Salvataggio…";
+      client.auth.updateUser({ password: pw1 }).then(function(res){
+        if (res.error){
+          errEl.textContent = "Non sono riuscito a salvare la password: " + res.error.message;
+          errEl.style.display = "block";
+          btn.disabled = false; btn.textContent = "Salva nuova password";
+          return;
+        }
+        render("✅", "Password aggiornata",
+          "La tua nuova password è attiva. Torna a RollOne e accedi con quella appena scelta.");
+      }).catch(function(){
+        errEl.textContent = "Errore di connessione. Riprova tra poco.";
+        errEl.style.display = "block";
+        btn.disabled = false; btn.textContent = "Salva nuova password";
+      });
+    });
+  }
+
+  if (typeof window.supabase === "undefined" || !window.supabase.createClient){
+    showError("La libreria necessaria non si è caricata.");
+    return;
+  }
+
+  var client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+    auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: true }
+  });
+
+  var handled = false;
+  var settleTimer = setTimeout(function(){
+    if (!handled){
+      handled = true;
+      // Nessun evento ricevuto entro il tempo massimo: il link non conteneva un token valido
+      // (scaduto, già usato, o pagina aperta a mano senza passare dall'email).
+      showError("Il link non è valido o è scaduto.");
+    }
+  }, 6000);
+
+  client.auth.onAuthStateChange(function(event, session){
+    if (handled) return;
+    if (event === "PASSWORD_RECOVERY"){
+      handled = true; clearTimeout(settleTimer);
+      showPasswordForm(client);
+    } else if (event === "SIGNED_IN" && session){
+      handled = true; clearTimeout(settleTimer);
+      showConfirmed();
+    }
+  });
+})();
+</script>
+</body>
+</html>
