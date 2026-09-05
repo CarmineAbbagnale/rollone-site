@@ -1,3 +1,14 @@
+# NOTA (2026-09-05): questo file usa la sintassi Netlify per gli header HTTP di sicurezza.
+# Il sito è pubblicato su GitHub Pages, che NON legge questo file e non applica header
+# personalizzati in alcun modo: GitHub Pages non offre nessun equivalente diretto per farlo
+# tramite file statico. Le regole sotto restano documentate come riferimento (utili se in
+# futuro si tornasse a un hosting compatibile, es. Netlify), ma oggi non hanno alcun effetto
+# in produzione. Ciò che è realmente applicabile su GitHub Pages è stato aggiunto come tag
+# <meta name="referrer"> direttamente nell'head di ogni pagina (equivalente reale della sola
+# riga Referrer-Policy qui sotto). X-Content-Type-Options, X-Frame-Options e Permissions-Policy
+# non hanno un equivalente via meta tag e restano non applicabili senza cambiare hosting o
+# aggiungere un livello (es. Cloudflare davanti al sito).
+
 /*
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
