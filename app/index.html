@@ -11502,13 +11502,69 @@ function levelUp(c){
       el("p",{style:"margin:10px 0 0"},el("b",{},"Tipo")),modeRow,
       el("p",{style:"margin:10px 0 0"},el("b",{},"Caratteristica")),a1Row,a2wrap);
     // Feat pane
-    const featDesc=el("div",{class:"muted",style:"font-size:12px;margin-top:6px"});
-    const featPickBtn=el("button",{class:"btn ghost sm",type:"button",onclick:()=>{
-      openFeatSelector(c,{rulesVersion:(c.rulesVersion==="2014"?"2014":"2024"),sourceLabel:"Talento (liv. "+newLevel+")",onConfirm:(fe)=>{
-        chosenFeat=fe.name; featDesc.textContent="Scelto: "+fe.name; featPickBtn.textContent="Cambia talento…";
-      }});
-    }},"Scegli talento…");
-    featPane.append(el("p",{class:"muted",style:"font-size:13px"},"Talenti Generali, Stile di combattimento o Dono epico (rispetta i prerequisiti, calcolati in automatico)."),featPickBtn,featDesc);
+    /* ANCORAGGIO (2026-09-08, v1.12.5): qui c'era il pulsante "Scegli talento…" che apriva
+       openFeatSelector(), un drawer a schermo intero (document.body.append, secondo overlay
+       sopra la modale di level-up già aperta, con la sua barra di ricerca/categorie/anteprima).
+       Sostituito su richiesta esplicita di Carmine con un menu a tendina inline DENTRO questa
+       stessa modale (nessun secondo overlay, nessuno z-index separato) più una descrizione che si
+       aggiorna alla selezione e un pulsante "Conferma talento" dedicato: sia perché il drawer non
+       era mai stato la causa confermata del blocco su Android (rimaneva l'ipotesi non verificata
+       che il doppio overlay modale+drawer causasse l'interazione bloccata), sia perché Carmine ha
+       chiesto esplicitamente questo formato. FEATS_DB/getAvailableFeats()/getFeatRequirements()
+       restano gli stessi del drawer, quindi nessuna logica di regole duplicata o persa: cambia
+       solo la presentazione. Il drawer openFeatSelector() resta nel codice (usato altrove, es.
+       Companion) — qui semplicemente non viene più chiamato. */
+    const rulesVersion=(c.rulesVersion==="2014"?"2014":"2024");
+    const featShowAllChk=el("input",{type:"checkbox"});
+    const featEntries=()=>getAvailableFeats(c,rulesVersion,{includeIneligible:true})
+      .filter(x=>featShowAllChk.checked?true:(x.eligible||x.owned))
+      .filter(x=>!x.owned)
+      .sort((a,b)=>a.feat.name.localeCompare(b.feat.name,"it"));
+    const featDesc=el("div",{class:"card",style:"padding:10px 12px;margin-top:8px;font-size:12.5px;display:none"});
+    const featSelWrap=el("div",{style:"margin-top:8px"});
+    let featSel=null, featEntryByName={};
+    function renderFeatDesc(entry){
+      featDesc.innerHTML="";
+      if(!entry){ featDesc.style.display="none"; return; }
+      featDesc.style.display="block";
+      const f=entry.feat;
+      featDesc.append(el("div",{style:"font-weight:700;color:var(--gold2);margin-bottom:4px"},f.name+" · "+featCatLabel(f.category)));
+      featDesc.append(el("div",{style:"margin-bottom:4px"},f.description_it));
+      (f.benefits||[]).forEach(b=>featDesc.append(el("div",{style:"margin-top:2px"},"• "+b)));
+      if(entry.requirements.reasons.length){
+        entry.requirements.reasons.forEach(r=>{
+          const cls=r.manualCheck?"req-manual":(r.met?"req-ok":"req-fail");
+          const icon=r.manualCheck?"◐":(r.met?"✓":"✕");
+          featDesc.append(el("div",{class:"feat-req-line",style:"margin-top:4px"},
+            el("span",{class:cls}, icon), " ", r.label+(r.detail?" — "+r.detail:"")));
+        });
+      }
+    }
+    function rebuildFeatSelect(){
+      const entries=featEntries();
+      featEntryByName={}; entries.forEach(x=>featEntryByName[x.feat.name]=x);
+      const prevVal=featSel?featSel.value:null;
+      featSelWrap.innerHTML="";
+      const opts=[el("option",{value:""},"— Scegli un talento —"),
+        ...entries.map(x=>el("option",{value:x.feat.name},x.feat.name+(x.eligible?"":" (prerequisiti non soddisfatti)")))];
+      featSel=styleSelect(el("select",{},...opts));
+      if(prevVal && featEntryByName[prevVal]) featSel.value=prevVal;
+      featSel.onchange=()=>{ renderFeatDesc(featEntryByName[featSel.value]); confirmFeatBtn.disabled=!featSel.value; };
+      featSelWrap.append(featSel);
+      renderFeatDesc(featEntryByName[featSel.value]||null);
+    }
+    const featChosenLbl=el("div",{class:"muted",style:"font-size:12px;margin-top:6px"});
+    const confirmFeatBtn=el("button",{class:"btn sm",type:"button",disabled:true,onclick:()=>{
+      const entry=featEntryByName[featSel.value]; if(!entry)return;
+      chosenFeat=entry.feat.name; featChosenLbl.textContent="✓ Talento confermato: "+chosenFeat;
+    }},"Conferma talento");
+    featShowAllChk.onchange=rebuildFeatSelect;
+    rebuildFeatSelect();
+    featPane.append(
+      el("p",{class:"muted",style:"font-size:13px"},"Talenti Generali, Stile di combattimento o Dono epico (rispetta i prerequisiti, calcolati in automatico)."),
+      el("label",{class:"fld",style:"display:flex;align-items:center;gap:6px;font-size:12px;margin-bottom:6px"},featShowAllChk," Mostra anche i non idonei"),
+      featSelWrap,featDesc,
+      el("div",{style:"margin-top:8px"},confirmFeatBtn),featChosenLbl);
     body.append(asiPane,featPane); refreshBtns();
     asiChoice=()=>{
       if(choiceMode==="asi"){
@@ -20705,7 +20761,7 @@ function removeDarkGift(character, giftName) {
 // installare, nessuna richiesta di reinstallazione.
 (function(){
   if (!window.Capacitor) return;
-  var ROLLONE_CONTENT_VERSION = "1.12.4"; // versione dei contenuti integrata in questa build dell'app (non cambia da sola) — bump per rimozione dei <select> a tendina (styleSelect) dal passo "Ruolo" del wizard e dal pannello ASI di levelUp(), sostituiti con pulsanti semplici (il bug di blocco/rimpicciolimento persisteva anche dopo v1.12.3)
+  var ROLLONE_CONTENT_VERSION = "1.12.5"; // versione dei contenuti integrata in questa build dell'app (non cambia da sola) — bump per selettore talenti al level-up: tolto il drawer a schermo intero (openFeatSelector, secondo overlay sopra la modale), sostituito con un menu a tendina + descrizione + pulsante "Conferma talento" inline nella stessa modale
   var APPLIED_VERSION_KEY = "rollone-applied-version"; // versione realmente in esecuzione in questo momento
   var MANIFEST_URL = "https://raw.githubusercontent.com/CarmineAbbagnale/rollone-desktop/main/version.json";
   var DB_NAME = "rollone-update", STORE = "html";
