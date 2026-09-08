@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<title>Il tuo account | RollOne</title>
-<meta name="description" content="Conferma la registrazione o imposta una nuova password per il tuo account RollOne.">
+<title>Il tuo account | Fumble RPG</title>
+<meta name="description" content="Conferma la registrazione o imposta una nuova password per il tuo account Fumble RPG.">
 <meta name="robots" content="noindex">
-<link rel="icon" href="../favicon.ico" sizes="any">
-<link rel="icon" href="../assets/favicon-32x32.png" type="image/png" sizes="32x32">
-<link rel="icon" href="../assets/favicon-16x16.png" type="image/png" sizes="16x16">
-<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/assets/favicon-32x32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="/assets/favicon-16x16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <meta name="theme-color" content="#14100b">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,7 +18,7 @@
 <link rel="stylesheet" href="../assets/style.css">
 <style>
   /* Pagina minimale: non fa parte della navigazione del sito, ci si arriva solo dal link
-     nell'email di Supabase (conferma registrazione o recupero password). RollOne è un'app
+     nell'email di Supabase (conferma registrazione o recupero password). Fumble RPG è un'app
      offline a file singolo senza indirizzo web proprio: questa pagina esiste solo per dare
      a quel link un posto valido dove atterrare. */
   main.account { min-height: 70vh; display: flex; align-items: center; justify-content: center; padding: 40px 24px; }
@@ -46,9 +46,9 @@
 
 <header class="site">
   <div class="nav-row">
-    <a class="brand" href="../">
+    <a class="brand" href="/">
       <img class="d20" src="../assets/d20.svg" alt="">
-      RollOne
+      Fumble RPG
     </a>
   </div>
 </header>
@@ -62,7 +62,7 @@
 </main>
 
 <footer class="site">
-  <div class="wrap">© 2026 RollOne · <a href="../privacy-policy/">Privacy Policy</a></div>
+  <div class="wrap">© 2026 Fumble RPG · <a href="/privacy-policy/">Privacy Policy</a></div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
@@ -87,12 +87,12 @@
 
   function showConfirmed(){
     render("✅", "Account confermato",
-      "La registrazione è andata a buon fine. Torna a RollOne e accedi con la tua email e password.");
+      "La registrazione è andata a buon fine. Torna a Fumble RPG e accedi con la tua email e password.");
   }
 
   function showPasswordForm(client){
     render("🔑", "Imposta una nuova password",
-      "Scegli una nuova password per il tuo account RollOne.",
+      "Scegli una nuova password per il tuo account Fumble RPG.",
       '<form class="pw-form" id="pwForm">' +
         '<label for="pw1">Nuova password</label>' +
         '<input type="password" id="pw1" minlength="6" autocomplete="new-password" required>' +
@@ -128,7 +128,7 @@
           return;
         }
         render("✅", "Password aggiornata",
-          "La tua nuova password è attiva. Torna a RollOne e accedi con quella appena scelta.");
+          "La tua nuova password è attiva. Torna a Fumble RPG e accedi con quella appena scelta.");
       }).catch(function(){
         errEl.textContent = "Errore di connessione. Riprova tra poco.";
         errEl.style.display = "block";
