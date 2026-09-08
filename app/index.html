@@ -11590,8 +11590,26 @@ function levelUp(c){
     const featEmptyMsg=el("p",{class:"muted",style:"font-size:12.5px;margin-top:8px;display:none"},
       "Nessun talento trovato con questi filtri. Prova a cambiare categoria o cancellare la ricerca — l'intero compendio resta comunque selezionabile.");
     const featDesc=el("div",{class:"card",style:"padding:10px 12px;margin-top:8px;font-size:12.5px;display:none"});
-    const featSelWrap=el("div",{style:"margin-top:8px"});
-    let featSel=null, featEntryByName={};
+    /* SOSTITUITO IL <select> NATIVO CON UNA LISTA CUSTOM (2026-09-08, v1.12.11, causa finalmente
+       trovata dopo il quinto video di Carmine — "continua a persistere... rifallo da zero"). Il
+       video mostrava le Impostazioni con "Contenuti v1.12.10" corretto e il pannello con la UI
+       nuova (ricerca+filtri) davvero aperta e funzionante — ma dopo un tocco sulla tendina "Scegli
+       un talento", lo schermo restava fermo per il resto del video: esattamente il sintomo di un
+       <select> nativo Android che non riesce ad aprire il proprio popup di sistema (una schermata
+       disegnata dal sistema operativo, non dalla WebView) quando la pagina gira dentro un iframe —
+       come succede sempre qui, perché applyViaIframe() (vedi la IIFE di self-update più sotto nel
+       file) fa ripartire l'app dentro un <iframe srcdoc="..."> ad ogni aggiornamento applicato.
+       Riprova decisiva, trovata rileggendo il codice: al pannello ASI (poche righe più sopra) i tre
+       <select> erano già stati tolti e sostituiti con griglie di pulsanti fin dalla v1.12.4, proprio
+       perché sospettati di bloccare lo schermo — e da allora l'ASI non è mai più stato segnalato
+       rotto. Il pannello talenti, invece, aveva mantenuto un <select> vero fino ad ora: è l'unico
+       controllo nativo rimasto nell'intero flusso di level-up, ed è l'unica cosa che si è sempre
+       bloccata in ogni video, dalla v1.12.5 in poi. Sostituito qui con una lista scorrevole di
+       pulsanti (stesso pattern già collaudato per l'ASI), zero componenti nativi del sistema
+       operativo coinvolti: un tocco su una voce la seleziona subito, senza dover aprire alcun popup
+       esterno alla WebView. */
+    const featListWrap=el("div",{style:"margin-top:8px;max-height:260px;overflow-y:auto;border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:4px"});
+    let selectedFeatName=null, featEntryByName={};
     function renderFeatDesc(entry){
       featDesc.innerHTML="";
       if(!entry){ featDesc.style.display="none"; return; }
@@ -11609,40 +11627,49 @@ function levelUp(c){
         });
       }
     }
+    function refreshFeatRowHighlight(){
+      [...featListWrap.children].forEach(row=>{
+        const on = row.dataset.name===selectedFeatName;
+        row.style.borderColor = on ? "var(--gold)" : "transparent";
+        row.style.background = on ? "rgba(224,168,60,.12)" : "";
+        row.style.color = on ? "var(--gold2)" : "";
+      });
+    }
     function rebuildFeatSelect(){
       const entries=featEntries();
       featEntryByName={}; entries.forEach(x=>featEntryByName[x.feat.name]=x);
-      const prevVal=featSel?featSel.value:null;
-      featSelWrap.innerHTML="";
+      if(selectedFeatName && !featEntryByName[selectedFeatName]) selectedFeatName=null;
+      featListWrap.innerHTML="";
       featEmptyMsg.style.display = entries.length ? "none" : "block";
       // Etichette informative (2026-09-08, v1.12.8): dato che nessun prerequisito blocca più la
-      // scelta, l'opzione mostra comunque un'indicazione testuale — "già posseduto" o
-      // "prerequisiti non verificati" — così il giocatore sa a cosa va incontro, ma resta
-      // sempre libero di selezionarla comunque (nessuna option disabilitata).
-      const opts=[el("option",{value:""},"— Scegli un talento —"),
-        ...entries.map(x=>{
-          let suffix="";
-          if(x.owned) suffix=" (già posseduto)";
-          else if(!x.eligible) suffix=" (prerequisiti non verificati)";
-          return el("option",{value:x.feat.name},x.feat.name+suffix);
-        })];
-      featSel=styleSelect(el("select",{},...opts));
-      if(prevVal && featEntryByName[prevVal]) featSel.value=prevVal;
-      featSel.onchange=()=>{ renderFeatDesc(featEntryByName[featSel.value]); confirmFeatBtn.disabled=!featSel.value; };
-      featSelWrap.append(featSel);
-      renderFeatDesc(featEntryByName[featSel.value]||null);
+      // scelta, la riga mostra comunque un'indicazione testuale — "già posseduto" o "prerequisiti
+      // non verificati" — così il giocatore sa a cosa va incontro, ma resta sempre libero di
+      // selezionarla comunque (nessuna riga disabilitata).
+      entries.forEach(x=>{
+        let suffix="";
+        if(x.owned) suffix=" (già posseduto)";
+        else if(!x.eligible) suffix=" (prerequisiti non verificati)";
+        const row=el("div",{"data-name":x.feat.name,tabindex:"0",role:"button",
+          style:"padding:8px 10px;border:1px solid transparent;border-radius:6px;cursor:pointer;font-size:13.5px",
+          onclick:()=>{ selectedFeatName=x.feat.name; refreshFeatRowHighlight(); renderFeatDesc(featEntryByName[selectedFeatName]); confirmFeatBtn.disabled=false; }
+        }, x.feat.name+suffix);
+        featListWrap.append(row);
+      });
+      refreshFeatRowHighlight();
+      renderFeatDesc(featEntryByName[selectedFeatName]||null);
+      confirmFeatBtn.disabled=!selectedFeatName;
     }
     const featChosenLbl=el("div",{class:"muted",style:"font-size:12px;margin-top:6px"});
     const confirmFeatBtn=el("button",{class:"btn sm",type:"button",disabled:true,onclick:()=>{
-      const entry=featEntryByName[featSel.value]; if(!entry)return;
+      const entry=featEntryByName[selectedFeatName]; if(!entry)return;
       chosenFeat=entry.feat.name; featChosenLbl.textContent="✓ Talento confermato: "+chosenFeat;
     }},"Conferma talento");
     refreshFeatCatBar();
     rebuildFeatSelect();
     featPane.append(
-      el("p",{class:"muted",style:"font-size:13px"},"Tutto il compendio talenti è selezionabile liberamente (i Doni epici solo da livello 20 in poi). Cerca o filtra per categoria per trovarlo più in fretta: i prerequisiti restano indicati sotto a titolo informativo, ma non bloccano mai la scelta."),
+      el("p",{class:"muted",style:"font-size:13px"},"Tutto il compendio talenti è selezionabile liberamente (i Doni epici solo da livello 20 in poi). Cerca o filtra per categoria per trovarlo più in fretta, poi tocca una voce dall'elenco per selezionarla: i prerequisiti restano indicati sotto a titolo informativo, ma non bloccano mai la scelta."),
       featSearchInput,featCatBar,
-      featSelWrap,featEmptyMsg,featDesc,
+      featListWrap,featEmptyMsg,featDesc,
       el("div",{style:"margin-top:8px"},confirmFeatBtn),featChosenLbl);
     body.append(asiPane,featPane); refreshBtns();
     asiChoice=()=>{
@@ -20840,7 +20867,7 @@ function removeDarkGift(character, giftName) {
 // installare, nessuna richiesta di reinstallazione.
 (function(){
   if (!window.Capacitor) return;
-  var ROLLONE_CONTENT_VERSION = "1.12.10"; // versione dei contenuti integrata in questa build dell'app (non cambia da sola) — v1.12.10 (2026-09-08): la v1.12.9 aveva corretto SOLO un sintomo (localStorage che si dichiarava più avanti di quanto IndexedDB potesse confermare), ma un video successivo di Carmine ha mostrato che il problema di fondo era un altro, più profondo, in applyCachedUpdateIfAny(): quella funzione decideva se riapplicare al boot la copia scaricata in precedenza confrontando la versione della cache con getAppliedVersion() (cioè con localStorage) invece che con la versione REALMENTE integrata in QUESTO documento appena caricato da Capacitor. Risultato concreto: se la cache IndexedDB conteneva davvero l'ultima versione E localStorage lo sapeva già (es. da uno swap avvenuto in una sessione precedente), la funzione concludeva "siamo già a posto" e NON riapplicava nulla — ma ad ogni riavvio vero e proprio dell'app, Capacitor ricarica sempre lo stesso bundle nativo statico (quello impacchettato nell'APK, fermo a mesi fa), non l'ultima pagina vista: l'utente restava quindi bloccato sui contenuti vecchi del bundle nativo, con le Impostazioni che però mostravano il numero di versione corretto letto da localStorage. Fix: eliminata la dipendenza da localStorage/getAppliedVersion() per QUALSIASI decisione "serve aggiornare?" — si confronta sempre e solo con questa costante ROLLONE_CONTENT_VERSION, l'unica cosa che riflette con certezza cosa sta girando in questo preciso momento. localStorage resta solo per l'etichetta informativa nelle Impostazioni, scritta subito qui sotto.
+  var ROLLONE_CONTENT_VERSION = "1.12.11"; // versione dei contenuti integrata in questa build dell'app (non cambia da sola) — v1.12.11 (2026-09-08): sostituito il <select> nativo del pannello talenti con una lista custom, causa più probabile del blocco persistente (vedi commento dettagliato dentro levelUp()). v1.12.10 aveva corretto SOLO un sintomo (localStorage che si dichiarava più avanti di quanto IndexedDB potesse confermare), ma un video successivo di Carmine ha mostrato che il problema di fondo era un altro, più profondo, in applyCachedUpdateIfAny(): quella funzione decideva se riapplicare al boot la copia scaricata in precedenza confrontando la versione della cache con getAppliedVersion() (cioè con localStorage) invece che con la versione REALMENTE integrata in QUESTO documento appena caricato da Capacitor. Risultato concreto: se la cache IndexedDB conteneva davvero l'ultima versione E localStorage lo sapeva già (es. da uno swap avvenuto in una sessione precedente), la funzione concludeva "siamo già a posto" e NON riapplicava nulla — ma ad ogni riavvio vero e proprio dell'app, Capacitor ricarica sempre lo stesso bundle nativo statico (quello impacchettato nell'APK, fermo a mesi fa), non l'ultima pagina vista: l'utente restava quindi bloccato sui contenuti vecchi del bundle nativo, con le Impostazioni che però mostravano il numero di versione corretto letto da localStorage. Fix: eliminata la dipendenza da localStorage/getAppliedVersion() per QUALSIASI decisione "serve aggiornare?" — si confronta sempre e solo con questa costante ROLLONE_CONTENT_VERSION, l'unica cosa che riflette con certezza cosa sta girando in questo preciso momento. localStorage resta solo per l'etichetta informativa nelle Impostazioni, scritta subito qui sotto.
   var APPLIED_VERSION_KEY = "rollone-applied-version"; // solo per l'etichetta "Contenuti vX" nelle Impostazioni — MAI usato per decidere se scaricare/applicare un aggiornamento (vedi commento sopra)
   var MANIFEST_URL = "https://raw.githubusercontent.com/CarmineAbbagnale/rollone-desktop/main/version.json";
   var DB_NAME = "rollone-update", STORE = "html";
