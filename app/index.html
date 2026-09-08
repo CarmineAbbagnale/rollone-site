@@ -11545,30 +11545,28 @@ function levelUp(c){
        solo la presentazione. Il drawer openFeatSelector() resta nel codice (usato altrove, es.
        Companion) — qui semplicemente non viene più chiamato. */
     const rulesVersion=(c.rulesVersion==="2014"?"2014":"2024");
-    const featShowAllChk=el("input",{type:"checkbox"});
-    /* BUG FIX (2026-09-08, v1.12.6, PARZIALE — causa vera trovata l'8/9 sera dopo un secondo
-       video di Carmine che mostrava la tendina ancora vuota su v1.12.6 pubblicata): questo file
-       usava `c` direttamente per calcolare l'idoneità dei talenti, ma `c.level` viene aggiornato
-       al nuovo livello SOLO quando si preme "Conferma level-up" (vedi confirmBtn più sotto, riga
-       ~11614) — cioè DOPO che questo pannello è già costruito e mostrato. La quasi totalità dei
-       Talenti Generali (regole 2024) richiede "Livello 4+": mentre si sale da 3 a 4, il
-       personaggio risultava ancora di livello 3 agli occhi di getFeatRequirements(), quindi
-       TUTTI i talenti generali apparivano non idonei — con "Mostra anche i non idonei"
-       disattivato per default, la tendina restava vuota per chiunque salisse a un livello con
-       nuovi talenti sbloccati proprio da quel livello (il caso più comune in assoluto). La
-       correzione del filtro `.filter(x=>!x.owned)" fatta prima non c'entrava nulla con questo:
-       era comunque un difetto reale (i talenti posseduti non vanno mai nascosti del tutto), ma
-       non la causa della tendina vuota. Fix vero: calcolare l'idoneità su una copia del
-       personaggio già "proiettata" al nuovo livello (`cAtNewLevel`), così i talenti che si
-       sbloccano proprio a questo livello risultano idonei da subito, esattamente come nel vecchio
-       drawer (che soffriva dello stesso identico problema, solo mascherato meglio dal messaggio
-       "Nessun talento trovato con questi filtri" invece di una tendina silenziosamente vuota). */
-    const cAtNewLevel={...c, level:newLevel};
-    const featEntries=()=>getAvailableFeats(cAtNewLevel,rulesVersion,{includeIneligible:true})
-      .filter(x=>featShowAllChk.checked?true:(x.eligible||x.owned))
+    /* RIMOZIONE RESTRIZIONI (2026-09-08, v1.12.8, richiesta esplicita di Carmine dopo che v1.12.6
+       e v1.12.7 non avevano risolto il problema alla sua soddisfazione: "elimina ogni restrizione
+       per i talenti, quelli epici solo se il pg raggiunge dal 20 in poi, collega il compendio
+       talenti alla scelta dei talenti"). Le due versioni precedenti avevano corretto due difetti
+       reali del filtro di idoneità (v1.12.6: i posseduti sparivano del tutto; v1.12.7: il livello
+       usato per il controllo era quello vecchio, non quello nuovo) ma restavano comunque legate a
+       getAvailableFeats()/getFeatRequirements() come filtro BLOCCANTE — ogni nuovo caso limite non
+       previsto in quella logica (specie, classe, altre proprietà del personaggio) rischiava di
+       nascondere di nuovo dei talenti a sorpresa. Rimosso il filtro di idoneità come criterio di
+       inclusione: la tendina ora mostra SEMPRE l'intero compendio di talenti (FEATS_DB) per
+       l'edizione di regole del personaggio, con un solo vincolo — i Doni epici (categoria "Epic
+       Boon") compaiono solo se il personaggio sta raggiungendo almeno il livello 20, l'unico
+       limite che Carmine ha chiesto esplicitamente di mantenere. getFeatRequirements() resta
+       calcolata e mostrata nella descrizione (icone ✓/✕/◐) a puro titolo informativo: il giocatore
+       vede se un prerequisito manca, ma la scelta non è mai bloccata dal codice. */
+    const featEntries=()=>(typeof FEATS_DB!=="undefined"?FEATS_DB:[])
+      .filter(f=>f.rules_version===rulesVersion)
+      .filter(f=>f.category!=="Epic Boon" || newLevel>=20)
+      .map(f=>{ const requirements=getFeatRequirements(f,c); return {feat:f, eligible:requirements.met, owned:featOwnedByCharacter(c,f), requirements}; })
       .sort((a,b)=>a.feat.name.localeCompare(b.feat.name,"it"));
     const featEmptyMsg=el("p",{class:"muted",style:"font-size:12.5px;margin-top:8px;display:none"},
-      "Nessun talento idoneo trovato con questi filtri. Prova a spuntare «Mostra anche i non idonei» qui sopra per vedere anche quelli che richiedono qualcosa che il personaggio non ha ancora.");
+      "Nessun talento trovato per questa edizione di regole a questo livello.");
     const featDesc=el("div",{class:"card",style:"padding:10px 12px;margin-top:8px;font-size:12.5px;display:none"});
     const featSelWrap=el("div",{style:"margin-top:8px"});
     let featSel=null, featEntryByName={};
@@ -11594,15 +11592,18 @@ function levelUp(c){
       featEntryByName={}; entries.forEach(x=>featEntryByName[x.feat.name]=x);
       const prevVal=featSel?featSel.value:null;
       featSelWrap.innerHTML="";
-      // Messaggio di lista vuota (2026-09-08, v1.12.7): il vecchio drawer, in questo stesso caso,
-      // mostrava "Nessun talento trovato con questi filtri" — la tendina qui restava invece
-      // silenziosa (solo il placeholder), facendo sembrare il selettore "scollegato" dal
-      // compendio anche quando il vero problema era semplicemente zero risultati coi filtri
-      // correnti. Ripristinato lo stesso avviso, con l'indicazione pratica di spuntare "Mostra
-      // anche i non idonei".
       featEmptyMsg.style.display = entries.length ? "none" : "block";
+      // Etichette informative (2026-09-08, v1.12.8): dato che nessun prerequisito blocca più la
+      // scelta, l'opzione mostra comunque un'indicazione testuale — "già posseduto" o
+      // "prerequisiti non verificati" — così il giocatore sa a cosa va incontro, ma resta
+      // sempre libero di selezionarla comunque (nessuna option disabilitata).
       const opts=[el("option",{value:""},"— Scegli un talento —"),
-        ...entries.map(x=>el("option",{value:x.feat.name},x.feat.name+(x.eligible?"":" (prerequisiti non soddisfatti)")))];
+        ...entries.map(x=>{
+          let suffix="";
+          if(x.owned) suffix=" (già posseduto)";
+          else if(!x.eligible) suffix=" (prerequisiti non verificati)";
+          return el("option",{value:x.feat.name},x.feat.name+suffix);
+        })];
       featSel=styleSelect(el("select",{},...opts));
       if(prevVal && featEntryByName[prevVal]) featSel.value=prevVal;
       featSel.onchange=()=>{ renderFeatDesc(featEntryByName[featSel.value]); confirmFeatBtn.disabled=!featSel.value; };
@@ -11614,11 +11615,9 @@ function levelUp(c){
       const entry=featEntryByName[featSel.value]; if(!entry)return;
       chosenFeat=entry.feat.name; featChosenLbl.textContent="✓ Talento confermato: "+chosenFeat;
     }},"Conferma talento");
-    featShowAllChk.onchange=rebuildFeatSelect;
     rebuildFeatSelect();
     featPane.append(
-      el("p",{class:"muted",style:"font-size:13px"},"Talenti Generali, Stile di combattimento o Dono epico (rispetta i prerequisiti, calcolati in automatico)."),
-      el("label",{class:"fld",style:"display:flex;align-items:center;gap:6px;font-size:12px;margin-bottom:6px"},featShowAllChk," Mostra anche i non idonei"),
+      el("p",{class:"muted",style:"font-size:13px"},"Tutto il compendio talenti è selezionabile liberamente (i Doni epici solo da livello 20 in poi). I prerequisiti restano indicati sotto a titolo informativo, ma non bloccano la scelta."),
       featSelWrap,featEmptyMsg,featDesc,
       el("div",{style:"margin-top:8px"},confirmFeatBtn),featChosenLbl);
     body.append(asiPane,featPane); refreshBtns();
@@ -20817,7 +20816,7 @@ function removeDarkGift(character, giftName) {
 // installare, nessuna richiesta di reinstallazione.
 (function(){
   if (!window.Capacitor) return;
-  var ROLLONE_CONTENT_VERSION = "1.12.7"; // versione dei contenuti integrata in questa build dell'app (non cambia da sola) — causa VERA della tendina talenti vuota trovata dopo un secondo video di Carmine su v1.12.6: il pannello calcolava l'idoneità dei talenti sul livello ATTUALE del personaggio, non su quello nuovo verso cui sta salendo (c.level si aggiorna solo dopo "Conferma level-up") — quasi tutti i Talenti Generali richiedono "Livello 4+", quindi salendo da 3 a 4 risultavano TUTTI non idonei e la tendina restava vuota di default. Corretto calcolando l'idoneità su una copia del personaggio già proiettata al nuovo livello; aggiunto anche un messaggio "Nessun talento trovato con questi filtri" quando la lista è vuota per davvero (come nel vecchio drawer), invece di una tendina silenziosa
+  var ROLLONE_CONTENT_VERSION = "1.12.8"; // versione dei contenuti integrata in questa build dell'app (non cambia da sola) — richiesta esplicita di Carmine dopo che v1.12.7 non aveva ancora risolto: rimossa ogni restrizione di idoneità dalla scelta talenti al level-up, la tendina mostra sempre l'intero compendio FEATS_DB per l'edizione di regole del personaggio (unico vincolo mantenuto: i Doni epici compaiono solo da livello 20 in poi, su sua richiesta esplicita); i prerequisiti restano visibili nella descrizione a titolo informativo ma non bloccano più nulla
   var APPLIED_VERSION_KEY = "rollone-applied-version"; // versione realmente in esecuzione in questo momento
   var MANIFEST_URL = "https://raw.githubusercontent.com/CarmineAbbagnale/rollone-desktop/main/version.json";
   var DB_NAME = "rollone-update", STORE = "html";
