@@ -12057,7 +12057,15 @@ function roll4d6dropLow(){ const r=[rollDie(6),rollDie(6),rollDie(6),rollDie(6)]
 function rollAbilityValue(){ return Math.max(roll4d6dropLow(),roll4d6dropLow(),roll4d6dropLow()); } // migliore di 3
 function rollSixValues(){ return Array.from({length:6},rollAbilityValue).sort((a,b)=>b-a); }
 function startWizard(){
-  STATE.wizard={step:0, c:newCharacter(), method:"roll", rollPool:rollSixValues(), rollPick:{}, pickedSkills:[], raceASI:{}};
+  // BUG FIX (2026-09-08): equipCustomized (passo "Equipaggiamento" del wizard) partiva sempre da
+  // false, cioè dalla dotazione standard suggerita dal manuale, con la scelta libera nascosta
+  // dietro il pulsante "Scegli liberamente l'equipaggiamento" — segnalato da Carmine come "manca
+  // la possibilità di scegliere cosa equipaggiare senza il default". La funzione esisteva già
+  // (vedi più sotto, passo 6), ma per richiesta esplicita ora parte già in modalità libera:
+  // equipCustomized:true la mostra fin da subito, così la dotazione standard resta un'opzione
+  // raggiungibile ("Usa la dotazione standard suggerita", vedi passo Equipaggiamento) invece di
+  // essere l'unica cosa visibile all'apertura del passo.
+  STATE.wizard={step:0, c:newCharacter(), method:"roll", rollPool:rollSixValues(), rollPick:{}, pickedSkills:[], raceASI:{}, equipCustomized:true};
   // reset scores base
   ABIL.forEach(a=>STATE.wizard.c.scores[a.k]=8);
   go("wizard");
@@ -12380,6 +12388,13 @@ const WIZ_STEP=[
     if(!kit){ box.append(el("p",{class:"muted"},"Nessuna dotazione iniziale definita per questa classe.")); return box; }
     w.equipChoices=w.equipChoices||{};
     const label=(it)=> it.k==="gold" ? (it.q+" mo") : (it.n+(it.q>1?" x"+it.q:""));
+    // Con la scelta libera come modalità di partenza (2026-09-08), il passo può essere visitato la
+    // prima volta già in equipCustomized:true, ramo che presenta la dotazione standard come "già
+    // precaricata qui sotto come punto di partenza" (vedi testo del ramo else più sotto) — ma finché
+    // nessuno ha chiamato applyStartingEquip(w) quella precondizione è falsa (armatura/armi vuote).
+    // La precarichiamo qui, una sola volta per personaggio in creazione (w._equipSeeded), così la
+    // promessa del testo resta vera indipendentemente dal ramo in cui si entra per primo.
+    if(!w._equipSeeded){ applyStartingEquip(w); w._equipSeeded=true; }
     if(!w.equipCustomized){
       box.append(el("p",{class:"muted",style:"font-size:12px;margin-top:0"},"Dotazione standard suggerita dal manuale per la tua classe ("+w.c.cls+"). Dove il manuale prevede una scelta, selezionala qui sotto, oppure passa a «Scegli liberamente» per equipaggiarti come preferisci tra tutto ciò con cui sei competente."));
       kit.forEach((line,li)=>{
@@ -13425,6 +13440,74 @@ function saveForgeItem(item){
   save();toast((idx>=0?"Aggiornato":"Forgiato")+": "+item.name);render();
 }
 
+/* ================= EXPORT/IMPORT DI OGNI SINGOLA CREAZIONE DELLA FORGIA (2026-09-08) =====
+   Richiesta esplicita di Carmine: ogni creazione della Forgia (arma/armatura/oggetto, mostro,
+   incantesimo, sottoclasse, classe) deve poter essere esportata in un proprio file, e quel file
+   deve poter essere reimportato ricreando esattamente la creazione — utile per condividere una
+   creazione con altri giocatori/tavoli o per portarla da un dispositivo all'altro senza dover
+   passare per il backup completo (⬇ Esporta backup in "Gestione Dati", che resta lo strumento per
+   TUTTI i dati insieme). Riusa saveBytesChoosingLocation() (stesso percorso di salvataggio
+   verificato di ogni altro export dell'app, vedi verifica_export.py) e lo stesso pattern
+   FileReader già usato da importJSON(). Ogni file esportato porta un tag _forgeType così
+   l'importazione sa in quale archivio (STATE.customItems/customMonsters/customSpells/
+   customSubclasses/customClasses) far rientrare il contenuto, e valida che il file sia
+   effettivamente un export della Forgia prima di toccare qualunque stato. */
+const FORGE_TYPE_LABEL={item:"oggetto",monster:"mostro",spell:"incantesimo",subclass:"sottoclasse",class:"classe"};
+function forgeFileSlug(name){
+  const base=(name||"creazione").normalize("NFKD").replace(/[̀-ͯ]/g,"")
+    .replace(/[^a-zA-Z0-9]+/g,"-").replace(/^-+|-+$/g,"").toLowerCase().slice(0,60);
+  return base||"creazione";
+}
+function exportForgeCreation(type,data){
+  const payload={_app:"Fumble RPG",_v:1,_forgeType:type,exported:new Date().toISOString(),data};
+  const bytes=new TextEncoder().encode(JSON.stringify(payload,null,2));
+  const name=data.name||data.n||"creazione";
+  saveBytesChoosingLocation(bytes,`forgia-${FORGE_TYPE_LABEL[type]||type}-${forgeFileSlug(name)}.json`,
+    "application/json","Creazione della Forgia: "+name);
+}
+// Se il nome della creazione importata collide con una già presente, non sovrascrive mai in
+// silenzio (a differenza di saveForgeItem, pensato per la modifica volontaria dall'editor): la
+// rinomina con un suffisso numerico progressivo, così entrambe restano disponibili.
+function forgeAvoidNameClash(arr,keyField,data){
+  const orig=data[keyField]; if(!orig)return;
+  let candidate=orig, i=2;
+  while(arr.some(x=>x[keyField]===candidate)){ candidate=orig+" ("+i+")"; i++; }
+  data[keyField]=candidate;
+}
+function importForgeCreation(file){
+  const r=new FileReader();
+  r.onload=()=>{
+    let payload;
+    try{ payload=JSON.parse(r.result); }
+    catch(e){ toast("File non valido: non è un JSON leggibile."); return; }
+    const type=payload&&payload._forgeType, data=payload&&payload.data;
+    if(!type || !data || typeof data!=="object" || Array.isArray(data)){
+      toast("File non valido: non sembra una creazione esportata dalla Forgia."); return;
+    }
+    if(type==="item"){
+      STATE.customItems=STATE.customItems||[]; forgeAvoidNameClash(STATE.customItems,"name",data);
+      STATE.customItems.push(data);
+    } else if(type==="monster"){
+      STATE.customMonsters=STATE.customMonsters||[]; forgeAvoidNameClash(STATE.customMonsters,"n",data);
+      STATE.customMonsters.push(data);
+    } else if(type==="spell"){
+      STATE.customSpells=STATE.customSpells||[]; forgeAvoidNameClash(STATE.customSpells,"n",data);
+      STATE.customSpells.push(data);
+    } else if(type==="subclass"){
+      STATE.customSubclasses=STATE.customSubclasses||[]; forgeAvoidNameClash(STATE.customSubclasses,"name",data);
+      STATE.customSubclasses.push(data);
+    } else if(type==="class"){
+      STATE.customClasses=STATE.customClasses||[]; forgeAvoidNameClash(STATE.customClasses,"name",data);
+      STATE.customClasses.push(data);
+      try{ applyCustomClassRecord(data); }catch(e){}
+    } else {
+      toast("Tipo di creazione non riconosciuto nel file: "+type); return;
+    }
+    save(); toast("Importata: "+(data.name||data.n||"creazione")); FORGE_TAB=FORGE_TAB||"Arma"; render();
+  };
+  r.readAsText(file);
+}
+
 /* ---- Importazione oggetti da PDF (lettura fedele + adattamento opzionale via Gemini) ---- */
 let FORGE_PDF_RESULTS=[];
 let FORGE_PDF_LEARNED="";
@@ -13605,9 +13688,18 @@ function forgeImportPdf(){
 }
 function forgeLibrary(){
   const card=el("div",{class:"card"});
-  card.append(el("div",{class:"section-title"},"📚 Le tue creazioni",el("span",{class:"ln"})));
-  const total=STATE.customItems.length+STATE.customMonsters.length+STATE.customSpells.length+STATE.customSubclasses.length;
-  if(!total){card.append(el("p",{class:"muted"},"Ancora nessuna creazione. Ciò che forgi qui appare nell'archivio oggetti, nel bestiario, tra gli incantesimi e tra le sottoclassi."));return card;}
+  const importIn=el("input",{type:"file",accept:".json",style:"display:none"});
+  importIn.onchange=()=>{ if(importIn.files[0]) importForgeCreation(importIn.files[0]); importIn.value=""; };
+  card.append(el("div",{style:"display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px"},
+    el("div",{class:"section-title",style:"margin:0;flex:1"},"📚 Le tue creazioni",el("span",{class:"ln"})),
+    el("button",{class:"btn ghost sm",onclick:()=>importIn.click()},"⬆ Importa creazione"), importIn));
+  // BUG FIX (2026-09-08): le classi forgiate (STATE.customClasses) non comparivano MAI in questo
+  // elenco (mancava del tutto la sezione "Classi", a differenza di oggetti/mostri/incantesimi/
+  // sottoclassi) — restavano comunque funzionanti altrove (motore CLASSES/CLASS_DETAIL), ma
+  // invisibili qui e quindi non cancellabili/esportabili da questa schermata. Aggiunta ora insieme
+  // a export/import.
+  const total=STATE.customItems.length+STATE.customMonsters.length+STATE.customSpells.length+STATE.customSubclasses.length+(STATE.customClasses||[]).length;
+  if(!total){card.append(el("p",{class:"muted"},"Ancora nessuna creazione. Ciò che forgi qui appare nell'archivio oggetti, nel bestiario, tra gli incantesimi e tra le sottoclassi. Puoi anche importare una creazione ricevuta da un file (pulsante «Importa creazione» qui sopra)."));return card;}
   if(STATE.customItems.length){
     card.append(el("h4",{style:"color:var(--gold2)"},"Oggetti"));
     STATE.customItems.forEach(i=>{
@@ -13617,6 +13709,7 @@ function forgeLibrary(){
       el("span",{style:"cursor:pointer"},el("span",{class:"pill",style:"font-size:10px;margin-right:6px"},i.cat),i.name,
         i.dmg?el("span",{class:"muted",style:"font-size:11px"},` ${i.dmg}`):"", aiNoteBox(i)),
       el("div",{style:"display:flex;gap:6px"},
+        el("button",{class:"btn ghost sm",title:"Esporta in un file",onclick:()=>exportForgeCreation("item",i)},"⬇"),
         el("button",{class:"btn red sm",onclick:()=>{STATE.customItems=STATE.customItems.filter(x=>x!==i);save();render();}},"✕"))));
     });
   }
@@ -13624,19 +13717,42 @@ function forgeLibrary(){
     card.append(el("h4",{style:"color:var(--gold2);margin-top:12px"},"Mostri"));
     STATE.customMonsters.forEach(m=>card.append(el("div",{class:"list-line"},
       el("span",{style:"cursor:pointer",onclick:()=>showStatblock(m)},"👹 "+m.n+" (GS "+m.cr+")"),
-      el("button",{class:"btn red sm",onclick:()=>{STATE.customMonsters=STATE.customMonsters.filter(x=>x!==m);save();render();}},"✕"))));
+      el("div",{style:"display:flex;gap:6px"},
+        el("button",{class:"btn ghost sm",title:"Esporta in un file",onclick:()=>exportForgeCreation("monster",m)},"⬇"),
+        el("button",{class:"btn red sm",onclick:()=>{STATE.customMonsters=STATE.customMonsters.filter(x=>x!==m);save();render();}},"✕")))));
   }
   if(STATE.customSpells.length){
     card.append(el("h4",{style:"color:var(--gold2);margin-top:12px"},"Incantesimi"));
     STATE.customSpells.forEach(s=>card.append(el("div",{class:"list-line"},
       el("span",{style:"cursor:pointer",onclick:()=>showSpell(s)},"✨ "+s.n+" (L"+s.lv+")"),
-      el("button",{class:"btn red sm",onclick:()=>{STATE.customSpells=STATE.customSpells.filter(x=>x!==s);save();render();}},"✕"))));
+      el("div",{style:"display:flex;gap:6px"},
+        el("button",{class:"btn ghost sm",title:"Esporta in un file",onclick:()=>exportForgeCreation("spell",s)},"⬇"),
+        el("button",{class:"btn red sm",onclick:()=>{STATE.customSpells=STATE.customSpells.filter(x=>x!==s);save();render();}},"✕")))));
   }
   if(STATE.customSubclasses.length){
     card.append(el("h4",{style:"color:var(--gold2);margin-top:12px"},"Sottoclassi"));
     STATE.customSubclasses.forEach(s=>card.append(el("div",{class:"list-line"},
       el("span",{},"⚔ "+s.name+" ("+s.cls+", "+(s.feats||[]).length+" privilegi)"),
-      el("button",{class:"btn red sm",onclick:()=>{STATE.customSubclasses=STATE.customSubclasses.filter(x=>x!==s);save();render();}},"✕"))));
+      el("div",{style:"display:flex;gap:6px"},
+        el("button",{class:"btn ghost sm",title:"Esporta in un file",onclick:()=>exportForgeCreation("subclass",s)},"⬇"),
+        el("button",{class:"btn red sm",onclick:()=>{STATE.customSubclasses=STATE.customSubclasses.filter(x=>x!==s);save();render();}},"✕")))));
+  }
+  if((STATE.customClasses||[]).length){
+    card.append(el("h4",{style:"color:var(--gold2);margin-top:12px"},"Classi"));
+    STATE.customClasses.forEach(c=>card.append(el("div",{class:"list-line"},
+      el("span",{},"📖 "+c.name+" (Dado Vita d"+c.hd+", "+(c.feats||[]).length+" privilegi)"),
+      el("div",{style:"display:flex;gap:6px"},
+        el("button",{class:"btn ghost sm",title:"Esporta in un file",onclick:()=>exportForgeCreation("class",c)},"⬇"),
+        el("button",{class:"btn red sm",onclick:()=>{
+          STATE.customClasses=STATE.customClasses.filter(x=>x!==c);
+          // Pulizia dei registri globali popolati da applyCustomClassRecord(), altrimenti la
+          // classe resterebbe selezionabile nella creazione di un personaggio pur non essendo
+          // più in STATE.customClasses (e sparirebbe al riavvio, con incoerenza nel frattempo).
+          delete CLASSES[c.name]; delete CLASS_DETAIL[c.name]; delete CLASS_GUIDE[c.name]; delete STARTING_EQUIP[c.name];
+          if(typeof HOMEBREW_CLASSES!=="undefined"){ const hi=HOMEBREW_CLASSES.indexOf(c.name); if(hi>=0)HOMEBREW_CLASSES.splice(hi,1); }
+          if(typeof HOMEBREW_CONCEPT!=="undefined") delete HOMEBREW_CONCEPT[c.name];
+          save();render();
+        }},"✕")))));
   }
   return card;
 }
@@ -20540,7 +20656,7 @@ function removeDarkGift(character, giftName) {
 // installare, nessuna richiesta di reinstallazione.
 (function(){
   if (!window.Capacitor) return;
-  var ROLLONE_CONTENT_VERSION = "1.12.1"; // versione dei contenuti integrata in questa build dell'app (non cambia da sola) — bump per fix pinch-to-zoom Android (bug shrink/freeze)
+  var ROLLONE_CONTENT_VERSION = "1.12.2"; // versione dei contenuti integrata in questa build dell'app (non cambia da sola) — bump per export/import creazioni Forgia + equipaggiamento libero di default
   var APPLIED_VERSION_KEY = "rollone-applied-version"; // versione realmente in esecuzione in questo momento
   var MANIFEST_URL = "https://raw.githubusercontent.com/CarmineAbbagnale/rollone-desktop/main/version.json";
   var DB_NAME = "rollone-update", STORE = "html";
