@@ -11560,13 +11560,35 @@ function levelUp(c){
        limite che Carmine ha chiesto esplicitamente di mantenere. getFeatRequirements() resta
        calcolata e mostrata nella descrizione (icone ✓/✕/◐) a puro titolo informativo: il giocatore
        vede se un prerequisito manca, ma la scelta non è mai bloccata dal codice. */
-    const featEntries=()=>(typeof FEATS_DB!=="undefined"?FEATS_DB:[])
+    // PERF+UX (2026-09-08, v1.12.9, "ricerca web in merito" richiesta da Carmine sul redesign
+    // del selettore: il pattern consigliato per un elenco a scelta singola oltre ~15 voci è un
+    // combobox con ricerca testuale, non un <select> piatto — vedi es. uxpatternsguide.com/
+    // patterns/selection-input, uxgoodpatterns.com/example/dropdown-usability). Con l'intero
+    // compendio sempre visibile (dalla v1.12.8) la tendina arriva a 120+ voci: calcolare
+    // getFeatRequirements() per tutte (derived(c) compreso) una volta sola qui, non ad ogni
+    // tasto premuto nella ricerca, evita di ricalcolarlo ripetutamente durante la digitazione.
+    const allFeatEntries=(typeof FEATS_DB!=="undefined"?FEATS_DB:[])
       .filter(f=>f.rules_version===rulesVersion)
       .filter(f=>f.category!=="Epic Boon" || newLevel>=20)
       .map(f=>{ const requirements=getFeatRequirements(f,c); return {feat:f, eligible:requirements.met, owned:featOwnedByCharacter(c,f), requirements}; })
       .sort((a,b)=>a.feat.name.localeCompare(b.feat.name,"it"));
+    let featSearchQuery="", featCatFilter="all";
+    const featEntries=()=>allFeatEntries
+      .filter(x=>featCatFilter==="all" || x.feat.category===featCatFilter)
+      .filter(x=>!featSearchQuery || x.feat.name.toLowerCase().includes(featSearchQuery));
+    const featSearchInput=el("input",{type:"text",placeholder:"Cerca un talento…",style:"width:100%;margin-top:8px"});
+    const featCatBar=el("div",{style:"display:flex;gap:6px;flex-wrap:wrap;margin-top:8px"});
+    const featCatKeys=["all",...Object.keys(FEAT_CAT_LABELS)].filter(k=>k!=="Epic Boon"||newLevel>=20);
+    function refreshFeatCatBar(){
+      [...featCatBar.children].forEach(b=>{const on=b.dataset.k===featCatFilter;
+        b.style.borderColor=on?"var(--gold)":"";b.style.color=on?"var(--gold2)":"";});
+    }
+    featCatKeys.forEach(k=>featCatBar.append(el("button",{class:"btn ghost sm",type:"button","data-k":k,
+      onclick:()=>{featCatFilter=k;refreshFeatCatBar();rebuildFeatSelect();}},
+      k==="all"?"Tutti":featCatLabel(k))));
+    featSearchInput.oninput=()=>{featSearchQuery=featSearchInput.value.trim().toLowerCase();rebuildFeatSelect();};
     const featEmptyMsg=el("p",{class:"muted",style:"font-size:12.5px;margin-top:8px;display:none"},
-      "Nessun talento trovato per questa edizione di regole a questo livello.");
+      "Nessun talento trovato con questi filtri. Prova a cambiare categoria o cancellare la ricerca — l'intero compendio resta comunque selezionabile.");
     const featDesc=el("div",{class:"card",style:"padding:10px 12px;margin-top:8px;font-size:12.5px;display:none"});
     const featSelWrap=el("div",{style:"margin-top:8px"});
     let featSel=null, featEntryByName={};
@@ -11615,9 +11637,11 @@ function levelUp(c){
       const entry=featEntryByName[featSel.value]; if(!entry)return;
       chosenFeat=entry.feat.name; featChosenLbl.textContent="✓ Talento confermato: "+chosenFeat;
     }},"Conferma talento");
+    refreshFeatCatBar();
     rebuildFeatSelect();
     featPane.append(
-      el("p",{class:"muted",style:"font-size:13px"},"Tutto il compendio talenti è selezionabile liberamente (i Doni epici solo da livello 20 in poi). I prerequisiti restano indicati sotto a titolo informativo, ma non bloccano la scelta."),
+      el("p",{class:"muted",style:"font-size:13px"},"Tutto il compendio talenti è selezionabile liberamente (i Doni epici solo da livello 20 in poi). Cerca o filtra per categoria per trovarlo più in fretta: i prerequisiti restano indicati sotto a titolo informativo, ma non bloccano mai la scelta."),
+      featSearchInput,featCatBar,
       featSelWrap,featEmptyMsg,featDesc,
       el("div",{style:"margin-top:8px"},confirmFeatBtn),featChosenLbl);
     body.append(asiPane,featPane); refreshBtns();
@@ -20816,12 +20840,12 @@ function removeDarkGift(character, giftName) {
 // installare, nessuna richiesta di reinstallazione.
 (function(){
   if (!window.Capacitor) return;
-  var ROLLONE_CONTENT_VERSION = "1.12.8"; // versione dei contenuti integrata in questa build dell'app (non cambia da sola) — richiesta esplicita di Carmine dopo che v1.12.7 non aveva ancora risolto: rimossa ogni restrizione di idoneità dalla scelta talenti al level-up, la tendina mostra sempre l'intero compendio FEATS_DB per l'edizione di regole del personaggio (unico vincolo mantenuto: i Doni epici compaiono solo da livello 20 in poi, su sua richiesta esplicita); i prerequisiti restano visibili nella descrizione a titolo informativo ma non bloccano più nulla
+  var ROLLONE_CONTENT_VERSION = "1.12.9"; // versione dei contenuti integrata in questa build dell'app (non cambia da sola) — v1.12.9 (2026-09-08): trovata e corretta la VERA causa per cui la v1.12.8 (e prima ancora la v1.12.5/6/7) sembravano "non arrivare mai" sul dispositivo di Carmine pur mostrando il numero di versione giusto nelle Impostazioni: getAppliedVersion() qui sotto si fidava ciecamente del valore salvato in localStorage anche quando la copia HTML corrispondente in IndexedDB non c'era più (svuotata dalla WebView Android sotto pressione) — l'app restava bloccata a ESEGUIRE contenuti vecchi (persino pre-v1.12.5, col vecchio drawer talenti a schermo intero, completamente non responsivo su Android) pur DICHIARANDO di essere già aggiornata, quindi checkForUpdate() non riprovava mai più il download. Ora si auto-corregge: se il valore salvato non è confermato da una copia realmente presente in IndexedDB, si torna alla versione davvero in esecuzione e si riprova sul serio.
   var APPLIED_VERSION_KEY = "rollone-applied-version"; // versione realmente in esecuzione in questo momento
   var MANIFEST_URL = "https://raw.githubusercontent.com/CarmineAbbagnale/rollone-desktop/main/version.json";
   var DB_NAME = "rollone-update", STORE = "html";
 
-  function getAppliedVersion(){
+  async function getAppliedVersion(){
     // Confrontare sempre con questo valore, mai con ROLLONE_CONTENT_VERSION da sola:
     // dopo uno swap la pagina appena caricata è già alla versione più recente, ma la
     // costante resterebbe comunque "1.0.0" (è scritta nel file, non si aggiorna da
@@ -20840,8 +20864,35 @@ function removeDarkGift(character, giftName) {
     // supera.
     var stored; try { stored = localStorage.getItem(APPLIED_VERSION_KEY); } catch(e){ stored = null; }
     if (!stored) return ROLLONE_CONTENT_VERSION;
-    if (cmpVersions(ROLLONE_CONTENT_VERSION, stored) > 0){ setAppliedVersion(ROLLONE_CONTENT_VERSION); return ROLLONE_CONTENT_VERSION; }
-    return stored;
+    if (cmpVersions(ROLLONE_CONTENT_VERSION, stored) >= 0){ return ROLLONE_CONTENT_VERSION; }
+    // BUG CORRETTO (2026-09-08, root cause della "tendina talenti congelata" segnalata da
+    // Carmine — la vera causa non era la logica della tendina, era questa funzione): il valore
+    // salvato può dichiararsi più avanti della costante realmente integrata in QUESTO documento
+    // (stored > ROLLONE_CONTENT_VERSION) in due casi legittimi — questo documento è il vecchio
+    // bundle nativo e uno swap più recente è davvero in cache IndexedDB — ma anche in un caso
+    // NON legittimo: uno swap era riuscito in una sessione precedente (localStorage aggiornato),
+    // ma la copia HTML corrispondente in IndexedDB è poi sparita (la WebView di Android può
+    // svuotare IndexedDB sotto pressione, vedi note più sopra nel file). In quel caso, prima
+    // fidarsi ciecamente del solo localStorage significava che checkForUpdate() vedeva
+    // "manifest.version <= versione già applicata" e non riprovava mai più il download — l'app
+    // restava bloccata per sempre a ESEGUIRE i vecchi contenuti pur DICHIARANDO nelle Impostazioni
+    // la versione più recente, un disallineamento che ha reso invisibili diverse correzioni
+    // pubblicate (fino alla v1.12.8 inclusa) a chi si trovava in questo stato. Ora si verifica che
+    // esista davvero, in IndexedDB, la copia HTML corrispondente al valore salvato prima di
+    // fidarsene: se manca (o è di una versione diversa), il valore salvato è inattendibile e si
+    // torna alla costante realmente in esecuzione, riallineando anche il flag salvato — così il
+    // prossimo checkForUpdate() (o applyCachedUpdateIfAny) rileva di nuovo il divario e riscarica
+    // sul serio, invece di restare convinto per sempre di essere già aggiornato.
+    try {
+      var cached = await idbGet("latest");
+      if (cached && cached.version === stored && cached.html) return stored;
+    } catch(e){ /* IndexedDB non disponibile: tratta come non verificabile, vedi sotto */ }
+    setAppliedVersion(ROLLONE_CONTENT_VERSION);
+    try{
+      var box=document.getElementById("sbBuildInfo");
+      if(box) box.textContent = "Contenuti v"+ROLLONE_CONTENT_VERSION;
+    }catch(e){}
+    return ROLLONE_CONTENT_VERSION;
   }
   function setAppliedVersion(v){
     try { localStorage.setItem(APPLIED_VERSION_KEY, v); } catch(e){}
@@ -21031,7 +21082,7 @@ function removeDarkGift(character, giftName) {
     // non deve avviare ANCHE l'app in questo documento ormai coperto e non più visibile.
     try {
       var cached = await idbGet("latest");
-      if (cached && cached.version && cmpVersions(cached.version, getAppliedVersion()) > 0){
+      if (cached && cached.version && cmpVersions(cached.version, await getAppliedVersion()) > 0){
         return await new Promise(function(resolve){
           applyViaIframe(cached.html, function(ok){
             if (ok) setAppliedVersion(cached.version);
@@ -21056,7 +21107,7 @@ function removeDarkGift(character, giftName) {
   // mentre il manifest remoto è la stessa fonte già usata per verificare gli aggiornamenti.
   async function selfCheckIntegrity(manifest){
     try{
-      if(!manifest || !manifest.sha256 || manifest.version!==getAppliedVersion()) return; // si esprime solo a parità di versione: se si è indietro, ci pensa già l'aggiornamento normale
+      if(!manifest || !manifest.sha256 || manifest.version!==(await getAppliedVersion())) return; // si esprime solo a parità di versione: se si è indietro, ci pensa già l'aggiornamento normale
       if(!window.crypto || !window.crypto.subtle) return;
       // FIX (2026-09-03, segnalato dall'utente con screenshot: falso allarme su un APK ufficiale
       // appena installato, con lo sha256 verificato manualmente identico byte per byte a quello
@@ -21178,7 +21229,7 @@ function removeDarkGift(character, giftName) {
       if (!res.ok) return;
       var manifest = await res.json();
       refreshApkUpdateInfo(manifest); // indipendente dal ramo sotto: va valutato sia a versione contenuti aggiornata sia no
-      if (!manifest.version || cmpVersions(manifest.version, getAppliedVersion()) <= 0){
+      if (!manifest.version || cmpVersions(manifest.version, await getAppliedVersion()) <= 0){
         await selfCheckIntegrity(manifest);
         return;
       }
