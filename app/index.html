@@ -407,9 +407,15 @@ header.topbar::after{content:"";position:absolute;left:0;right:0;bottom:-1px;hei
    a schermo intero dietro la scheda di un mostro selezionato nel Bestiario deve ricomporre
    l'intera griglia (centinaia di card, con box-shadow e sfumature) proprio nel momento in cui
    la modale entra in scena, causando un blocco percepibile un istante prima che compaia. Su
-   schermi stretti/touch (incluso l'APK) disattiviamo l'effetto vetro, come già fatto sopra. */
+   schermi stretti/touch (incluso l'APK) disattiviamo l'effetto vetro, come già fatto sopra.
+   ANCORAGGIO (2026-09-08): stessa esclusione estesa a .feat-drawer-back (selettore talenti),
+   che aveva lo stesso backdrop-filter ma era rimasta fuori da questo elenco — incongruenza
+   trovata rileggendo il CSS dopo la segnalazione di schermata talenti/ASI bloccata su Android
+   in v1.12.1. Non è la causa confermata del blocco (vedi fix più corposo su applyTextScale()
+   più sotto), ma resta un'incoerenza reale da chiudere: stesso identico rischio di
+   ricomposizione costosa già documentato sopra per sidebar/header/modal-back. */
 @media (max-width:900px), (pointer:coarse){
-  .modal-back{ backdrop-filter:none; }
+  .modal-back, .feat-drawer-back{ backdrop-filter:none; }
 }
 [data-theme="dark"] .crumb{color:var(--r-gold-light);text-shadow:0 1px 0 rgba(0,0,0,.5)}
 /* Separatore "runico" riutilizzabile (RuneDivider): una linea bronzea con un
@@ -4773,16 +4779,30 @@ function narrFont(){ const s=(STATE.theme&&STATE.theme.textScale)||1; return {si
    spiega esattamente il sintomo "pulsante visibile ma sembra spostato/introvabile, impossibile
    proseguire". Rifarla in modo sicuro richiederebbe passare da pixel fissi a unità "rem" in tutto
    il CSS dell'app (oggi non è così, vedi commento sopra): un lavoro troppo grande e rischioso per
-   una correzione urgente. Per non lasciare l'app in uno stato rotto, la scala oltre 1 è disattivata
-   qui (forzata a 1 comunque venga chiamata questa funzione): chi aveva già scelto Grande/Molto
-   grande NON perde la preferenza salvata (resta in STATE.theme.textScale, i pulsanti in
-   Impostazioni la mostrano ancora "selezionata"), semplicemente non viene più applicata come zoom
-   finché non esiste un meccanismo sicuro. Vedi anche il nuovo zoom nativo (pizzico con due dita)
-   introdotto in parallelo, pensato apposta per sostituire questo uso: quello scala solo la resa
-   visiva a livello di motore del browser, che mantiene tocco e layout sincronizzati per costruzione
-   — a differenza di questo hack CSS. */
+   una correzione urgente. Per non lasciare l'app in uno stato rotto, la scala oltre 1 fu
+   disattivata qui (forzata a 1 comunque venisse chiamata questa funzione): chi aveva già scelto
+   Grande/Molto grande NON perde la preferenza salvata (resta in STATE.theme.textScale, i pulsanti
+   in Impostazioni la mostrano ancora "selezionata"), semplicemente non veniva più applicata come
+   zoom. Vedi anche il nuovo zoom nativo (pizzico con due dita) introdotto in parallelo il
+   2026-09-06, pensato apposta per sostituire questo uso.
+   ANCORAGGIO (2026-09-08): il pizzico con due dita è stato rimosso in v1.12.1 (stesso sintomo:
+   rimpicciolimento/blocco), ma dopo l'installazione confermata di v1.12.1 Carmine ha segnalato lo
+   STESSO sintomo (rimpicciolimento improvviso, pulsanti irraggiungibili finché non si ruota lo
+   schermo) su tre schermate ordinarie senza alcun overlay/modale in comune: il passo "Ruolo" della
+   creazione personaggio (proprio sul campo "Tratto caratteriale" citato da Carmine), la schermata
+   di aumento caratteristiche e il selettore talenti al level-up. Rileggendo il commento sopra: la
+   riga "app.style.zoom='1'" qui sotto continuava comunque a IMPOSTARE esplicitamente la proprietà
+   CSS "zoom" ad ogni boot/salvataggio/cambio impostazioni, anche se il valore risultante (1) è
+   visivamente identico al default. Il difetto documentato sopra riguarda il motore di
+   rendering/hit-test di Android WebView quando la proprietà "zoom" viene toccata, non solo quando
+   cambia di valore: dato che la funzionalità di scala testo >1 è comunque disattivata (nessun
+   beneficio pratico nell'impostare "1" invece di non toccare affatto la proprietà), la soluzione
+   più sicura è smettere del tutto di scrivere su .style.zoom, eliminando ogni possibile contributo
+   di questo hack CSS al blocco segnalato, invece di limitarsi a limitarne il valore. */
 function applyTextScale(){
-  const app=document.getElementById("app"); if(app) app.style.zoom="1";
+  /* Intenzionalmente vuota: vedi commento sopra. Per ripristinare in futuro la scala testo
+     dell'intera app (non solo della narrazione, già gestita da narrFont()) va rifatta con unità
+     "rem" nel CSS invece che con questa proprietà, come già indicato nel commento del 2026-09-06. */
 }
 
 /* ---------- Temi (chiaro / scuro / personalizzato) ---------- */
@@ -20656,7 +20676,7 @@ function removeDarkGift(character, giftName) {
 // installare, nessuna richiesta di reinstallazione.
 (function(){
   if (!window.Capacitor) return;
-  var ROLLONE_CONTENT_VERSION = "1.12.2"; // versione dei contenuti integrata in questa build dell'app (non cambia da sola) — bump per export/import creazioni Forgia + equipaggiamento libero di default
+  var ROLLONE_CONTENT_VERSION = "1.12.3"; // versione dei contenuti integrata in questa build dell'app (non cambia da sola) — bump per rimozione definitiva dell'hack CSS "zoom" in applyTextScale() + backdrop-filter escluso anche su .feat-drawer-back su mobile/touch
   var APPLIED_VERSION_KEY = "rollone-applied-version"; // versione realmente in esecuzione in questo momento
   var MANIFEST_URL = "https://raw.githubusercontent.com/CarmineAbbagnale/rollone-desktop/main/version.json";
   var DB_NAME = "rollone-update", STORE = "html";
