@@ -8187,6 +8187,36 @@ function viewSettings(){
       try{ if(window.electronAPI && window.electronAPI.checkForUpdates){ window.electronAPI.checkForUpdates(); triggered=true; } }catch(e){}
       toast(triggered?"Controllo aggiornamenti in corso…":"Controllo automatico non disponibile in questa build: chiudi e riapri l'app per verificare.");
     }},"🔄 Controlla aggiornamenti ora"));
+    // AVVISO APK SPOSTATO QUI (2026-09-08, v1.12.6): richiesta esplicita di Carmine. Prima
+    // l'avviso "serve un nuovo APK" era un popup a comparsa automatica, che finiva coperto dal
+    // popup a tutta pagina dell'aggiornamento contenuti quando i due controlli scattavano
+    // insieme. Ora questa sotto-sezione della stessa card controlla da sola, ogni volta che le
+    // Impostazioni vengono aperte, se la versione nativa installata è indietro rispetto a quella
+    // richiesta dal manifest — nessun popup, nessuna sovrapposizione: l'utente la trova qui
+    // quando vuole, e un piccolo pallino sul pulsante "Impostazioni" della barra laterale (vedi
+    // updateMenuBtnApkDot più sopra nel file) segnala che c'è qualcosa da vedere.
+    if(window.Capacitor){
+      const apkBox=el("div",{style:"margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)"});
+      apkBox.append(el("p",{class:"muted",style:"font-size:12px"},"Controllo versione APK installata…"));
+      cUpd.append(apkBox);
+      (async()=>{
+        let apkInfo=null;
+        try{ if(window.__rollOneRefreshApkInfo) apkInfo=await window.__rollOneRefreshApkInfo(); }catch(e){}
+        apkBox.innerHTML="";
+        if(apkInfo && apkInfo.needed){
+          apkBox.append(
+            el("p",{style:"font-size:13px;color:var(--gold2);font-weight:700;margin:0 0 4px"},"⚠ Aggiornamento APK disponibile"),
+            el("p",{class:"muted",style:"font-size:12.5px;margin:0 0 8px"},
+              "Versione installata: v"+apkInfo.installedVersion+". "+
+              (apkInfo.notice||"È disponibile una correzione che richiede il download manuale del nuovo APK (l'aggiornamento automatico dei contenuti non può applicarla).")),
+            el("a",{class:"btn sm",href:apkInfo.downloadUrl||"#",target:"_blank",rel:"noopener",style:"text-decoration:none;display:inline-block"},"Scarica APK aggiornato"));
+        } else if(apkInfo){
+          apkBox.append(el("p",{class:"muted",style:"font-size:12.5px"},"Versione APK installata (v"+apkInfo.installedVersion+") già aggiornata."));
+        } else {
+          apkBox.append(el("p",{class:"muted",style:"font-size:12.5px"},"Impossibile verificare la versione APK in questo momento (nessuna connessione?)."));
+        }
+      })();
+    }
     wrap.append(cUpd);
    }catch(e){ console.error("[Fumble RPG] card Impostazioni 'Aggiornamenti' non renderizzata:",e); }
   }
@@ -11516,9 +11546,15 @@ function levelUp(c){
        Companion) — qui semplicemente non viene più chiamato. */
     const rulesVersion=(c.rulesVersion==="2014"?"2014":"2024");
     const featShowAllChk=el("input",{type:"checkbox"});
+    /* BUG FIX (2026-09-08, v1.12.6): la prima versione di questa tendina (v1.12.5) filtrava via
+       ANCHE i talenti già posseduti (.filter(x=>!x.owned)), cosa che il vecchio drawer non faceva
+       mai (li mostrava comunque, disattivati, con l'etichetta "già posseduto"). Su un personaggio
+       che nei test precedenti aveva già preso gli unici talenti idonei disponibili a quel livello,
+       questo lasciava la tendina completamente vuota — segnalato da Carmine come "i talenti non
+       sono collegati". Rimosso il filtro: i posseduti restano visibili ma non selezionabili
+       (option disabled, gestita nativamente da styleSelect/.csel-opt-disabled). */
     const featEntries=()=>getAvailableFeats(c,rulesVersion,{includeIneligible:true})
       .filter(x=>featShowAllChk.checked?true:(x.eligible||x.owned))
-      .filter(x=>!x.owned)
       .sort((a,b)=>a.feat.name.localeCompare(b.feat.name,"it"));
     const featDesc=el("div",{class:"card",style:"padding:10px 12px;margin-top:8px;font-size:12.5px;display:none"});
     const featSelWrap=el("div",{style:"margin-top:8px"});
@@ -20761,7 +20797,7 @@ function removeDarkGift(character, giftName) {
 // installare, nessuna richiesta di reinstallazione.
 (function(){
   if (!window.Capacitor) return;
-  var ROLLONE_CONTENT_VERSION = "1.12.5"; // versione dei contenuti integrata in questa build dell'app (non cambia da sola) — bump per selettore talenti al level-up: tolto il drawer a schermo intero (openFeatSelector, secondo overlay sopra la modale), sostituito con un menu a tendina + descrizione + pulsante "Conferma talento" inline nella stessa modale
+  var ROLLONE_CONTENT_VERSION = "1.12.6"; // versione dei contenuti integrata in questa build dell'app (non cambia da sola) — bump per due correzioni: (1) la tendina talenti della 1.12.5 restava vuota perché filtrava via anche i talenti già posseduti invece di mostrarli solo disabilitati; (2) l'avviso "serve un nuovo APK" non è più un popup automatico (finiva coperto dal popup di aggiornamento contenuti) ma una sezione nella card Impostazioni → Aggiornamenti, con un pallino sul pulsante Impostazioni quando c'è qualcosa da vedere
   var APPLIED_VERSION_KEY = "rollone-applied-version"; // versione realmente in esecuzione in questo momento
   var MANIFEST_URL = "https://raw.githubusercontent.com/CarmineAbbagnale/rollone-desktop/main/version.json";
   var DB_NAME = "rollone-update", STORE = "html";
@@ -21057,48 +21093,72 @@ function removeDarkGift(character, giftName) {
   // possono correggere solo nel codice nativo Android (qui: WebSettings.setTextZoom), NON nei
   // contenuti che l'app scarica da sola (rollone.html). L'aggiornamento leggero via
   // checkForUpdate() sopra non può mai portare questo genere di correzione: serve che l'utente
-  // scarichi e installi manualmente il nuovo APK. Prima di questo fix non c'era alcun modo per
-  // l'app di segnalarlo: chi non seguiva le release su un altro canale restava indefinitamente
-  // sulla versione nativa vecchia senza saperlo. Il manifest (version.json) può ora includere un
-  // campo opzionale "apk": {minVersionName, downloadUrl, notice}. Se la versione nativa
-  // installata (letta da @capacitor/app, già presente in app per il tasto Indietro) è più
-  // vecchia di quella richiesta, si mostra un banner fisso in cima allo schermo: non blocca
-  // l'uso dell'app (a differenza degli avvisi showDismissable sopra) perché il problema NON è
-  // grave quanto un fallimento di sicurezza o di salvataggio, ma resta visibile finché non lo si
-  // chiude, e ricompare al prossimo avvio finché la versione nativa non viene davvero aggiornata
-  // (chiuderlo lo nasconde solo per la sessione corrente, salvato in sessionStorage apposta).
-  async function checkApkUpdateNotice(manifest){
+  // scarichi e installi manualmente il nuovo APK. Il manifest (version.json) include un campo
+  // opzionale "apk": {minVersionName, downloadUrl, notice} per segnalarlo.
+  // RIPROGETTATO (2026-09-08, v1.12.6): la prima versione (fino alla 1.12.5) mostrava un banner
+  // fisso in cima allo schermo. Bug segnalato da Carmine: quel banner veniva "surclassato" dal
+  // popup a tutta pagina di askConfirm() (sfondo scuro che copre l'intero schermo, z-index più
+  // alto), che compare quasi nello stesso istante quando c'è ANCHE un aggiornamento dei contenuti
+  // da proporre — capitava spesso perché le due cose vengono controllate insieme in
+  // checkForUpdate(). Invece di litigare per lo spazio con quel popup, l'avviso ora non disegna
+  // più nulla da solo: si limita a salvare lo stato in window.__rollOneApkInfo e ad accendere un
+  // piccolo pallino sul pulsante "Impostazioni" della barra laterale (vedi updateMenuBtnApkDot),
+  // come suggerito da Carmine — il dettaglio e il pulsante di download vivono ora dentro la card
+  // "🔄 Aggiornamenti" delle Impostazioni, che li controlla da sola quando viene aperta.
+  function updateMenuBtnApkDot(){
     try{
-      if(!window.Capacitor || !manifest || !manifest.apk || !manifest.apk.minVersionName) return;
-      var AppPlugin = window.Capacitor.Plugins && window.Capacitor.Plugins.App;
-      if(!AppPlugin || !AppPlugin.getInfo) return;
-      var info = await AppPlugin.getInfo(); // {version: versionName, build: versionCode, ...}
-      if(!info || !info.version) return;
-      if(cmpVersions(manifest.apk.minVersionName, info.version) <= 0) return; // già aggiornata
-      var dismissed; try{ dismissed = sessionStorage.getItem("rollone-apk-notice-dismissed"); }catch(e){ dismissed=null; }
-      if(dismissed === manifest.apk.minVersionName) return;
-      if(document.getElementById("apk-update-banner")) return; // già mostrato in questo boot
-      var bar = document.createElement("div");
-      bar.id = "apk-update-banner";
-      bar.style.cssText = "position:fixed;left:0;right:0;top:0;z-index:99997;background:#7d4a0d;color:#fff3e0;font-size:12.5px;line-height:1.4;padding:9px 12px;display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;box-shadow:0 3px 10px rgba(0,0,0,.3)";
-      var msg = manifest.apk.notice || ("È disponibile una correzione che richiede il download manuale del nuovo APK (l'aggiornamento automatico non può applicarla).");
-      bar.innerHTML =
-        '<span>⚠ ' + msg + '</span>' +
-        '<a id="apk-notice-dl" href="' + (manifest.apk.downloadUrl||"#") + '" target="_blank" rel="noopener" style="background:#c99a3c;color:#1b1712;font-weight:700;padding:5px 10px;border-radius:6px;text-decoration:none;white-space:nowrap">Scarica APK</a>' +
-        '<button id="apk-notice-close" style="background:transparent;border:1px solid rgba(255,255,255,.5);color:#fff3e0;padding:5px 10px;border-radius:6px;white-space:nowrap">Più tardi</button>';
-      document.body.appendChild(bar);
-      bar.querySelector("#apk-notice-close").onclick = function(){
-        bar.remove();
-        try{ sessionStorage.setItem("rollone-apk-notice-dismissed", manifest.apk.minVersionName); }catch(e){}
-      };
-    }catch(e){ /* avviso best-effort: nessun blocco dell'app se fallisce */ }
+      var btn = document.getElementById("menuBtn");
+      if(!btn) return;
+      var existing = document.getElementById("menuBtnApkDot");
+      var needed = window.__rollOneApkInfo && window.__rollOneApkInfo.needed;
+      if(needed && !existing){
+        var dot = document.createElement("span");
+        dot.id = "menuBtnApkDot";
+        dot.title = "Aggiornamento APK disponibile: vedi Impostazioni → Aggiornamenti";
+        dot.style.cssText = "display:inline-block;width:8px;height:8px;border-radius:50%;background:#e0a83c;margin-left:6px;vertical-align:middle";
+        btn.appendChild(dot);
+      } else if(!needed && existing){
+        existing.remove();
+      }
+    }catch(e){ /* solo estetico: nessun blocco se fallisce */ }
   }
+  async function refreshApkUpdateInfo(manifest){
+    try{
+      if(!window.Capacitor || !manifest || !manifest.apk || !manifest.apk.minVersionName){
+        window.__rollOneApkInfo = null; updateMenuBtnApkDot(); return window.__rollOneApkInfo;
+      }
+      var AppPlugin = window.Capacitor.Plugins && window.Capacitor.Plugins.App;
+      if(!AppPlugin || !AppPlugin.getInfo){ window.__rollOneApkInfo = null; updateMenuBtnApkDot(); return window.__rollOneApkInfo; }
+      var info = await AppPlugin.getInfo(); // {version: versionName, build: versionCode, ...}
+      if(!info || !info.version){ window.__rollOneApkInfo = null; updateMenuBtnApkDot(); return window.__rollOneApkInfo; }
+      window.__rollOneApkInfo = {
+        needed: cmpVersions(manifest.apk.minVersionName, info.version) > 0,
+        installedVersion: info.version,
+        minVersionName: manifest.apk.minVersionName,
+        downloadUrl: manifest.apk.downloadUrl,
+        notice: manifest.apk.notice
+      };
+      updateMenuBtnApkDot();
+      return window.__rollOneApkInfo;
+    }catch(e){ /* avviso best-effort: nessun blocco dell'app se fallisce */ return window.__rollOneApkInfo || null; }
+  }
+  // Punto d'ingresso per codice FUORI da questa IIFE (la card "Aggiornamenti" nelle Impostazioni,
+  // definita altrove nel file): richiede un controllo fresco senza dover conoscere MANIFEST_URL
+  // o cmpVersions, che sono privati a questo modulo.
+  window.__rollOneRefreshApkInfo = async function(){
+    try{
+      var res = await fetch(MANIFEST_URL, { cache: "no-store" });
+      if(!res.ok) return window.__rollOneApkInfo || null;
+      var manifest = await res.json();
+      return await refreshApkUpdateInfo(manifest);
+    }catch(e){ return window.__rollOneApkInfo || null; }
+  };
   async function checkForUpdate(){
     try {
       var res = await fetch(MANIFEST_URL, { cache: "no-store" });
       if (!res.ok) return;
       var manifest = await res.json();
-      checkApkUpdateNotice(manifest); // indipendente dal ramo sotto: va valutato sia a versione contenuti aggiornata sia no
+      refreshApkUpdateInfo(manifest); // indipendente dal ramo sotto: va valutato sia a versione contenuti aggiornata sia no
       if (!manifest.version || cmpVersions(manifest.version, getAppliedVersion()) <= 0){
         await selfCheckIntegrity(manifest);
         return;
