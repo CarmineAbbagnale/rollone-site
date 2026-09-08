@@ -20840,63 +20840,23 @@ function removeDarkGift(character, giftName) {
 // installare, nessuna richiesta di reinstallazione.
 (function(){
   if (!window.Capacitor) return;
-  var ROLLONE_CONTENT_VERSION = "1.12.9"; // versione dei contenuti integrata in questa build dell'app (non cambia da sola) — v1.12.9 (2026-09-08): trovata e corretta la VERA causa per cui la v1.12.8 (e prima ancora la v1.12.5/6/7) sembravano "non arrivare mai" sul dispositivo di Carmine pur mostrando il numero di versione giusto nelle Impostazioni: getAppliedVersion() qui sotto si fidava ciecamente del valore salvato in localStorage anche quando la copia HTML corrispondente in IndexedDB non c'era più (svuotata dalla WebView Android sotto pressione) — l'app restava bloccata a ESEGUIRE contenuti vecchi (persino pre-v1.12.5, col vecchio drawer talenti a schermo intero, completamente non responsivo su Android) pur DICHIARANDO di essere già aggiornata, quindi checkForUpdate() non riprovava mai più il download. Ora si auto-corregge: se il valore salvato non è confermato da una copia realmente presente in IndexedDB, si torna alla versione davvero in esecuzione e si riprova sul serio.
-  var APPLIED_VERSION_KEY = "rollone-applied-version"; // versione realmente in esecuzione in questo momento
+  var ROLLONE_CONTENT_VERSION = "1.12.10"; // versione dei contenuti integrata in questa build dell'app (non cambia da sola) — v1.12.10 (2026-09-08): la v1.12.9 aveva corretto SOLO un sintomo (localStorage che si dichiarava più avanti di quanto IndexedDB potesse confermare), ma un video successivo di Carmine ha mostrato che il problema di fondo era un altro, più profondo, in applyCachedUpdateIfAny(): quella funzione decideva se riapplicare al boot la copia scaricata in precedenza confrontando la versione della cache con getAppliedVersion() (cioè con localStorage) invece che con la versione REALMENTE integrata in QUESTO documento appena caricato da Capacitor. Risultato concreto: se la cache IndexedDB conteneva davvero l'ultima versione E localStorage lo sapeva già (es. da uno swap avvenuto in una sessione precedente), la funzione concludeva "siamo già a posto" e NON riapplicava nulla — ma ad ogni riavvio vero e proprio dell'app, Capacitor ricarica sempre lo stesso bundle nativo statico (quello impacchettato nell'APK, fermo a mesi fa), non l'ultima pagina vista: l'utente restava quindi bloccato sui contenuti vecchi del bundle nativo, con le Impostazioni che però mostravano il numero di versione corretto letto da localStorage. Fix: eliminata la dipendenza da localStorage/getAppliedVersion() per QUALSIASI decisione "serve aggiornare?" — si confronta sempre e solo con questa costante ROLLONE_CONTENT_VERSION, l'unica cosa che riflette con certezza cosa sta girando in questo preciso momento. localStorage resta solo per l'etichetta informativa nelle Impostazioni, scritta subito qui sotto.
+  var APPLIED_VERSION_KEY = "rollone-applied-version"; // solo per l'etichetta "Contenuti vX" nelle Impostazioni — MAI usato per decidere se scaricare/applicare un aggiornamento (vedi commento sopra)
   var MANIFEST_URL = "https://raw.githubusercontent.com/CarmineAbbagnale/rollone-desktop/main/version.json";
   var DB_NAME = "rollone-update", STORE = "html";
 
-  async function getAppliedVersion(){
-    // Confrontare sempre con questo valore, mai con ROLLONE_CONTENT_VERSION da sola:
-    // dopo uno swap la pagina appena caricata è già alla versione più recente, ma la
-    // costante resterebbe comunque "1.0.0" (è scritta nel file, non si aggiorna da
-    // sola). Usare solo la costante come riferimento avrebbe fatto ripartire lo swap
-    // ad ogni caricamento della pagina appena aggiornata, in un loop infinito che si
-    // vedeva come uno sfarfallio continuo dello schermo.
-    // BUG CORRETTO (2026-09-02): questo valore salvato sopravvive a un aggiornamento
-    // dell'APK nativo installato SOPRA quello esistente (non cancella localStorage, solo
-    // una disinstallazione lo fa). Se sul dispositivo era rimasta salvata una versione
-    // (es. "1.8.3", da un self-update fatto tempo fa) e poi si installa un nuovo APK
-    // nativo che integra contenuti più recenti (es. "1.8.4"), questa funzione tornava
-    // "1.8.3" — la versione VECCHIA salvata — ignorando che il pacchetto appena installato
-    // è oggettivamente più nuovo. Risultato: la scheda Impostazioni mostrava una versione
-    // indietro rispetto a quella davvero in esecuzione. Corretto usando sempre la più
-    // recente tra le due, e riallineando il valore salvato quando il pacchetto nativo la
-    // supera.
-    var stored; try { stored = localStorage.getItem(APPLIED_VERSION_KEY); } catch(e){ stored = null; }
-    if (!stored) return ROLLONE_CONTENT_VERSION;
-    if (cmpVersions(ROLLONE_CONTENT_VERSION, stored) >= 0){ return ROLLONE_CONTENT_VERSION; }
-    // BUG CORRETTO (2026-09-08, root cause della "tendina talenti congelata" segnalata da
-    // Carmine — la vera causa non era la logica della tendina, era questa funzione): il valore
-    // salvato può dichiararsi più avanti della costante realmente integrata in QUESTO documento
-    // (stored > ROLLONE_CONTENT_VERSION) in due casi legittimi — questo documento è il vecchio
-    // bundle nativo e uno swap più recente è davvero in cache IndexedDB — ma anche in un caso
-    // NON legittimo: uno swap era riuscito in una sessione precedente (localStorage aggiornato),
-    // ma la copia HTML corrispondente in IndexedDB è poi sparita (la WebView di Android può
-    // svuotare IndexedDB sotto pressione, vedi note più sopra nel file). In quel caso, prima
-    // fidarsi ciecamente del solo localStorage significava che checkForUpdate() vedeva
-    // "manifest.version <= versione già applicata" e non riprovava mai più il download — l'app
-    // restava bloccata per sempre a ESEGUIRE i vecchi contenuti pur DICHIARANDO nelle Impostazioni
-    // la versione più recente, un disallineamento che ha reso invisibili diverse correzioni
-    // pubblicate (fino alla v1.12.8 inclusa) a chi si trovava in questo stato. Ora si verifica che
-    // esista davvero, in IndexedDB, la copia HTML corrispondente al valore salvato prima di
-    // fidarsene: se manca (o è di una versione diversa), il valore salvato è inattendibile e si
-    // torna alla costante realmente in esecuzione, riallineando anche il flag salvato — così il
-    // prossimo checkForUpdate() (o applyCachedUpdateIfAny) rileva di nuovo il divario e riscarica
-    // sul serio, invece di restare convinto per sempre di essere già aggiornato.
-    try {
-      var cached = await idbGet("latest");
-      if (cached && cached.version === stored && cached.html) return stored;
-    } catch(e){ /* IndexedDB non disponibile: tratta come non verificabile, vedi sotto */ }
-    setAppliedVersion(ROLLONE_CONTENT_VERSION);
-    try{
-      var box=document.getElementById("sbBuildInfo");
-      if(box) box.textContent = "Contenuti v"+ROLLONE_CONTENT_VERSION;
-    }catch(e){}
-    return ROLLONE_CONTENT_VERSION;
-  }
   function setAppliedVersion(v){
     try { localStorage.setItem(APPLIED_VERSION_KEY, v); } catch(e){}
+    try{
+      var box=document.getElementById("sbBuildInfo");
+      if(box) box.textContent = "Contenuti v"+v;
+    }catch(e){}
   }
+  // Allinea SUBITO l'etichetta delle Impostazioni alla realtà di questo documento appena caricato,
+  // prima ancora che parta qualunque controllo asincrono: se non ci sarà nessuno swap (siamo già
+  // alla versione giusta), l'etichetta è corretta da subito; se ci sarà uno swap, verrà
+  // sovrascritta a sua volta dal documento nuovo appena si applica — comunque mai più "in ritardo".
+  setAppliedVersion(ROLLONE_CONTENT_VERSION);
 
   function openDb(){
     return new Promise(function(resolve, reject){
@@ -21082,7 +21042,11 @@ function removeDarkGift(character, giftName) {
     // non deve avviare ANCHE l'app in questo documento ormai coperto e non più visibile.
     try {
       var cached = await idbGet("latest");
-      if (cached && cached.version && cmpVersions(cached.version, await getAppliedVersion()) > 0){
+      // FIX (2026-09-08): confronto sempre con ROLLONE_CONTENT_VERSION, la costante integrata in
+      // QUESTO documento appena caricato dal bundle nativo — mai con localStorage/getAppliedVersion(),
+      // che può dichiararsi già allineato alla cache anche quando il documento davvero in esecuzione
+      // in questo avvio è ancora quello vecchio del bundle nativo (vedi commento in cima al file).
+      if (cached && cached.version && cmpVersions(cached.version, ROLLONE_CONTENT_VERSION) > 0){
         return await new Promise(function(resolve){
           applyViaIframe(cached.html, function(ok){
             if (ok) setAppliedVersion(cached.version);
@@ -21107,7 +21071,7 @@ function removeDarkGift(character, giftName) {
   // mentre il manifest remoto è la stessa fonte già usata per verificare gli aggiornamenti.
   async function selfCheckIntegrity(manifest){
     try{
-      if(!manifest || !manifest.sha256 || manifest.version!==(await getAppliedVersion())) return; // si esprime solo a parità di versione: se si è indietro, ci pensa già l'aggiornamento normale
+      if(!manifest || !manifest.sha256 || manifest.version!==ROLLONE_CONTENT_VERSION) return; // si esprime solo a parità di versione con QUESTO documento realmente in esecuzione: se si è indietro, ci pensa già l'aggiornamento normale
       if(!window.crypto || !window.crypto.subtle) return;
       // FIX (2026-09-03, segnalato dall'utente con screenshot: falso allarme su un APK ufficiale
       // appena installato, con lo sha256 verificato manualmente identico byte per byte a quello
@@ -21229,7 +21193,7 @@ function removeDarkGift(character, giftName) {
       if (!res.ok) return;
       var manifest = await res.json();
       refreshApkUpdateInfo(manifest); // indipendente dal ramo sotto: va valutato sia a versione contenuti aggiornata sia no
-      if (!manifest.version || cmpVersions(manifest.version, await getAppliedVersion()) <= 0){
+      if (!manifest.version || cmpVersions(manifest.version, ROLLONE_CONTENT_VERSION) <= 0){
         await selfCheckIntegrity(manifest);
         return;
       }
