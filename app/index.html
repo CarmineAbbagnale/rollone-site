@@ -11475,14 +11475,32 @@ function levelUp(c){
       el("button",{class:"btn ghost sm",onclick:()=>{choiceMode="feat";refreshBtns();}},"Prendi un talento"));
     body.append(pickBtns);
     // ASI pane
-    const mode=styleSelect(el("select",{},el("option",{value:"2"},"+2 a una caratteristica"),el("option",{value:"11"},"+1 a due caratteristiche")));
-    const a1=styleSelect(el("select",{},...ABIL.map(a=>el("option",{value:a.k},a.name))));
-    const a2=styleSelect(el("select",{},...ABIL.map(a=>el("option",{value:a.k},a.name))));
-    const a2wrap=el("div",{class:"hidden"},el("label",{class:"fld"},el("span",{},"Seconda caratteristica"),a2));
-    mode.onchange=()=>a2wrap.classList.toggle("hidden",mode.value!=="11");
+    /* ANCORAGGIO (2026-09-08, v1.12.4): qui c'erano tre <select> (via styleSelect()) per tipo di
+       aumento e caratteristiche. Rimossi su richiesta di Carmine dopo che v1.12.3 (rimozione
+       dell'hack CSS "zoom") NON ha risolto il blocco totale segnalato proprio su questa schermata
+       ("non fa pigiare sul pulsante né fa fare nulla") — sostituiti con semplici griglie di
+       pulsanti a scelta singola, senza alcun componente a tendina/portale di mezzo. Non è
+       (ancora) una causa confermata, ma elimina lo stesso identico componente sospettato anche sul
+       passo "Ruolo" (vedi commento lì) da questa schermata, che era la più gravemente colpita. */
+    let modeValue="2", a1Value=ABIL[0].k, a2Value=ABIL[1].k;
+    const modeRow=el("div",{style:"display:flex;gap:8px;flex-wrap:wrap;margin-top:6px"});
+    const a1Row=el("div",{style:"display:flex;gap:8px;flex-wrap:wrap;margin-top:6px"});
+    const a2Row=el("div",{style:"display:flex;gap:8px;flex-wrap:wrap;margin-top:6px"});
+    const a2wrap=el("div",{class:"hidden"},el("p",{style:"margin:10px 0 0"},el("b",{},"Seconda caratteristica")),a2Row);
+    const refreshModeBtns=()=>{[...modeRow.children].forEach(b=>{const on=b.dataset.v===modeValue;
+      b.style.borderColor=on?"var(--gold)":"";b.style.color=on?"var(--gold2)":"";});
+      a2wrap.classList.toggle("hidden",modeValue!=="11");};
+    const refreshAbilBtns=(row,val)=>{[...row.children].forEach(b=>{const on=b.dataset.v===val;
+      b.style.borderColor=on?"var(--gold)":"";b.style.color=on?"var(--gold2)":"";});};
+    modeRow.append(
+      el("button",{class:"btn ghost sm",type:"button","data-v":"2",onclick:()=>{modeValue="2";refreshModeBtns();}},"+2 a una caratteristica"),
+      el("button",{class:"btn ghost sm",type:"button","data-v":"11",onclick:()=>{modeValue="11";refreshModeBtns();}},"+1 a due caratteristiche"));
+    ABIL.forEach(a=>a1Row.append(el("button",{class:"btn ghost sm",type:"button","data-v":a.k,onclick:()=>{a1Value=a.k;refreshAbilBtns(a1Row,a1Value);}},a.name)));
+    ABIL.forEach(a=>a2Row.append(el("button",{class:"btn ghost sm",type:"button","data-v":a.k,onclick:()=>{a2Value=a.k;refreshAbilBtns(a2Row,a2Value);}},a.name)));
+    refreshModeBtns(); refreshAbilBtns(a1Row,a1Value); refreshAbilBtns(a2Row,a2Value);
     asiPane.append(el("p",{class:"muted",style:"font-size:13px"},"Nessuna caratteristica può superare 20."),
-      el("div",{class:"row",style:"margin-top:6px"},el("label",{class:"fld"},el("span",{},"Tipo"),mode),
-        el("label",{class:"fld"},el("span",{},"Caratteristica"),a1),a2wrap));
+      el("p",{style:"margin:10px 0 0"},el("b",{},"Tipo")),modeRow,
+      el("p",{style:"margin:10px 0 0"},el("b",{},"Caratteristica")),a1Row,a2wrap);
     // Feat pane
     const featDesc=el("div",{class:"muted",style:"font-size:12px;margin-top:6px"});
     const featPickBtn=el("button",{class:"btn ghost sm",type:"button",onclick:()=>{
@@ -11494,8 +11512,8 @@ function levelUp(c){
     body.append(asiPane,featPane); refreshBtns();
     asiChoice=()=>{
       if(choiceMode==="asi"){
-        if(mode.value==="2"){c.scores[a1.value]=Math.min(20,c.scores[a1.value]+2);}
-        else{c.scores[a1.value]=Math.min(20,c.scores[a1.value]+1);c.scores[a2.value]=Math.min(20,c.scores[a2.value]+1);}
+        if(modeValue==="2"){c.scores[a1Value]=Math.min(20,c.scores[a1Value]+2);}
+        else{c.scores[a1Value]=Math.min(20,c.scores[a1Value]+1);c.scores[a2Value]=Math.min(20,c.scores[a2Value]+1);}
       }else if(chosenFeat){ const fe={name:chosenFeat,source:"Talento (liv. "+newLevel+")"}; (c.feats=c.feats||[]).push(fe); levelupAddedFeat=fe; }
     };
   }
@@ -12290,19 +12308,30 @@ const WIZ_STEP=[
     }
     box.append(el("div",{class:"section-title",style:"margin-top:10px"},"Tratti per il roleplay",el("span",{class:"ln"})));
     box.append(el("p",{class:"muted",style:"font-size:13px;margin-top:-6px"},
-      "Quattro spunti pensati per rendere il personaggio più vivo al tavolo. Per ciascuno puoi scegliere un suggerimento standard dal menu oppure scriverne uno tuo nella casella di testo: nessuno dei due modi è \"più corretto\" dell'altro, e puoi sempre modificarli in seguito dalla scheda."));
+      "Quattro spunti pensati per rendere il personaggio più vivo al tavolo. Scrivili liberamente nella casella di testo, oppure tocca «Suggeriscimene uno» per partire da un'idea pronta e modificarla come vuoi: puoi sempre cambiarli in seguito dalla scheda."));
+    /* ANCORAGGIO (2026-09-08, v1.12.4): qui c'era un <select> (via styleSelect(), lo stesso
+       componente "menu a tendina personalizzato" usato altrove nell'app) per scegliere un
+       suggerimento standard. Rimosso su richiesta esplicita di Carmine dopo che il fix di
+       v1.12.3 (rimozione dell'hack CSS "zoom") NON ha risolto il blocco/rimpicciolimento
+       segnalato proprio su questo passo — con o senza quell'hack il sintomo si presentava
+       comunque "quando si fa una scelta". Non è (ancora) una causa confermata del componente
+       styleSelect() in sé, ma è la scelta più diretta chiesta da Carmine per togliere di mezzo
+       l'interazione sospetta su QUESTO passo, mentre restano da capire talenti/ASI (vedi commenti
+       vicino a openFeatSelector() e al pannello ASI di levelUp()). Il pool di suggerimenti resta
+       utile: ora è un pulsante "Suggeriscimene uno" (un <button> normale, niente <select>/portale)
+       che pesca una voce a caso dal pool e la scrive nella textarea, lasciando comunque libero
+       l'utente di modificarla subito dopo. */
     const roleplayField=(key,label,hint,pool)=>{
       const fld=el("div",{style:"margin-bottom:14px"});
       fld.append(el("p",{style:"margin:0 0 2px"},el("b",{},label)),
         el("p",{class:"muted",style:"font-size:12px;margin:0 0 6px"},hint));
-      const sel=styleSelect(el("select",{style:"width:100%;max-width:480px;margin-bottom:6px"},
-        el("option",{value:""},"— Scrivi il tuo, oppure scegli un suggerimento —"),
-        ...pool.map(p=>el("option",{value:p,selected:c[key]===p?"selected":null},p))));
-      sel.onchange=()=>{ if(sel.value){ c[key]=sel.value; render(); } };
-      fld.append(sel);
-      const txt=el("textarea",{rows:"2",style:"width:100%;max-width:480px",placeholder:"Scrivi qui il tuo, oppure lascia il suggerimento scelto sopra"},c[key]||"");
+      const txt=el("textarea",{rows:"2",style:"width:100%;max-width:480px",placeholder:"Scrivi qui liberamente, oppure tocca \"Suggeriscimene uno\" qui sotto per partire da un'idea"},c[key]||"");
       txt.oninput=()=>{ c[key]=txt.value; };
-      fld.append(txt);
+      const suggestBtn=el("button",{class:"btn ghost sm",type:"button",style:"margin-top:6px",onclick:()=>{
+        const pick=pool[Math.floor(Math.random()*pool.length)];
+        c[key]=pick; txt.value=pick;
+      }},"🎲 Suggeriscimene uno");
+      fld.append(txt,suggestBtn);
       box.append(fld);
     };
     roleplayField("personalityTrait","Tratto caratteriale","Un'abitudine, un modo di fare, un tic che lo contraddistingue nella vita di tutti i giorni: qualcosa che gli altri noterebbero parlandogli.",PERSONALITY_TRAITS_GENERIC);
@@ -20676,7 +20705,7 @@ function removeDarkGift(character, giftName) {
 // installare, nessuna richiesta di reinstallazione.
 (function(){
   if (!window.Capacitor) return;
-  var ROLLONE_CONTENT_VERSION = "1.12.3"; // versione dei contenuti integrata in questa build dell'app (non cambia da sola) — bump per rimozione definitiva dell'hack CSS "zoom" in applyTextScale() + backdrop-filter escluso anche su .feat-drawer-back su mobile/touch
+  var ROLLONE_CONTENT_VERSION = "1.12.4"; // versione dei contenuti integrata in questa build dell'app (non cambia da sola) — bump per rimozione dei <select> a tendina (styleSelect) dal passo "Ruolo" del wizard e dal pannello ASI di levelUp(), sostituiti con pulsanti semplici (il bug di blocco/rimpicciolimento persisteva anche dopo v1.12.3)
   var APPLIED_VERSION_KEY = "rollone-applied-version"; // versione realmente in esecuzione in questo momento
   var MANIFEST_URL = "https://raw.githubusercontent.com/CarmineAbbagnale/rollone-desktop/main/version.json";
   var DB_NAME = "rollone-update", STORE = "html";
