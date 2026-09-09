@@ -1,4 +1,4 @@
-/* RollOne — foglio di stile condiviso */
+/* Fumble RPG — foglio di stile condiviso */
 
 :root {
   --bg: #14100b;
@@ -72,6 +72,28 @@ nav.primary a:hover, nav.primary a[aria-current="page"] {
   color: var(--text); background: var(--bg-elev2);
 }
 nav.primary a[aria-current="page"] { color: var(--accent); }
+
+/* ---------- Striscia statistiche (sotto l'header) ---------- */
+.stats-strip {
+  background: var(--bg-elev);
+  border-bottom: 1px solid var(--border);
+}
+.stats-strip-inner {
+  display: flex; align-items: center; justify-content: center;
+  gap: 28px; padding: 7px 24px;
+  font-size: 0.82rem; color: var(--muted);
+  flex-wrap: wrap;
+}
+.stats-strip .stat {
+  display: inline-flex; align-items: center; gap: 6px;
+  white-space: nowrap;
+}
+.stats-strip .stat strong {
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+.stats-strip .stat .ico { font-size: 0.95em; line-height: 1; }
 
 /* ---------- Buttons ---------- */
 .btn {
