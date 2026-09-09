@@ -7,10 +7,10 @@
 <title>Il tuo account | Fumble RPG</title>
 <meta name="description" content="Conferma la registrazione o imposta una nuova password per il tuo account Fumble RPG.">
 <meta name="robots" content="noindex">
-<link rel="icon" href="../favicon.ico" sizes="any">
-<link rel="icon" href="../assets/favicon-32x32.png" type="image/png" sizes="32x32">
-<link rel="icon" href="../assets/favicon-16x16.png" type="image/png" sizes="16x16">
-<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/assets/favicon-32x32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="/assets/favicon-16x16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <meta name="theme-color" content="#14100b">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -46,12 +46,19 @@
 
 <header class="site">
   <div class="nav-row">
-    <a class="brand" href="../">
+    <a class="brand" href="/">
       <img class="d20" src="../assets/d20.svg" alt="">
       Fumble RPG
     </a>
   </div>
 </header>
+
+<div class="stats-strip" aria-label="Statistiche del sito">
+  <div class="wrap stats-strip-inner">
+    <span class="stat"><span class="ico">👁</span> <strong id="stat-visits">–</strong> visite</span>
+    <span class="stat"><span class="ico">⬇</span> <strong id="stat-downloads">–</strong> download</span>
+  </div>
+</div>
 
 <main class="account" id="main-content">
   <div class="account-card" id="card">
@@ -62,7 +69,7 @@
 </main>
 
 <footer class="site">
-  <div class="wrap">© 2026 Fumble RPG · <a href="../privacy-policy/">Privacy Policy</a></div>
+  <div class="wrap">© 2026 Fumble RPG · <a href="/privacy-policy/">Privacy Policy</a></div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
@@ -168,5 +175,6 @@
   });
 })();
 </script>
+<script src="../assets/stats.js"></script>
 </body>
 </html>
