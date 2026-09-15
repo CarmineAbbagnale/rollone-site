@@ -1,10 +1,10 @@
 {
-  "version": "1.23.0",
+  "version": "1.24.0",
   "htmlUrl": "https://raw.githubusercontent.com/CarmineAbbagnale/rollone-desktop/main/rollone.html",
-  "sha256": "5881b1cfdee765f7ebbdfad1664d43c85dd52c0e476d7a80cb9e45d375742c00",
+  "sha256": "396d179585755f778ceb43db42d7a0fb0ba210745c2119aa6679d7ccef697df6",
   "apk": {
     "minVersionName": "1.12.3",
     "downloadUrl": "https://carmineabbagnale.github.io/rollone-site/la-mia-app/#download",
-    "notice": "Pathfinder: aggiunti i primi Oggetti Magici verificati (40 voci, livello 2/20) consultabili dalla nuova voce di menu \"Oggetti\"."
+    "notice": "Pathfinder: nuovo Compendio (talenti, incantesimi, popoli, classi, condizioni e altro in un unico posto consultabile) dalla voce di menu \"Compendio\"."
   }
 }
