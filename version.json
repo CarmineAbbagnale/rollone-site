@@ -1,0 +1,10 @@
+{
+  "version": "1.25.0",
+  "htmlUrl": "https://raw.githubusercontent.com/CarmineAbbagnale/rollone-desktop/main/rollone.html",
+  "sha256": "8fba44c75b9f99e8aa259552d0430b0f96fdcb7d3b5eec5582f3170d530ba3e4",
+  "apk": {
+    "minVersionName": "1.12.3",
+    "downloadUrl": "https://carmineabbagnale.github.io/rollone-site/la-mia-app/#download",
+    "notice": "Pathfinder: aggiunti gli incantesimi di 2° rango (137 voci verificate su 4 tradizioni) sulla scheda personaggio e nel Compendio."
+  }
+}
