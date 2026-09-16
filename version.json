@@ -1,10 +1,10 @@
 {
-  "version": "1.35.0",
+  "version": "1.36.0",
   "htmlUrl": "https://raw.githubusercontent.com/CarmineAbbagnale/rollone-desktop/main/rollone.html",
-  "sha256": "7e59c47e28533c82b574515a006551b865ac7813323f0c33b64cb1e30df3fb5b",
+  "sha256": "c81e2ed568dc9770ccdcd036cedf92497ef93917d2b635d9acdb79bcfa4de29a",
   "apk": {
     "minVersionName": "1.12.3",
     "downloadUrl": "https://carmineabbagnale.github.io/rollone-site/la-mia-app/#download",
-    "notice": "Pathfinder: sistema di incantesimi completo dal trucchetto al rango 10 (il massimo del gioco)."
+    "notice": "Pathfinder: bestiario 105 creature, oggetti magici 90 voci (bombe alchemiche, elisir, anelli, pergamene 4-6 rango)."
   }
 }
