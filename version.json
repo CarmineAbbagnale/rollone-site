@@ -1,10 +1,10 @@
 {
-  "version": "1.30.0",
+  "version": "1.31.0",
   "htmlUrl": "https://raw.githubusercontent.com/CarmineAbbagnale/rollone-desktop/main/rollone.html",
-  "sha256": "b49bfe84bea15d6994d73da731b3271e58283b606ffd69ad1fe95f3854c4c32d",
+  "sha256": "5bafe33eadb4bfe56b3fa0048a1925b5303db80a002de57113ed80132c614a13",
   "apk": {
     "minVersionName": "1.12.3",
     "downloadUrl": "https://carmineabbagnale.github.io/rollone-site/la-mia-app/#download",
-    "notice": "Pathfinder: aggiunti 19 nuovi oggetti magici (59 totali), verificati su Archives of Nethys."
+    "notice": "Pathfinder: aggiunti 96 nuovi incantesimi di 5° rango (30 arcani, 22 primordiali, 16 divini, 28 occulti), verificati su Archives of Nethys."
   }
 }
