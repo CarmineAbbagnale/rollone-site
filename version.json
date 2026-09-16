@@ -1,10 +1,10 @@
 {
-  "version": "1.29.0",
+  "version": "1.30.0",
   "htmlUrl": "https://raw.githubusercontent.com/CarmineAbbagnale/rollone-desktop/main/rollone.html",
-  "sha256": "4cf2b4ad527cfaf957b605979c5159afaec6005a6bbc1f9162923762aace005d",
+  "sha256": "b49bfe84bea15d6994d73da731b3271e58283b606ffd69ad1fe95f3854c4c32d",
   "apk": {
     "minVersionName": "1.12.3",
     "downloadUrl": "https://carmineabbagnale.github.io/rollone-site/la-mia-app/#download",
-    "notice": "Pathfinder: aggiunte 15 nuove creature di livello medio-alto al Bestiario (61 totali), verificate su Archives of Nethys."
+    "notice": "Pathfinder: aggiunti 19 nuovi oggetti magici (59 totali), verificati su Archives of Nethys."
   }
 }
