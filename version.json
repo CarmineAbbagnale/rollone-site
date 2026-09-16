@@ -1,10 +1,10 @@
 {
-  "version": "1.32.0",
+  "version": "1.33.0",
   "htmlUrl": "https://raw.githubusercontent.com/CarmineAbbagnale/rollone-desktop/main/rollone.html",
-  "sha256": "70517d3a09164fc61fec148f84f76fa04090cb85ced9e474ba7920c236def8c0",
+  "sha256": "7f6d241481a37788a5df784bfa7148becefbecff1cc22d1a86765ac107d8bc9f",
   "apk": {
     "minVersionName": "1.12.3",
     "downloadUrl": "https://carmineabbagnale.github.io/rollone-site/la-mia-app/#download",
-    "notice": "Pathfinder: aggiunte 14 nuove creature al bestiario (75 totali), verificate su Archives of Nethys."
+    "notice": "Pathfinder: aggiunti 15 nuovi oggetti magici (74 totali) e 64 incantesimi di 6° rango, verificati su Archives of Nethys."
   }
 }
