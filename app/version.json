@@ -1,10 +1,10 @@
 {
-  "version": "1.24.0",
+  "version": "1.38.1",
   "htmlUrl": "https://raw.githubusercontent.com/CarmineAbbagnale/rollone-desktop/main/rollone.html",
-  "sha256": "396d179585755f778ceb43db42d7a0fb0ba210745c2119aa6679d7ccef697df6",
+  "sha256": "028fd8020522ae41471e88d7e13df9f87e2d9d201c7308b4ded54e44864087dc",
   "apk": {
     "minVersionName": "1.12.3",
     "downloadUrl": "https://carmineabbagnale.github.io/rollone-site/la-mia-app/#download",
-    "notice": "Pathfinder: nuovo Compendio (talenti, incantesimi, popoli, classi, condizioni e altro in un unico posto consultabile) dalla voce di menu \"Compendio\"."
+    "notice": "Corretto bug: Griglia tattica e Tavolo bloccati su disattivato per chi li aveva spenti in passato, senza modo di riattivarli. Ora attivabili/disattivabili di nuovo da Impostazioni."
   }
 }
