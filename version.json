@@ -1,10 +1,10 @@
 {
-  "version": "1.41.0",
+  "version": "1.42.0",
   "htmlUrl": "https://raw.githubusercontent.com/CarmineAbbagnale/rollone-desktop/main/rollone.html",
-  "sha256": "ab72437ab70a83a9fd11dc0561b84abd89832395a2f2d72e3e264a216c07a0ce",
+  "sha256": "b19685f86555025c756f335acb7fdf2e66d6f7fec236b4de94f4d270833a72d1",
   "apk": {
     "minVersionName": "1.12.3",
     "downloadUrl": "https://carmineabbagnale.github.io/rollone-site/la-mia-app/#download",
-    "notice": "Sync cloud Pathfinder completa (personaggi + Forgia) e fix minore duplicato Aasimar."
+    "notice": "Pathfinder: bestiario 105->122, oggetti magici 90->105, nuovo equipaggiamento comune."
   }
 }
