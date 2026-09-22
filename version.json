@@ -1,10 +1,10 @@
 {
-  "version": "1.39.0",
+  "version": "1.40.0",
   "htmlUrl": "https://raw.githubusercontent.com/CarmineAbbagnale/rollone-desktop/main/rollone.html",
-  "sha256": "891e9033efcb353efe94557d2c55472e517ec50032a422c8b6de4bdb5201e45a",
+  "sha256": "f762f1fdaddbdb73a21603757d00bbe0b7f8e05c919412a6f12d9aad84668cce",
   "apk": {
     "minVersionName": "1.12.3",
     "downloadUrl": "https://carmineabbagnale.github.io/rollone-site/la-mia-app/#download",
-    "notice": "Pathfinder: aggiunta Esplora Dungeon, ora condivisa con D&D 5e."
+    "notice": "Pathfinder: aggiunto il Tavolo (VTT), condiviso con D&D. Parita' di piattaforma completa."
   }
 }
