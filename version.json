@@ -1,10 +1,10 @@
 {
-  "version": "1.42.0",
+  "version": "1.43.0",
   "htmlUrl": "https://raw.githubusercontent.com/CarmineAbbagnale/rollone-desktop/main/rollone.html",
-  "sha256": "b19685f86555025c756f335acb7fdf2e66d6f7fec236b4de94f4d270833a72d1",
+  "sha256": "44c62ca82c74fd1f2d9498dc6288c81877a6d691fcedc023f6ed944cdbf6225e",
   "apk": {
     "minVersionName": "1.12.3",
     "downloadUrl": "https://carmineabbagnale.github.io/rollone-site/la-mia-app/#download",
-    "notice": "Pathfinder: bestiario 105->122, oggetti magici 90->105, nuovo equipaggiamento comune."
+    "notice": "Pathfinder: bestiario ampliato 122->138 con nuove tipologie (acquatiche, funghi, PNG di classe)."
   }
 }
