@@ -1,10 +1,10 @@
 {
-  "version": "1.40.0",
+  "version": "1.41.0",
   "htmlUrl": "https://raw.githubusercontent.com/CarmineAbbagnale/rollone-desktop/main/rollone.html",
-  "sha256": "f762f1fdaddbdb73a21603757d00bbe0b7f8e05c919412a6f12d9aad84668cce",
+  "sha256": "ab72437ab70a83a9fd11dc0561b84abd89832395a2f2d72e3e264a216c07a0ce",
   "apk": {
     "minVersionName": "1.12.3",
     "downloadUrl": "https://carmineabbagnale.github.io/rollone-site/la-mia-app/#download",
-    "notice": "Pathfinder: aggiunto il Tavolo (VTT), condiviso con D&D. Parita' di piattaforma completa."
+    "notice": "Sync cloud Pathfinder completa (personaggi + Forgia) e fix minore duplicato Aasimar."
   }
 }
