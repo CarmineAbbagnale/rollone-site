@@ -1,10 +1,10 @@
 {
-  "version": "1.36.0",
+  "version": "1.39.0",
   "htmlUrl": "https://raw.githubusercontent.com/CarmineAbbagnale/rollone-desktop/main/rollone.html",
-  "sha256": "c81e2ed568dc9770ccdcd036cedf92497ef93917d2b635d9acdb79bcfa4de29a",
+  "sha256": "891e9033efcb353efe94557d2c55472e517ec50032a422c8b6de4bdb5201e45a",
   "apk": {
     "minVersionName": "1.12.3",
     "downloadUrl": "https://carmineabbagnale.github.io/rollone-site/la-mia-app/#download",
-    "notice": "Pathfinder: bestiario 105 creature, oggetti magici 90 voci (bombe alchemiche, elisir, anelli, pergamene 4-6 rango)."
+    "notice": "Pathfinder: aggiunta Esplora Dungeon, ora condivisa con D&D 5e."
   }
 }
