@@ -1,10 +1,10 @@
 {
-  "version": "1.43.0",
+  "version": "1.44.0",
   "htmlUrl": "https://raw.githubusercontent.com/CarmineAbbagnale/rollone-desktop/main/rollone.html",
-  "sha256": "44c62ca82c74fd1f2d9498dc6288c81877a6d691fcedc023f6ed944cdbf6225e",
+  "sha256": "d7d5f69360f62a809611bffb3f6711601013129b5446ede27eaef10b17ea7625",
   "apk": {
     "minVersionName": "1.12.3",
     "downloadUrl": "https://carmineabbagnale.github.io/rollone-site/la-mia-app/#download",
-    "notice": "Pathfinder: bestiario ampliato 122->138 con nuove tipologie (acquatiche, funghi, PNG di classe)."
+    "notice": "Pathfinder: bestiario 138->154 e oggetti magici 105->117, nuove tipologie (artiche, insetti, sciami, anelli, bastoni)."
   }
 }
