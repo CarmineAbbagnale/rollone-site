@@ -1,10 +1,10 @@
 {
-  "version": "1.49.0",
+  "version": "1.50.0",
   "htmlUrl": "https://raw.githubusercontent.com/CarmineAbbagnale/rollone-desktop/main/rollone.html",
-  "sha256": "edf8f83e6853e7bbb818877c91c77c1b827304bb04ac794ebb1a019eb896572f",
+  "sha256": "3760e80b2d2222154fc7186c081dadf1affdd3fbc2caec6dacf5a85c04841348",
   "apk": {
     "minVersionName": "1.12.3",
     "downloadUrl": "https://carmineabbagnale.github.io/rollone-site/la-mia-app/#download",
-    "notice": "Forgia D&D: creazione talenti, ogni creazione ora modificabile, modificatori equipaggiamento applicati automaticamente."
+    "notice": "Login non più obbligatorio (offline senza account), ordine schermate gioco/modalità invertito, modificatori equipaggiamento ora anche su Pathfinder."
   }
 }
