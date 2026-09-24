@@ -1,10 +1,10 @@
 {
-  "version": "1.48.0",
+  "version": "1.49.0",
   "htmlUrl": "https://raw.githubusercontent.com/CarmineAbbagnale/rollone-desktop/main/rollone.html",
-  "sha256": "869589be3978515bf86c43de6266c00ef53be80b8c3bf9a9e69d9234dd853a2b",
+  "sha256": "edf8f83e6853e7bbb818877c91c77c1b827304bb04ac794ebb1a019eb896572f",
   "apk": {
     "minVersionName": "1.12.3",
     "downloadUrl": "https://carmineabbagnale.github.io/rollone-site/la-mia-app/#download",
-    "notice": "Pathfinder: bestiario e oggetti magici ulteriormente espansi (173 creature, 128 oggetti)."
+    "notice": "Forgia D&D: creazione talenti, ogni creazione ora modificabile, modificatori equipaggiamento applicati automaticamente."
   }
 }
