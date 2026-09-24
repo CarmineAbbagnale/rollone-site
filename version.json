@@ -1,10 +1,10 @@
 {
-  "version": "1.44.0",
+  "version": "1.45.0",
   "htmlUrl": "https://raw.githubusercontent.com/CarmineAbbagnale/rollone-desktop/main/rollone.html",
-  "sha256": "d7d5f69360f62a809611bffb3f6711601013129b5446ede27eaef10b17ea7625",
+  "sha256": "1b2152eaff0697bd5160476b118abfe13c2e53fb18ce9f3f109c275b02eab55e",
   "apk": {
     "minVersionName": "1.12.3",
     "downloadUrl": "https://carmineabbagnale.github.io/rollone-site/la-mia-app/#download",
-    "notice": "Pathfinder: bestiario 138->154 e oggetti magici 105->117, nuove tipologie (artiche, insetti, sciami, anelli, bastoni)."
+    "notice": "D&D: nuove specie Dhampir e Lupin, sottoclasse Artificiere Cartografo. Pathfinder: bestiario 154->164, oggetti 117->121."
   }
 }
