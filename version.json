@@ -1,10 +1,10 @@
 {
-  "version": "1.45.0",
+  "version": "1.46.0",
   "htmlUrl": "https://raw.githubusercontent.com/CarmineAbbagnale/rollone-desktop/main/rollone.html",
-  "sha256": "1b2152eaff0697bd5160476b118abfe13c2e53fb18ce9f3f109c275b02eab55e",
+  "sha256": "a09fcecafb0684299fcc97b2ab7238a1c46eb4c82d479acb716d36088edc55bd",
   "apk": {
     "minVersionName": "1.12.3",
     "downloadUrl": "https://carmineabbagnale.github.io/rollone-site/la-mia-app/#download",
-    "notice": "D&D: nuove specie Dhampir e Lupin, sottoclasse Artificiere Cartografo. Pathfinder: bestiario 154->164, oggetti 117->121."
+    "notice": "D&D: 3 sottoclasse + 5 specie da Unearthed Arcana Underdark Options 2 (PLAYTEST, non definitivo, etichettato in-app)."
   }
 }
