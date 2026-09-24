@@ -1,10 +1,10 @@
 {
-  "version": "1.47.0",
+  "version": "1.48.0",
   "htmlUrl": "https://raw.githubusercontent.com/CarmineAbbagnale/rollone-desktop/main/rollone.html",
-  "sha256": "5fe0371a1cc491fa1d417dbb7a7cce74ea1fe5df8edecef9ca664cd2082cc574",
+  "sha256": "869589be3978515bf86c43de6266c00ef53be80b8c3bf9a9e69d9234dd853a2b",
   "apk": {
     "minVersionName": "1.12.3",
     "downloadUrl": "https://carmineabbagnale.github.io/rollone-site/la-mia-app/#download",
-    "notice": "D&D: risolto bug multiclasse — ASI/talento e scelte dei talenti ora funzionano correttamente anche sulle classi secondarie."
+    "notice": "Pathfinder: bestiario e oggetti magici ulteriormente espansi (173 creature, 128 oggetti)."
   }
 }
