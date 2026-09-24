@@ -1,10 +1,10 @@
 {
-  "version": "1.46.0",
+  "version": "1.47.0",
   "htmlUrl": "https://raw.githubusercontent.com/CarmineAbbagnale/rollone-desktop/main/rollone.html",
-  "sha256": "a09fcecafb0684299fcc97b2ab7238a1c46eb4c82d479acb716d36088edc55bd",
+  "sha256": "5fe0371a1cc491fa1d417dbb7a7cce74ea1fe5df8edecef9ca664cd2082cc574",
   "apk": {
     "minVersionName": "1.12.3",
     "downloadUrl": "https://carmineabbagnale.github.io/rollone-site/la-mia-app/#download",
-    "notice": "D&D: 3 sottoclasse + 5 specie da Unearthed Arcana Underdark Options 2 (PLAYTEST, non definitivo, etichettato in-app)."
+    "notice": "D&D: risolto bug multiclasse — ASI/talento e scelte dei talenti ora funzionano correttamente anche sulle classi secondarie."
   }
 }
